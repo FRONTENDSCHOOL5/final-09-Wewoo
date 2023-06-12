@@ -1,0 +1,28 @@
+{
+  "plugins": ["react", "react-hooks", "prettier"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "prettier"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 2021,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "rules": {
+    // 여기에 사용자 정의 규칙을 추가할 수 있습니다.
+    "indent": ["error", 2],
+    "no-var": "error",
+    "require-await": "error",
+    "eqeqeq": "warn",
+    "react/prop-types": 0,
+    "no-unused-vars": "off",
+    "camelcase": "error",
+    "semi": ["error", "always"],
+    "no-extra-semi": "error"
+  }
+}
