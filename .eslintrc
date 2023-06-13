@@ -1,11 +1,18 @@
 {
   "plugins": ["react", "react-hooks", "prettier"],
+  "env": {
+    "browser": true
+  },
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:react-hooks/recommended",
+    "plugin:prettier/recommended",
     "prettier"
   ],
+  "globals": {
+    "document": "readonly"
+  },
   "parserOptions": {
     "ecmaVersion": 2021,
     "sourceType": "module",
@@ -22,7 +29,9 @@
     "react/prop-types": 0,
     "no-unused-vars": "off",
     "camelcase": "error",
+    "dom/no-document": "off",
     "semi": ["error", "always"],
-    "no-extra-semi": "error"
+    "no-extra-semi": "error",
+    "prettier/prettier": ["error", { "endOfLine": "auto" }]
   }
 }
