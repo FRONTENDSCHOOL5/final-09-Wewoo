@@ -82,6 +82,22 @@ const GlobalStyle = createGlobalStyle`
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
   }
+
+  /* 공통 Layout */
+  .container {
+    display: flex;
+    justify-content: center;
+    max-width: 375px;
+    margin: 0 auto;
+    margin-top: 80px;
+  } 
+
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
 `;
 
 export default GlobalStyle;
