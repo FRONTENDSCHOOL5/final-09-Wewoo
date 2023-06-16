@@ -2,9 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import weatherImg from '../../assets/images/main/weatherEX.png';
 import profileImg from '../../assets/images/main/profileEX.png';
-import SectionHead from '../../components/common/SectionHead/SectionHead';
-import Header from '../../components/common/Header/Header';
-
+import TopBar from '../../components/common/TopBar/TopBar';
+import SectionHeader from '../../components/common/SectionHeader/SectionHeader';
 const MainHeader = styled.section`
   width: 100%;
   padding: 20px 20px 70px 20px;
@@ -166,7 +165,7 @@ export default function MainPage() {
     <section className='container'>
       <div className='wrapper'>
         <h1 className='a11y-hidden'> 메인 페이지 </h1>
-        <Header />
+        <TopBar />
         <MainHeader>
           <div>
             <p className='main-text'>
@@ -184,6 +183,7 @@ export default function MainPage() {
             <img src={profileImg} alt='프로필사진' />
           </div>
         </MainHeader>
+
         <SlideUI>
           <div>
             <SlideItem w='150' bgImg={weatherImg}>
@@ -223,13 +223,13 @@ export default function MainPage() {
           </div>
         </SlideUI>
         <MainSponsor>
-          <SectionHead
+          <SectionHeader
             firstHeadText='그동안'
             secondHeadText='이만큼 후원했어요'
             firstBtnText='전체 보기'
           >
             {' '}
-          </SectionHead>
+          </SectionHeader>
           <article>
             <span> 총 누적 후원금 </span>
             <span> 195,000원</span>
@@ -238,7 +238,7 @@ export default function MainPage() {
           <div className='graph'>그래프자리</div>
         </MainSponsor>
         <MainVolunteer>
-          <SectionHead
+          <SectionHeader
             firstHeadText='5일 뒤에'
             secondHeadText='봉사 일정이 있어요'
             num='3'
@@ -246,11 +246,11 @@ export default function MainPage() {
             secondBtnText='일정 보기'
           >
             {' '}
-          </SectionHead>
+          </SectionHeader>
           <div className='slide'> 슬라이드 자리 </div>
         </MainVolunteer>
         <MainFollow>
-          <SectionHead
+          <SectionHeader
             firstHeadText='최근에 활동한'
             secondHeadText='이웃이에요'
             num='132'
@@ -258,7 +258,7 @@ export default function MainPage() {
             secondBtnText='이웃 보기'
           >
             {' '}
-          </SectionHead>
+          </SectionHeader>
           <MainFollowList>
             <div>
               <img src={profileImg} alt='프로필 사진' />
