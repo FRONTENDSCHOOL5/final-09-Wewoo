@@ -10,7 +10,14 @@ const GlobalStyle = createGlobalStyle`
   // 전역 스타일
   * {
     box-sizing: border-box;
+    font-family: 'Pretendard';
   }
+
+  @font-face {
+    font-family: 'Pretendard';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard.woff') format('woff');
+    font-style: normal;
+}
 
   a {
     text-decoration: none;
@@ -97,6 +104,7 @@ const GlobalStyle = createGlobalStyle`
     flex-direction: column;
     align-items: center;
     width: 100%;
+    overflow: hidden;
   }
 `;
 
