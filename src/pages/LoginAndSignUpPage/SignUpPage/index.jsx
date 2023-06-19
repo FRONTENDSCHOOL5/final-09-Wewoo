@@ -14,7 +14,7 @@ import {
   StyledInput,
   StyledErrorMessage,
   StyledNextButton,
-} from '../loginCommonStyled';
+} from '../loginPageCommonStyle';
 
 export default function SignUpPage() {
   const [signUpLevel, setSignUpLevel] = useState(1);

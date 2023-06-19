@@ -11,7 +11,7 @@ import {
   StyledInput,
   StyledErrorMessage,
   StyledNextButton,
-} from '../../loginCommonStyled';
+} from '../../loginPageCommonStyle';
 
 export default function Login({ onBack }) {
   const [hasErrorMessage, setHasErrorMessage] = useState(false);
