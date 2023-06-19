@@ -1,5 +1,5 @@
 const colors = {
-  customWhite: '#49ED3F',
+  customWhite: '#FAFAFA',
   customBlue: '#0050C8',
   customGreen: '#05AA5A',
   customYellow: '#FFCC00',

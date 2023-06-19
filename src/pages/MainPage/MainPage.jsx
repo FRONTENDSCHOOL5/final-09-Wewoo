@@ -1,7 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import weatherImg from '../../assets/images/main/weatherEX.png';
-import profileImg from '../../assets/images/main/profileEX.png';
 import TopBar from '../../components/common/TopBar/TopBar';
 import SectionHeader from '../../components/common/SectionHeader/SectionHeader';
 const MainHeader = styled.section`
@@ -179,12 +177,12 @@ export default function MainPage() {
               <button type='button'> &gt; </button>{' '}
             </p>
           </div>
-          <div>
+          {/* <div>
             <img src={profileImg} alt='프로필사진' />
-          </div>
+          </div> */}
         </MainHeader>
 
-        <SlideUI>
+        {/*         <SlideUI>
           <div>
             <SlideItem w='150' bgImg={weatherImg}>
               <span> 동안구 </span>
@@ -221,7 +219,7 @@ export default function MainPage() {
               <p> 미세먼지 없는 화창한 날씨예요</p>
             </SlideItem>
           </div>
-        </SlideUI>
+        </SlideUI> */}
         <MainSponsor>
           <SectionHeader
             firstHeadText='그동안'
@@ -259,7 +257,7 @@ export default function MainPage() {
           >
             {' '}
           </SectionHeader>
-          <MainFollowList>
+          {/*   <MainFollowList>
             <div>
               <img src={profileImg} alt='프로필 사진' />
               <p> 추가하기 </p>
@@ -288,7 +286,7 @@ export default function MainPage() {
               <img src={profileImg} alt='프로필 사진' />
               <p> 수영 </p>
             </div>
-          </MainFollowList>
+          </MainFollowList> */}
         </MainFollow>
       </div>
     </section>
