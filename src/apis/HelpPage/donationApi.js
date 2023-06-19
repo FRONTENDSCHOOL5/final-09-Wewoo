@@ -9,7 +9,7 @@ const donationData = [
     donationGoal: 10000000,
     donated: 3776000,
     category: 'donation',
-    type: 'flood',
+    type: '홍수',
     image: donationimgflood,
   },
   {
@@ -19,7 +19,7 @@ const donationData = [
     donationGoal: 100000000,
     donated: 29400000,
     category: 'donation',
-    type: 'war',
+    type: '전쟁',
     image: donationimgwar,
   },
 ];
