@@ -66,13 +66,14 @@ const Buttons = styled.div`
   position: absolute;
   justify-content: space-between;
   padding: 0px 18px;
+  color: rgba(255, 255, 255, 0.4);
   font-size: ${(props) => props.theme.fontSize.xs};
 
   button {
     width: 32px;
     height: 32px;
     text-align: center;
-    background-color: rgba(255, 255, 255, 0.3);
+    background-color: rgba(255, 255, 255, 0.2);
     border-radius: 50%;
     transition: 0.3s all;
   }
@@ -89,7 +90,8 @@ const SlideNum = styled.div`
   position: absolute;
   border-radius: 15px;
   text-align: center;
-  background-color: rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.4);
+  background-color: rgba(255, 255, 255, 0.2);
   font-size: ${(props) => props.theme.fontSize.xs};
 `;
 
