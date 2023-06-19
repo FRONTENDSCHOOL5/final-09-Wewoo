@@ -25,7 +25,7 @@ const GlobalStyle = createGlobalStyle`
         vertical-align: baseline;
     }
 
-    ol, ul{
+    ol, li{
         list-style: none;
     }
 
