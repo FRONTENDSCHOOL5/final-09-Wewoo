@@ -10,11 +10,12 @@ import {
   StyledContainer,
   StyledBoxWapper,
   StyledLoginTab,
-  StyledInputText,
-  StyledInput,
-  StyledErrorMessage,
   StyledNextButton,
 } from '../loginPageCommonStyle';
+
+import AccountSettingsForm from './AccountSettingsForm';
+import AccountNameForm from './AccountNameForm';
+import ProfileSettingsForm from './ProfileSettingsForm';
 
 export default function SignUpPage() {
   const [signUpLevel, setSignUpLevel] = useState(1);
@@ -23,6 +24,13 @@ export default function SignUpPage() {
     email: '',
     password: '',
     confirmPassword: '',
+    accountName: '',
+  });
+
+  const [profileInfo, setProfileInfo] = useState({
+    imgFile: null,
+    description: '',
+    username: '',
   });
 
   const [errorMessage, setErrorMessage] = useState([]);
@@ -51,29 +59,6 @@ export default function SignUpPage() {
     setSignUpLevel((prev) => prev + 1);
   };
 
-  const handleEmail = (e) => {
-    setAccountInfo((prev) => ({ ...prev, email: e.target.value }));
-    if (errorMessage.includes('emailError')) {
-      setErrorMessage((prev) => prev.filter((ele) => ele !== 'emailError'));
-    }
-  };
-
-  const handlePassword = (e) => {
-    setAccountInfo((prev) => ({ ...prev, password: e.target.value }));
-
-    if (errorMessage.includes('passwordError')) {
-      setErrorMessage((prev) => prev.filter((ele) => ele !== 'passwordError'));
-    }
-  };
-
-  const handleConfirmPassword = (e) => {
-    setAccountInfo((prev) => ({ ...prev, confirmPassword: e.target.value }));
-
-    if (errorMessage.includes('confirmPasswordError')) {
-      setErrorMessage((prev) => prev.filter((ele) => ele !== 'confirmPasswordError'));
-    }
-  };
-
   return (
     <StyledContainer>
       <StyledBoxWapper>
@@ -84,13 +69,12 @@ export default function SignUpPage() {
             </button>
           </StyledBackButtonBox>
           <StyledHeader>
-            {signUpLevel === 1 && (
+            {signUpLevel === 1 ? (
               <>
                 <span>위험할 때 용이하게 </span>
                 <span>당신의 정보를 알려주세요</span>
               </>
-            )}
-            {signUpLevel === 2 && (
+            ) : (
               <>
                 <span>본인의 프로필을</span>
                 <span>설정해주세요</span>
@@ -107,39 +91,31 @@ export default function SignUpPage() {
           </StyledLoginTabBox>
 
           {signUpLevel === 1 && (
+            <AccountSettingsForm
+              setAccountInfo={setAccountInfo}
+              accountInfo={accountInfo}
+              setErrorMessage={setErrorMessage}
+              errorMessage={errorMessage}
+            />
+          )}
+          {/* 프로필 레벨 2 */}
+          {signUpLevel === 2 && (
+            <AccountNameForm
+              accountInfo={accountInfo}
+              setAccountInfo={setAccountInfo}
+              setErrorMessage={setErrorMessage}
+              errorMessage={errorMessage}
+            />
+          )}
+          {/* 프로필 레벨 3 */}
+          {signUpLevel === 3 && (
+            <ProfileSettingsForm profileInfo={profileInfo} setProfileInfo={setProfileInfo} />
+          )}
+          {/* 프로필 레벨 4 */}
+          {signUpLevel === 4 && (
             <>
-              <StyledInputText>아이디</StyledInputText>
-              <StyledInput
-                onChange={handleEmail}
-                className={errorMessage.includes('emailError') ? '' : 'mb-37'}
-                placeholder='example@gmail.com'
-              />
-              {errorMessage.includes('emailError') && (
-                <StyledErrorMessage className='mb-18'>
-                  *이미 가입된 이메일 주소입니다.
-                </StyledErrorMessage>
-              )}
-              <StyledInputText>비밀번호</StyledInputText>
-              <StyledInput
-                type='password'
-                className={errorMessage.includes('passwordError') ? '' : 'mb-20'}
-                onChange={handlePassword}
-                placeholder='비밀번호를 입력해주세요'
-              />
-              {errorMessage.includes('passwordError') && (
-                <StyledErrorMessage className='mb-18'>
-                  *비밀번호는 6자 이상이어야 합니다.
-                </StyledErrorMessage>
-              )}
-              <StyledInputText>비밀번호 확인</StyledInputText>
-              <StyledInput
-                type='password'
-                onChange={handleConfirmPassword}
-                placeholder='비밀번호를 한번 더 입력해주세요'
-              />
-              {errorMessage.includes('confirmPasswordError') && (
-                <StyledErrorMessage>*비밀번호가 일치하지않습니다.</StyledErrorMessage>
-              )}
+              <StyledWelcomeText>반갑습니다!</StyledWelcomeText>
+              <StyledRememberText>닉네임님, 위급할 땐 위용위용을 기억해주세요!</StyledRememberText>
             </>
           )}
         </StyledContentsBox>
@@ -160,8 +136,32 @@ export default function SignUpPage() {
   );
 }
 
+const StyledWelcomeText = styled.h1`
+  width: 109px;
+  height: 29px;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 29px;
+  letter-spacing: -0.02em;
+  color: #000000;
+`;
+const StyledRememberText = styled.h2`
+  width: 236px;
+  height: 64px;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 29px;
+  text-align: center;
+  letter-spacing: -0.02em;
+  color: #a4a4a4;
+`;
+
 const StyledLoginTabBox = styled.div`
   display: flex;
   gap: 25px;
   align-self: flex-start;
 `;
+
+// const customStyledInputText = styled(StyledInputText)`
+//   margin-left: 2px;
+// `;
