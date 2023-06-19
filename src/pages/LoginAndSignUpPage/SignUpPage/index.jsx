@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import BackIcon from '../BackIcon';
+import BackIcon from '../../../assets/icons/common/back.png';
 
 import { useNavigate } from 'react-router-dom';
 import {
@@ -14,7 +14,7 @@ import {
   StyledInput,
   StyledErrorMessage,
   StyledNextButton,
-} from '../commonStyled';
+} from '../loginCommonStyled';
 
 export default function SignUpPage() {
   const [signUpLevel, setSignUpLevel] = useState(1);
@@ -80,7 +80,7 @@ export default function SignUpPage() {
         <StyledContentsBox>
           <StyledBackButtonBox>
             <button onClick={handleBack}>
-              <BackIcon />
+              <img src={BackIcon} />
             </button>
           </StyledBackButtonBox>
           <StyledHeader>

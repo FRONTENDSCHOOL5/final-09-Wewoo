@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import BackIcon from '../../BackIcon';
+import BackIcon from '../../../../assets/icons/common/back.png';
 import {
   StyledContentsBox,
   StyledBoxWapper,
@@ -11,7 +11,7 @@ import {
   StyledInput,
   StyledErrorMessage,
   StyledNextButton,
-} from '../../commonStyled';
+} from '../../loginCommonStyled';
 
 export default function Login({ onBack }) {
   const [hasErrorMessage, setHasErrorMessage] = useState(false);
@@ -76,7 +76,7 @@ export default function Login({ onBack }) {
         <StyledContentsBox>
           <StyledBackButtonBox>
             <button onClick={onBack}>
-              <BackIcon />
+              <img src={BackIcon} />
             </button>
           </StyledBackButtonBox>
 

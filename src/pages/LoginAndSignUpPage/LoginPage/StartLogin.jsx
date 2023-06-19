@@ -6,7 +6,7 @@ import {
   StyledCommonButton,
   StyledContainer,
   StyledBoxWapper,
-} from '../commonStyled';
+} from '../loginCommonStyled';
 import logoImg from '../../../assets/images/loginPage/logo.png';
 
 export default function StartLogin({ onLogin }) {
