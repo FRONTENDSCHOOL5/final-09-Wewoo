@@ -104,11 +104,13 @@ const Indicator = styled.div`
 `;
 
 export default function Carousel() {
-  const [activeIndex, setActiveIndex] = useState(0);
-
   const compareFn = (a, b) => {
     return a.endline - b.endline;
   };
+  const intergratedData = [...campaignApi, ...donationApi];
+  intergratedData.sort(compareFn).splice(5);
+
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const carouselHandler = (direction) => {
     if (direction === 'right') {
@@ -125,9 +127,6 @@ export default function Carousel() {
       }
     }
   };
-
-  const intergratedData = [...campaignApi, ...donationApi];
-  intergratedData.sort(compareFn).splice(5);
 
   return (
     <section className='container'>
