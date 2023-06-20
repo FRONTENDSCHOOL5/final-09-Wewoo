@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import campaignApi from '../../../apis/HelpPage/campaignApi';
 import donationApi from '../../../apis/HelpPage/donationApi';
 import styled from 'styled-components';
+import Slider from '../Slider/Slider';
 
 export default function NavBar({ navType }) {
   const compareFn = (a, b) => {
@@ -10,19 +11,18 @@ export default function NavBar({ navType }) {
   const intergratedData = [...campaignApi, ...donationApi];
   intergratedData.sort(compareFn).splice(5);
   const [activeNavIndex, setActiveNavIndex] = useState(0);
-  const [displayedDonation, setDisplayedDonation] = useState(
-    intergratedData.filter((el) => el.category === 'donation'),
+  const [displayedData, setdisplayedData] = useState(
+    donationApi.sort((a, b) => a.endline - b.endline),
   );
+  const [isDonationExist, setIsDonationExist] = useState(true);
 
   const navArr = [
     ['관심재난', '화재', '대지', '수해', '사고', '대처요령', '테스트1', '테스트2'],
-    ['추천', '산불', '지진', '화재', '홍수', '이웃', '의료', '식량'],
+    ['추천', '산불', '지진', '화재', '홍수', '이웃', '의료', '전쟁'],
   ];
-  // const navType = 'help';
 
   const filteringDataHandler = (index, event) => {
     setActiveNavIndex(index);
-
     const listItem = event.target;
     const list = listItem.parentNode;
 
@@ -39,6 +39,96 @@ export default function NavBar({ navType }) {
       behavior: 'smooth',
     });
   };
+
+  useEffect(() => {
+    if (navType === 'help') {
+      if (activeNavIndex === 0) {
+        setdisplayedData(donationApi.sort((a, b) => a.endline - b.endline));
+        if (displayedData.length === 0) {
+          setIsDonationExist(false);
+        } else {
+          setIsDonationExist(true);
+        }
+      } else if (activeNavIndex === 1) {
+        setdisplayedData(
+          donationApi.filter((el) => {
+            return el.type === '산불';
+          }),
+        );
+        if (displayedData.length === 0) {
+          setIsDonationExist(false);
+        } else {
+          setIsDonationExist(true);
+        }
+      } else if (activeNavIndex === 2) {
+        setdisplayedData(
+          donationApi.filter((el) => {
+            return el.type === '지진';
+          }),
+        );
+        if (displayedData.length === 0) {
+          setIsDonationExist(false);
+        } else {
+          setIsDonationExist(true);
+        }
+      } else if (activeNavIndex === 3) {
+        setdisplayedData(
+          donationApi.filter((el) => {
+            return el.type === '화재';
+          }),
+        );
+        if (displayedData.length === 0) {
+          setIsDonationExist(false);
+        } else {
+          setIsDonationExist(true);
+        }
+      } else if (activeNavIndex === 4) {
+        setdisplayedData(
+          donationApi.filter((el) => {
+            return el.type === '홍수';
+          }),
+        );
+        if (displayedData.length === 0) {
+          setIsDonationExist(false);
+        } else {
+          setIsDonationExist(true);
+        }
+      } else if (activeNavIndex === 5) {
+        setdisplayedData(
+          donationApi.filter((el) => {
+            return el.type === '이웃';
+          }),
+        );
+        if (displayedData.length === 0) {
+          setIsDonationExist(false);
+        } else {
+          setIsDonationExist(true);
+        }
+      } else if (activeNavIndex === 6) {
+        setdisplayedData(
+          donationApi.filter((el) => {
+            return el.type === '의료';
+          }),
+        );
+        if (displayedData.length === 0) {
+          setIsDonationExist(false);
+        } else {
+          setIsDonationExist(true);
+        }
+      } else if (activeNavIndex === 7) {
+        setdisplayedData(
+          donationApi.filter((el) => {
+            return el.type === '전쟁';
+          }),
+        );
+        if (displayedData.length === 0) {
+          setIsDonationExist(false);
+        } else {
+          setIsDonationExist(true);
+        }
+      }
+    }
+  }, [activeNavIndex, isDonationExist, displayedData.length, navType]);
 
   return (
     <section className='container'>
@@ -80,10 +170,26 @@ export default function NavBar({ navType }) {
             )}
           </ul>
         </Navbar>
+        {isDonationExist && <Slider type={'test'} displayedData={displayedData} />}
+        {!isDonationExist && (
+          <DonationEmptyIndicator>
+            <span>{navArr[1][activeNavIndex]}관련 기금 후원이 없습니다.</span>
+          </DonationEmptyIndicator>
+        )}
       </div>
     </section>
   );
 }
+
+const DonationEmptyIndicator = styled.li`
+  display: flex;
+  height: 300px;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 50px;
+  font-size: 18px;
+  font-weight: bold;
+`;
 
 const Navbar = styled.section`
   width: 100%;
