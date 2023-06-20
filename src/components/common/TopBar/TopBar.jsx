@@ -1,24 +1,34 @@
 import React from 'react';
 import styled from 'styled-components';
+import chatIcon from '../../../assets/icons/common/chat.png';
+import noticeIcon from '../../../assets/icons/common/notice.png';
+import settingIcon from '../../../assets/icons/common/setting.png';
+
 const Top = styled.article`
+  background-color: transparent;
+  width: 100%;
+  padding: 15px 40px 15px 0;
   display: flex;
-  align-items: flex-end;
+  justify-content: flex-end;
+  position: absolute;
+  top: 0;
+  button {
+    margin-left: 15px;
+  }
 `;
-const TopBar = () => {
+
+const TopBar = (props) => {
   return (
     <>
-      <Top>
-        <button className='a11y-hidden'>
-          <img src='' alt='채팅' />
-          채팅{' '}
+      <Top {...props}>
+        <button>
+          <img src={chatIcon} alt='채팅' />
         </button>
-        <button className='a11y-hidden'>
-          <img src='' alt='알림' />
-          알림{' '}
+        <button>
+          <img src={noticeIcon} alt='알림' />
         </button>
-        <button className='a11y-hidden'>
-          <img src='' alt='설정' />
-          설정{' '}
+        <button>
+          <img src={settingIcon} alt='설정' />
         </button>
       </Top>
     </>
