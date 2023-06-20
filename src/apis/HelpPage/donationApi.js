@@ -1,5 +1,7 @@
 import donationimgflood from '../../assets/images/HelpPage/donation-flood.png';
 import donationimgwar from '../../assets/images/HelpPage/donation-war.png';
+import campaignimgbriquette from '../../assets/images/HelpPage/campaign-briquette.png';
+import campaignimgwildfire from '../../assets/images/HelpPage/campaign-wildfire.png';
 
 const donationData = [
   {
@@ -9,7 +11,7 @@ const donationData = [
     donationGoal: 10000000,
     donated: 3776000,
     category: 'donation',
-    type: 'flood',
+    type: '홍수',
     image: donationimgflood,
   },
   {
@@ -19,8 +21,28 @@ const donationData = [
     donationGoal: 100000000,
     donated: 29400000,
     category: 'donation',
-    type: 'war',
+    type: '전쟁',
     image: donationimgwar,
+  },
+  {
+    endline: 12,
+    location: '서울시 성북구',
+    detail: '사랑의 연탄 기금',
+    donationGoal: 10000000,
+    donated: 3120000,
+    category: 'donation',
+    type: '이웃',
+    image: campaignimgbriquette,
+  },
+  {
+    endline: 37,
+    location: '강원도 강릉',
+    detail: '화재 피해 복구 기금',
+    donationGoal: 100000000,
+    donated: 12700000,
+    category: 'donation',
+    type: '산불',
+    image: campaignimgwildfire,
   },
 ];
 

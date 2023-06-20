@@ -6,6 +6,8 @@ import PreventPage from './PreventPage/PreventPage';
 import Checking from './PreventPage/components/Checking';
 import ActionTips from './PreventPage/components/ActionTips';
 import EmergencySupplies from './PreventPage/components/EmergencySupplies';
+import LoginPage from './LoginAndSignUpPage/LoginPage';
+import SignUpPage from './LoginAndSignUpPage/SignUpPage';
 
 export default function AppRouter() {
   return (
@@ -17,6 +19,8 @@ export default function AppRouter() {
         <Route path='/emergencysupplies' element={<EmergencySupplies />} />
         <Route path='/checking' element={<Checking />} />
         <Route path='/action' element={<ActionTips />} />
+        <Route path='/login' element={<LoginPage />} />
+        <Route path='/sign-up' element={<SignUpPage />} />
       </Routes>
     </BrowserRouter>
   );
