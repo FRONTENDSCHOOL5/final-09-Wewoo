@@ -15,7 +15,7 @@ const GlobalStyle = createGlobalStyle`
 
   @font-face {
     font-family: 'Pretendard';
-    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard.woff') format('woff');
+    src: url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.7/dist/web/static/pretendard-dynamic-subset.css");
     font-style: normal;
 }
 
@@ -105,6 +105,7 @@ const GlobalStyle = createGlobalStyle`
     align-items: center;
     width: 100%;
     overflow: hidden;
+    background-color: #f6f6f6;
   }
 `;
 
