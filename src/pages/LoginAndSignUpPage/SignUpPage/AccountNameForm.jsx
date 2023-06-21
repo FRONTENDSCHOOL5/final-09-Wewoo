@@ -16,7 +16,7 @@ export default function AccountNameForm({
 
   return (
     <>
-      <StyledInputText>사용자 이름</StyledInputText>
+      <StyledInputText>계정 ID</StyledInputText>
       <StyledInput
         value={accountInfo.accountName}
         onChange={handleAccountName}
