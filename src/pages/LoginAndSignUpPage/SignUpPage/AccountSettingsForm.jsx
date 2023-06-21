@@ -9,8 +9,13 @@ export default function AccountSettingsForm({
 }) {
   const handleEmail = (e) => {
     setAccountInfo((prev) => ({ ...prev, email: e.target.value }));
+
     if (errorMessage.includes('emailError')) {
       setErrorMessage((prev) => prev.filter((ele) => ele !== 'emailError'));
+    }
+
+    if (errorMessage.includes('emailValidationError')) {
+      setErrorMessage((prev) => prev.filter((ele) => ele !== 'emailValidationError'));
     }
   };
 
@@ -29,18 +34,24 @@ export default function AccountSettingsForm({
       setErrorMessage((prev) => prev.filter((ele) => ele !== 'confirmPasswordError'));
     }
   };
-
   return (
     <>
       <StyledInputText>아이디</StyledInputText>
       <StyledInput
         value={accountInfo.email}
         onChange={handleEmail}
-        className={errorMessage.includes('emailError') ? '' : 'mb-37'}
+        className={
+          errorMessage.includes('emailError') | errorMessage.includes('emailValidationError')
+            ? ''
+            : 'mb-37'
+        }
         placeholder='example@gmail.com'
       />
       {errorMessage.includes('emailError') && (
         <StyledErrorMessage className='mb-18'>*이미 가입된 이메일 주소입니다.</StyledErrorMessage>
+      )}
+      {errorMessage.includes('emailValidationError') && (
+        <StyledErrorMessage className='mb-18'>*잘못된 이메일 형식입니다.</StyledErrorMessage>
       )}
       <StyledInputText>비밀번호</StyledInputText>
       <StyledInput
