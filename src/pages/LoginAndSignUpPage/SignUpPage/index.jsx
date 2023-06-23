@@ -43,6 +43,13 @@ export default function SignUpPage() {
 
   const handleNextButton = () => {
     if (signUpLevel === 1) {
+      // 이메일 정규표현식 *잘못된 이메일 형식입니다. 코드
+      const emailRegex = new RegExp('[a-z0-9]+@[a-z]+.[a-z]{2,3}');
+      if (!emailRegex.test(accountInfo.email.toLowerCase())) {
+        setErrorMessage(['emailValidationError']);
+        return;
+      }
+      // 비밀번호 유효성 검사 (*비밀번호는 6자 이상이어야 합니다.)
       if (accountInfo.password.length < 6) {
         setErrorMessage(['passwordError']);
         return;
@@ -52,6 +59,7 @@ export default function SignUpPage() {
         setErrorMessage(['confirmPasswordError']);
         return;
       }
+
       // 2.4 이메일 검증 api 사용, 아이디가 중복이어서 error 나면
       // setErrorMessage(['emailError']);
     }
@@ -59,6 +67,16 @@ export default function SignUpPage() {
     setSignUpLevel((prev) => prev + 1);
   };
 
+  const handleChangeLevel = (level) => {
+    if (level < signUpLevel) setSignUpLevel(level);
+  };
+
+  const disable = {
+    1: !accountInfo.email || !accountInfo.password || !accountInfo.confirmPassword,
+    2: !accountInfo.accountName,
+    3: !profileInfo.description || !profileInfo.username,
+  };
+  console.log(!!disable[signUpLevel]);
   return (
     <StyledContainer>
       <StyledBoxWapper>
@@ -82,7 +100,10 @@ export default function SignUpPage() {
             )}
           </StyledHeader>
           <StyledLoginTabBox>
-            <StyledLoginTab className={signUpLevel === 1 ? '' : 'disable'}>
+            <StyledLoginTab
+              onClick={() => handleChangeLevel(1)}
+              className={signUpLevel === 1 ? '' : 'disable'}
+            >
               계정 설정
             </StyledLoginTab>
             <StyledLoginTab className={signUpLevel === 1 ? 'disable' : ''}>
@@ -120,17 +141,22 @@ export default function SignUpPage() {
           )}
         </StyledContentsBox>
 
-        <StyledNextButton
-          disabled={!accountInfo.email || !accountInfo.password || !accountInfo.confirmPassword}
-          onClick={handleNextButton}
-          className={
-            !accountInfo.email || !accountInfo.password || !accountInfo.confirmPassword
-              ? 'disable'
-              : ''
-          }
-        >
-          다음
-        </StyledNextButton>
+        <div>
+          {signUpLevel !== 1 && (
+            <StyledlevelDotWrapper>
+              <StyledLevelDot isActive={signUpLevel === 2} onClick={() => handleChangeLevel(2)} />
+              <StyledLevelDot isActive={signUpLevel === 3} onClick={() => handleChangeLevel(3)} />
+              <StyledLevelDot isActive={signUpLevel === 4} onClick={() => handleChangeLevel(4)} />
+            </StyledlevelDotWrapper>
+          )}
+          <StyledNextButton
+            disabled={signUpLevel !== 3 && !!disable[signUpLevel]}
+            onClick={handleNextButton}
+            className={disable[signUpLevel] ? 'disable' : ''}
+          >
+            {signUpLevel === 3 ? '다음에 할래요' : '다음'}
+          </StyledNextButton>
+        </div>
       </StyledBoxWapper>
     </StyledContainer>
   );
@@ -143,9 +169,11 @@ const StyledWelcomeText = styled.h1`
   font-size: 24px;
   line-height: 29px;
   letter-spacing: -0.02em;
+  margin-top: 64px;
+  margin-bottom: 30px;
   color: #000000;
 `;
-const StyledRememberText = styled.h2`
+const StyledRememberText = styled.span`
   width: 236px;
   height: 64px;
   font-weight: 600;
@@ -154,14 +182,27 @@ const StyledRememberText = styled.h2`
   text-align: center;
   letter-spacing: -0.02em;
   color: #a4a4a4;
+  line-height: 150%;
+  margin-bottom: 100px;
 `;
 
-const StyledLoginTabBox = styled.div`
+const StyledLoginTabBox = styled.button`
   display: flex;
   gap: 25px;
   align-self: flex-start;
 `;
 
-// const customStyledInputText = styled(StyledInputText)`
-//   margin-left: 2px;
-// `;
+const StyledLevelDot = styled.button`
+  background-color: ${({ isActive }) => (isActive ? '#000000' : '#eeeeee')};
+  width: 8px;
+  height: 8px;
+  border-radius: 8px;
+`;
+
+const StyledlevelDotWrapper = styled.div`
+  margin-bottom: 25px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 15px;
+`;

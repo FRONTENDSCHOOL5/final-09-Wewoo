@@ -2,7 +2,6 @@ import React from 'react';
 import { StyledInputText, StyledInput } from '../loginPageCommonStyle';
 import styled from 'styled-components';
 import imageUpload from '../../../assets/images/loginPage/imageUpload.png';
-
 export default function ProfileSettingsForm({ profileInfo, setProfileInfo }) {
   const handleDescription = (e) => {
     setProfileInfo((prev) => ({ ...prev, description: e.target.value }));
@@ -19,7 +18,6 @@ export default function ProfileSettingsForm({ profileInfo, setProfileInfo }) {
       setProfileInfo((prev) => ({ ...prev, imgFile: e.target.files[0] }));
     };
   };
-
   return (
     <>
       <StyledImgUpload onClick={handleUploadImg}>
@@ -32,7 +30,7 @@ export default function ProfileSettingsForm({ profileInfo, setProfileInfo }) {
         value={profileInfo.username}
         onChange={handleUsername}
         className='mb-37'
-        placeholder='사용자 이름을 입력해주세요.'
+        placeholder='사용자 이름 또는 닉네임을 입력해 주세요.'
       />
       <StyledInputText>소개</StyledInputText>
 
@@ -41,11 +39,6 @@ export default function ProfileSettingsForm({ profileInfo, setProfileInfo }) {
         onChange={handleDescription}
         placeholder='자신을 소개해주세요.'
       />
-      <div className='levelDot'>
-        <StyledLevelDot></StyledLevelDot>
-        <StyledLevelDot></StyledLevelDot>
-        <StyledLevelDot></StyledLevelDot>
-      </div>
     </>
   );
 }
@@ -56,19 +49,5 @@ const StyledImgUpload = styled.button`
 
   input {
     display: none;
-  }
-`;
-
-const StyledLevelDot = styled.div`
-  width: 8px;
-  height: 8px;
-  background: #eeeeee;
-  border-radius: 8px;
-
-  &.levelDot {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
   }
 `;
