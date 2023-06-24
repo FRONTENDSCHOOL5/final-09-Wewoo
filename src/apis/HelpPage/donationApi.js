@@ -5,6 +5,7 @@ import campaignimgwildfire from '../../assets/images/HelpPage/campaign-wildfire.
 
 const donationData = [
   {
+    id: 1,
     endline: 17,
     location: '경기도 의왕시',
     detail: '홍수 피해 복구 기금',
@@ -15,6 +16,7 @@ const donationData = [
     image: donationimgflood,
   },
   {
+    id: 2,
     endline: 25,
     location: '우크라이나',
     detail: '난민 구호 기금',
@@ -25,6 +27,7 @@ const donationData = [
     image: donationimgwar,
   },
   {
+    id: 3,
     endline: 12,
     location: '서울시 성북구',
     detail: '사랑의 연탄 기금',
@@ -35,6 +38,7 @@ const donationData = [
     image: campaignimgbriquette,
   },
   {
+    id: 4,
     endline: 37,
     location: '강원도 강릉',
     detail: '화재 피해 복구 기금',
