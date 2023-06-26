@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import commentIcon from '../../assets/icons/PostPage/comment-icon.png';
 import likeIcon from '../../assets/icons/PostPage/like-icon.png';
 import addPostImg from '../../assets/images/Postpage/addPost.png';
+import profileEX from '../../assets/images/Postpage/profileEX.png';
 
 import {
   PostHeader,
@@ -64,85 +65,30 @@ const PostPage = () => {
 
           <ContentWrap>
             <PostFrame>
+              {/* PostContent : 게시글 하나 섹션 */}
               <PostContent onClick={postDetailNavi}>
-                <div className='type-tag'> 동네위험 </div>
-                <div className='type-tag'> 동네위험 </div>
+                <PostInfo>
+                  <div className='post-info-wrap'>
+                    <img src={profileEX} />
+                    <span className='user-name'> 베리 </span>
+                    <span> 내손1동</span>
+                  </div>
+                  <span className='post-date'> 2023.06.30</span>
+                </PostInfo>
                 <PostContentBox className='multi-ellipsis'>
                   계원예대 쪽에 지금 불났나요? 연기가 보이네요계원예대 쪽에 지금 불났나요?
                   연기가계원예대 쪽에 지금 불났나요? 연기가 보이네요계원예대 쪽에 지금 불났나요?
                 </PostContentBox>
-                <PostInfo>
-                  <div>
-                    <span> 베리 </span>
-                    <span> 내손1동</span>
-                  </div>
-                  <span> 2023.06.30</span>
-                </PostInfo>
               </PostContent>
               <PostReact>
-                <div>
+                <button>
                   <img src={likeIcon} alt='정확해요' />
                   <span> 정확해요 3</span>
-                </div>
-                <div>
+                </button>
+                <button>
                   <img src={commentIcon} alt='댓글' />
                   <span> 댓글 4</span>
-                </div>
-              </PostReact>
-            </PostFrame>
-
-            <PostFrame>
-              <PostContent>
-                <div className='type-tag'> 동네위험 </div>
-                <div className='type-tag'> 동네위험 </div>
-                <PostContentBox className='multi-ellipsis'>
-                  계원예대 쪽에 지금 불났나요? 연기가 보이네요계원예대 쪽에 지금 불났나요?
-                  연기가계원예대 쪽에 지금 불났나요? 연기가 보이네요계원예대 쪽에 지금 불났나요?
-                </PostContentBox>
-                <PostInfo>
-                  <div>
-                    <span> 베리 </span>
-                    <span> 내손1동</span>
-                  </div>
-                  <span> 2023.06.30</span>
-                </PostInfo>
-              </PostContent>
-              <PostReact>
-                <div>
-                  <img src={likeIcon} alt='정확해요' />
-                  <span> 정확해요 3</span>
-                </div>
-                <div>
-                  <img src={commentIcon} alt='댓글' />
-                  <span> 댓글 4</span>
-                </div>
-              </PostReact>
-            </PostFrame>
-            <PostFrame>
-              <PostContent>
-                <div className='type-tag'> 동네위험 </div>
-                <div className='type-tag'> 동네위험 </div>
-                <PostContentBox className='multi-ellipsis'>
-                  계원예대 쪽에 지금 불났나요? 연기가 보이네요계원예대 쪽에 지금 불났나요?
-                  연기가계원예대 쪽에 지금 불났나요? 연기가 보이네요계원예대 쪽에 지금 불났나요?
-                </PostContentBox>
-                <PostInfo>
-                  <div>
-                    <span> 베리 </span>
-                    <span> 내손1동</span>
-                  </div>
-                  <span> 2023.06.30</span>
-                </PostInfo>
-              </PostContent>
-              <PostReact>
-                <div>
-                  <img src={likeIcon} alt='정확해요' />
-                  <span> 정확해요 3</span>
-                </div>
-                <div>
-                  <img src={commentIcon} alt='댓글' />
-                  <span> 댓글 4</span>
-                </div>
+                </button>
               </PostReact>
             </PostFrame>
           </ContentWrap>

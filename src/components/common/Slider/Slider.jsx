@@ -1,8 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import userInformStore from '../../../apis/MainPage/usersCampaigns';
+import { useNavigate } from 'react-router-dom';
 
 export default function Slider({ type, displayedData }) {
+  const navigate = useNavigate();
   const slideColors = ['0, 80, 200', '5, 170, 90', '255, 204, 0', '255,79,1', '100, 0, 200'];
   const usersActivityData = userInformStore.filter((el) => el.name === '박승기')[0].campaign;
   // el.name === '박승기'를 계정ID로 변경해서 수정할 예정
@@ -14,13 +16,24 @@ export default function Slider({ type, displayedData }) {
     const answer = `${futureDate.getMonth() + 1}. ${futureDate.getDate()}. ${futureDayOfWeek}`;
     return answer;
   };
+
+  const goToDonation = (id) => {
+    navigate(`/help/donation/${id}`);
+  };
   return (
     <Slides type={type}>
       <ul>
         {type === 'help'
           ? displayedData.map((el, index) => {
               return (
-                <Slide key={index} type={type} bgColor={`${slideColors[index % 4]}`}>
+                <Slide
+                  key={index}
+                  type={type}
+                  bgColor={`${slideColors[index % 4]}`}
+                  onClick={() => {
+                    goToDonation(el.id);
+                  }}
+                >
                   <img src={el.image} alt={`${el.type}후원카드`}></img>
                   <SlideBadge fontColor={`${slideColors[index % 4]}`}>{el.type}</SlideBadge>
                   <DonationSlideDesc>

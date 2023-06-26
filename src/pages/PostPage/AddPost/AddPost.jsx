@@ -6,6 +6,8 @@ import styled from 'styled-components';
 import back from '../../../assets/icons/common/back.png';
 import addImage from '../../../assets/images/Postpage/addImage.png';
 
+// 예시 이미지
+import weatherImg from '../../../assets/images/main/weatherEX.png';
 import { AddPostTop, WriteForm, ImgUpload } from './AddPostStyle';
 
 const AddPost = ({ onCreatePost, onCancel }) => {
@@ -58,7 +60,9 @@ const AddPost = ({ onCreatePost, onCancel }) => {
           </AddPostTop>
           <WriteForm action='/post' method='post' onSubmit={handleSubmit}>
             <textarea placeholder='텍스트를 입력하세요' defaultValue={content} ref={contentRef} />
-
+            <div>
+              <img src={weatherImg} />
+            </div>
             <ImgUpload onClick={handleUploadImg}>
               <input id='img-upload' type='file' multiple={true} accept='image/*' ref={imageRef} />
               <img src={addImage} alt='사진 추가' />

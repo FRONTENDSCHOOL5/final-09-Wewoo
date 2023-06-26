@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import campaignApi from '../../../apis/HelpPage/campaignApi';
 import donationApi from '../../../apis/HelpPage/donationApi';
 import styled from 'styled-components';
 import Slider from '../Slider/Slider';
+import EmergencySupplies from '../../../pages/PreventPage/components/EmergencySupplies';
 
-export default function NavBar({ navType }) {
+export default function NavBar({ navType, setType }) {
+  const navigate = useNavigate();
   const compareFn = (a, b) => {
     return a.endline - b.endline;
   };
@@ -19,10 +22,12 @@ export default function NavBar({ navType }) {
   const navArr = [
     ['관심재난', '화재', '대지', '수해', '사고', '대처요령', '테스트1', '테스트2'],
     ['추천', '산불', '지진', '화재', '홍수', '이웃', '의료', '전쟁'],
+    ['비상용품', '행동요령'],
   ];
 
   const filteringDataHandler = (index, event) => {
     setActiveNavIndex(index);
+    setType ? setType(index) : null;
     const listItem = event.target;
     const list = listItem.parentNode;
 
@@ -151,9 +156,25 @@ export default function NavBar({ navType }) {
                   );
                 })}
               </>
-            ) : (
+            ) : navType === 'help' ? (
               <>
                 {navArr[1].map((el, i) => {
+                  return (
+                    <li
+                      key={i}
+                      className={i === activeNavIndex ? 'active' : ''}
+                      onClick={(e) => {
+                        filteringDataHandler(i, e);
+                      }}
+                    >
+                      {el}
+                    </li>
+                  );
+                })}
+              </>
+            ) : (
+              <>
+                {navArr[2].map((el, i) => {
                   return (
                     <li
                       key={i}
@@ -170,7 +191,7 @@ export default function NavBar({ navType }) {
             )}
           </ul>
         </Navbar>
-        {isDonationExist && <Slider type={'test'} displayedData={displayedData} />}
+        {isDonationExist && <Slider type={'help'} displayedData={displayedData} />}
         {!isDonationExist && (
           <DonationEmptyIndicator>
             <span>{navArr[1][activeNavIndex]}관련 기금 후원이 없습니다.</span>

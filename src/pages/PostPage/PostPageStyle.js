@@ -74,20 +74,24 @@ export const PostContentBox = styled.p`
   color: #191919;
   font-size: 16px;
   font-weight: 400;
-  line-height: 100%;
+  line-height: 140%;
   letter-spacing: -0.32px;
   margin-top: 20px;
-  margin-bottom: 30px;
 `;
 export const PostInfo = styled.div`
   display: flex;
   justify-content: space-between;
-  div {
+  align-items: center;
+
+  div.post-info-wrap {
     display: flex;
-    gap: 5px;
-    span:first-child:after {
+    align-items: center;
+    gap: 8px;
+    img {
+      width: 30px;
+    }
+    span:last-child:before {
       content: '∙';
-      margin-left: 5px;
     }
   }
   span {
@@ -104,7 +108,7 @@ export const PostReact = styled.div`
   width: 100%;
   padding: 18px 20px 20px 20px;
   border-top: 2px solid #f6f6f6;
-  div {
+  button {
     color: #666;
     font-size: 14px;
     font-weight: 500;
