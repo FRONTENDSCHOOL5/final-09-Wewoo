@@ -191,7 +191,7 @@ export default function NavBar({ navType, setType }) {
             )}
           </ul>
         </Navbar>
-        {isDonationExist && <Slider type={'test'} displayedData={displayedData} />}
+        {isDonationExist && <Slider type={'help'} displayedData={displayedData} />}
         {!isDonationExist && (
           <DonationEmptyIndicator>
             <span>{navArr[1][activeNavIndex]}관련 기금 후원이 없습니다.</span>
