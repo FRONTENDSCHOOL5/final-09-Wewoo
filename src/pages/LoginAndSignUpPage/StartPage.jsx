@@ -1,30 +1,40 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import logoImg from '../../assets/images/loginPage/logo.png';
+
 import {
   StyledContentsBox,
   StyledCommonButton,
   StyledContainer,
-  StyledBoxWapper,
-} from '../loginPageCommonStyle';
-import logoImg from '../../../assets/images/loginPage/logo.png';
+  StyledBoxWrapper,
+} from './loginPageCommonStyle';
+import IntroScreen from './IntroScreen';
 
 export default function StartLogin({ onLogin }) {
   const navigate = useNavigate();
-
   const handleSignUp = () => {
     navigate('/sign-up');
   };
 
-  return (
+  const [intro, setIntro] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIntro(false);
+    }, 4000);
+  }, []);
+
+  return intro ? (
+    <IntroScreen />
+  ) : (
     <StyledContainer>
-      <StyledBoxWapper>
+      <StyledBoxWrapper>
         <StyledBoxCustom>
           <div className='logo'>
             <img src={logoImg} alt='위용위용logo' />
           </div>
           <h1>위용위용</h1>
-
           <StyledText>
             <span>
               각종 재난으로부터 <br />
@@ -37,7 +47,7 @@ export default function StartLogin({ onLogin }) {
           </StyledButtonBox>
         </StyledBoxCustom>
         <StyledNextTimeButton>다음에 할래요</StyledNextTimeButton>
-      </StyledBoxWapper>
+      </StyledBoxWrapper>
     </StyledContainer>
   );
 }

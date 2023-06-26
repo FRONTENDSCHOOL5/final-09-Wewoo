@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyledInputText, StyledInput } from '../loginPageCommonStyle';
 import styled from 'styled-components';
-import imageUpload from '../../../assets/images/loginPage/imageUpload.png';
+import uploadCamera from '../../../assets/images/loginPage/uploadCamera.png';
+import uploadDefaultImg from '../../../assets/images/loginPage/uploadDefaultImg.png';
 
 export default function ProfileSettingsForm({ profileInfo, setProfileInfo }) {
+  const [preview, setPreview] = useState('');
   const handleDescription = (e) => {
     setProfileInfo((prev) => ({ ...prev, description: e.target.value }));
   };
@@ -17,14 +19,29 @@ export default function ProfileSettingsForm({ profileInfo, setProfileInfo }) {
     imgUploadInput.click();
     imgUploadInput.onchange = (e) => {
       setProfileInfo((prev) => ({ ...prev, imgFile: e.target.files[0] }));
+      if (preview) {
+        URL.revokeObjectURL(preview);
+      }
+      setPreview(URL.createObjectURL(e.target.files[0]));
     };
   };
+
+  useEffect(() => {
+    return () => {
+      URL.revokeObjectURL(preview);
+    };
+  }, [preview]);
 
   return (
     <>
       <StyledImgUpload onClick={handleUploadImg}>
         <input id='img-upload' type='file' accept='image/*' />
-        <img src={imageUpload} alt='프로필 이미지' />
+        <img className='camera' src={uploadCamera} />
+        {preview ? (
+          <img className='preview' src={preview} />
+        ) : (
+          <img src={uploadDefaultImg} alt='프로필 이미지' />
+        )}
       </StyledImgUpload>
 
       <StyledInputText>사용자 이름</StyledInputText>
@@ -32,7 +49,7 @@ export default function ProfileSettingsForm({ profileInfo, setProfileInfo }) {
         value={profileInfo.username}
         onChange={handleUsername}
         className='mb-37'
-        placeholder='사용자 이름을 입력해주세요.'
+        placeholder='사용자 이름 또는 닉네임을 입력해 주세요.'
       />
       <StyledInputText>소개</StyledInputText>
 
@@ -41,11 +58,6 @@ export default function ProfileSettingsForm({ profileInfo, setProfileInfo }) {
         onChange={handleDescription}
         placeholder='자신을 소개해주세요.'
       />
-      <div className='levelDot'>
-        <StyledLevelDot></StyledLevelDot>
-        <StyledLevelDot></StyledLevelDot>
-        <StyledLevelDot></StyledLevelDot>
-      </div>
     </>
   );
 }
@@ -53,22 +65,24 @@ export default function ProfileSettingsForm({ profileInfo, setProfileInfo }) {
 const StyledImgUpload = styled.button`
   margin-top: 30px;
   margin-bottom: 20px;
+  position: relative;
+
+  .camera {
+    position: absolute;
+    bottom: -4.91px;
+    right: 0px;
+    z-index: 3;
+    width: 35.9px;
+    height: 35.9px;
+  }
+  .preview {
+    width: 106px;
+    height: 106px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
 
   input {
     display: none;
-  }
-`;
-
-const StyledLevelDot = styled.div`
-  width: 8px;
-  height: 8px;
-  background: #eeeeee;
-  border-radius: 8px;
-
-  &.levelDot {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
   }
 `;

@@ -17,7 +17,7 @@ export const StyledContentsBox = styled.div`
   padding: 0 20px;
 `;
 
-export const StyledBoxWapper = styled.div`
+export const StyledBoxWrapper = styled.div`
   display: flex;
   height: 100%;
   max-height: 767px;
@@ -67,7 +67,7 @@ export const StyledHeader = styled.div`
 
 export const StyledBackButtonBox = styled.div`
   width: 100%;
-  margin-top: 13px;
+  margin-top: 20px;
   margin-bottom: 30px;
   button {
     display: flex;

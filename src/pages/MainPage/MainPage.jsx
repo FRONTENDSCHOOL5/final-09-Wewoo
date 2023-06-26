@@ -1,16 +1,24 @@
 import React from 'react';
 import styled from 'styled-components';
+
 import TopBar from '../../components/common/TopBar/TopBar';
 import SectionHeader from '../../components/common/SectionHeader/SectionHeader';
+import BottomNavBar from '../../components/common/BottomNavBar/BottomNavBar';
+
+// 예시로 넣은 이미지 임포트 (마지막에 빼야한다)
+import weatherImg from '../../assets/images/main/weatherEX.png';
+import profileImg from '../../assets/images/main/profileEX.png';
+
 const MainHeader = styled.section`
   width: 100%;
-  padding: 20px 20px 70px 20px;
+  padding: 70px 20px 70px 20px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   background-color: #191919;
+  position: relative;
 
-  div:first-child {
+  div {
     p.main-text {
       font-size: 24px;
       font-weight: 600;
@@ -35,7 +43,7 @@ const SlideUI = styled.ul`
   flex-direction: column;
   gap: 15px;
   width: 100%;
-  padding: 0 20px;
+  /* padding: 0 20px; */
   flex-wrap: nowrap;
   justify-content: initial;
   overflow-x: scroll;
@@ -159,12 +167,15 @@ const MainFollowList = styled.div`
   }
 `;
 export default function MainPage() {
+  // let navigate = useNavigate();
+
   return (
     <section className='container'>
       <div className='wrapper'>
         <h1 className='a11y-hidden'> 메인 페이지 </h1>
-        <TopBar />
+
         <MainHeader>
+          <TopBar />
           <div>
             <p className='main-text'>
               {' '}
@@ -196,20 +207,8 @@ export default function MainPage() {
               <span> 동안구 </span>
               <p> 미세먼지 없는 화창한 날씨예요</p>
             </SlideItem>
-            <SlideItem w='200' bgImg={weatherImg}>
-              <span> 동안구 </span>
-              <p> 미세먼지 없는 화창한 날씨예요</p>
-            </SlideItem>
           </div>
           <div>
-            <SlideItem w='200' bgImg={weatherImg}>
-              <span> 동안구 </span>
-              <p> 미세먼지 없는 화창한 날씨예요</p>
-            </SlideItem>
-            <SlideItem w='200' bgImg={weatherImg}>
-              <span> 동안구 </span>
-              <p> 미세먼지 없는 화창한 날씨예요</p>
-            </SlideItem>
             <SlideItem w='200' bgImg={weatherImg}>
               <span> 동안구 </span>
               <p> 미세먼지 없는 화창한 날씨예요</p>
@@ -257,7 +256,7 @@ export default function MainPage() {
           >
             {' '}
           </SectionHeader>
-          {/*   <MainFollowList>
+            <MainFollowList>
             <div>
               <img src={profileImg} alt='프로필 사진' />
               <p> 추가하기 </p>
@@ -286,8 +285,9 @@ export default function MainPage() {
               <img src={profileImg} alt='프로필 사진' />
               <p> 수영 </p>
             </div>
-          </MainFollowList> */}
+          </MainFollowList>
         </MainFollow>
+        <BottomNavBar />
       </div>
     </section>
   );

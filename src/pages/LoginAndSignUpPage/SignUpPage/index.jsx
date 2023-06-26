@@ -8,11 +8,16 @@ import {
   StyledHeader,
   StyledContentsBox,
   StyledContainer,
-  StyledBoxWapper,
+  StyledBoxWrapper,
   StyledLoginTab,
   StyledNextButton,
 } from '../loginPageCommonStyle';
 
+import {
+  handleAccountNameFormNextBtn,
+  handleAccountSettingFormNextBtn,
+  handleProfileSettingFormNextBtn,
+} from './handleNextButton';
 import AccountSettingsForm from './AccountSettingsForm';
 import AccountNameForm from './AccountNameForm';
 import ProfileSettingsForm from './ProfileSettingsForm';
@@ -43,25 +48,40 @@ export default function SignUpPage() {
 
   const handleNextButton = () => {
     if (signUpLevel === 1) {
-      if (accountInfo.password.length < 6) {
-        setErrorMessage(['passwordError']);
-        return;
-      }
-
-      if (accountInfo.password !== accountInfo.confirmPassword) {
-        setErrorMessage(['confirmPasswordError']);
-        return;
-      }
-      // 2.4 이메일 검증 api 사용, 아이디가 중복이어서 error 나면
-      // setErrorMessage(['emailError']);
+      handleAccountSettingFormNextBtn(accountInfo, setErrorMessage, setSignUpLevel);
+      return;
     }
 
-    setSignUpLevel((prev) => prev + 1);
+    if (signUpLevel === 2) {
+      handleAccountNameFormNextBtn(accountInfo, setErrorMessage, setSignUpLevel);
+      return;
+    }
+
+    if (signUpLevel === 3) {
+      handleProfileSettingFormNextBtn(accountInfo, profileInfo, setSignUpLevel);
+      return;
+    }
+
+    if (signUpLevel === 4) {
+      navigate('/');
+    }
   };
+
+  const handleChangeLevel = (level) => {
+    if (level < signUpLevel && signUpLevel !== 4) setSignUpLevel(level);
+  };
+
+  const disable = {
+    1: !accountInfo.email || !accountInfo.password || !accountInfo.confirmPassword,
+    2: !accountInfo.accountName,
+    3: !profileInfo.description && !profileInfo.username,
+  };
+
+  const nickName = signUpLevel === 4 ? JSON.parse(localStorage.getItem('user')) : null;
 
   return (
     <StyledContainer>
-      <StyledBoxWapper>
+      <StyledBoxWrapper>
         <StyledContentsBox>
           <StyledBackButtonBox>
             <button onClick={handleBack}>
@@ -82,7 +102,10 @@ export default function SignUpPage() {
             )}
           </StyledHeader>
           <StyledLoginTabBox>
-            <StyledLoginTab className={signUpLevel === 1 ? '' : 'disable'}>
+            <StyledLoginTab
+              onClick={() => handleChangeLevel(1)}
+              className={signUpLevel === 1 ? '' : 'disable'}
+            >
               계정 설정
             </StyledLoginTab>
             <StyledLoginTab className={signUpLevel === 1 ? 'disable' : ''}>
@@ -96,6 +119,7 @@ export default function SignUpPage() {
               accountInfo={accountInfo}
               setErrorMessage={setErrorMessage}
               errorMessage={errorMessage}
+              handleNextButton={handleNextButton}
             />
           )}
           {/* 프로필 레벨 2 */}
@@ -105,33 +129,50 @@ export default function SignUpPage() {
               setAccountInfo={setAccountInfo}
               setErrorMessage={setErrorMessage}
               errorMessage={errorMessage}
+              handleNextButton={handleNextButton}
             />
           )}
           {/* 프로필 레벨 3 */}
           {signUpLevel === 3 && (
-            <ProfileSettingsForm profileInfo={profileInfo} setProfileInfo={setProfileInfo} />
+            <ProfileSettingsForm
+              profileInfo={profileInfo}
+              setProfileInfo={setProfileInfo}
+              handleNextButton={handleNextButton}
+            />
           )}
           {/* 프로필 레벨 4 */}
           {signUpLevel === 4 && (
             <>
               <StyledWelcomeText>반갑습니다!</StyledWelcomeText>
-              <StyledRememberText>닉네임님, 위급할 땐 위용위용을 기억해주세요!</StyledRememberText>
+              <StyledRememberText>
+                {nickName ? nickName.username || nickName.accountname : ''}님, 위급할 땐 위용위용을
+                기억해주세요!
+              </StyledRememberText>
             </>
           )}
         </StyledContentsBox>
 
-        <StyledNextButton
-          disabled={!accountInfo.email || !accountInfo.password || !accountInfo.confirmPassword}
-          onClick={handleNextButton}
-          className={
-            !accountInfo.email || !accountInfo.password || !accountInfo.confirmPassword
-              ? 'disable'
-              : ''
-          }
-        >
-          다음
-        </StyledNextButton>
-      </StyledBoxWapper>
+        <div>
+          {signUpLevel !== 1 && (
+            <StyledlevelDotWrapper>
+              <StyledLevelDot isActive={signUpLevel === 2} onClick={() => handleChangeLevel(2)} />
+              <StyledLevelDot isActive={signUpLevel === 3} onClick={() => handleChangeLevel(3)} />
+              <StyledLevelDot isActive={signUpLevel === 4} onClick={() => handleChangeLevel(4)} />
+            </StyledlevelDotWrapper>
+          )}
+          <StyledNextButton
+            disabled={signUpLevel !== 3 && !!disable[signUpLevel]}
+            onClick={handleNextButton}
+            className={signUpLevel !== 3 && disable[signUpLevel] ? 'disable' : ''}
+          >
+            {signUpLevel === 3 && disable[signUpLevel]
+              ? '다음에 할래요'
+              : signUpLevel !== 4
+              ? '다음'
+              : '시작하기'}
+          </StyledNextButton>
+        </div>
+      </StyledBoxWrapper>
     </StyledContainer>
   );
 }
@@ -143,9 +184,11 @@ const StyledWelcomeText = styled.h1`
   font-size: 24px;
   line-height: 29px;
   letter-spacing: -0.02em;
+  margin-top: 64px;
+  margin-bottom: 30px;
   color: #000000;
 `;
-const StyledRememberText = styled.h2`
+const StyledRememberText = styled.span`
   width: 236px;
   height: 64px;
   font-weight: 600;
@@ -154,14 +197,27 @@ const StyledRememberText = styled.h2`
   text-align: center;
   letter-spacing: -0.02em;
   color: #a4a4a4;
+  line-height: 150%;
+  margin-bottom: 100px;
 `;
 
-const StyledLoginTabBox = styled.div`
+const StyledLoginTabBox = styled.button`
   display: flex;
   gap: 25px;
   align-self: flex-start;
 `;
 
-// const customStyledInputText = styled(StyledInputText)`
-//   margin-left: 2px;
-// `;
+const StyledLevelDot = styled.button`
+  background-color: ${({ isActive }) => (isActive ? '#000000' : '#eeeeee')};
+  width: 8px;
+  height: 8px;
+  border-radius: 8px;
+`;
+
+const StyledlevelDotWrapper = styled.div`
+  margin-bottom: 25px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 15px;
+`;
