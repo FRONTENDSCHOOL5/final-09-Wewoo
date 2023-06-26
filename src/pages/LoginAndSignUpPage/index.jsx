@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import Login from './Login';
-import StartLogin from './StartLogin';
+import Login from './LoginPage';
+import StartLogin from './StartPage';
 
 export default function LoginPage() {
   const [isLogin, setIsLogin] = useState(false);

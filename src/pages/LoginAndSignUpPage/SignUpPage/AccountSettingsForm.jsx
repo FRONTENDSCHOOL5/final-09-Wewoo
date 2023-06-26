@@ -6,11 +6,17 @@ export default function AccountSettingsForm({
   accountInfo,
   setErrorMessage,
   errorMessage,
+  handleNextButton,
 }) {
   const handleEmail = (e) => {
     setAccountInfo((prev) => ({ ...prev, email: e.target.value }));
-    if (errorMessage.includes('emailError')) {
-      setErrorMessage((prev) => prev.filter((ele) => ele !== 'emailError'));
+
+    if (errorMessage.includes('emailAlreadyError')) {
+      setErrorMessage((prev) => prev.filter((ele) => ele !== 'emailAlreadyError'));
+    }
+
+    if (errorMessage.includes('emailValidationError')) {
+      setErrorMessage((prev) => prev.filter((ele) => ele !== 'emailValidationError'));
     }
   };
 
@@ -30,17 +36,30 @@ export default function AccountSettingsForm({
     }
   };
 
+  const handleInputEnter = (e) => {
+    if (e.keyCode === 13) {
+      handleNextButton();
+    }
+  };
+
   return (
     <>
       <StyledInputText>아이디</StyledInputText>
       <StyledInput
         value={accountInfo.email}
         onChange={handleEmail}
-        className={errorMessage.includes('emailError') ? '' : 'mb-37'}
+        className={
+          errorMessage.includes('emailAlreadyError') | errorMessage.includes('emailValidationError')
+            ? ''
+            : 'mb-37'
+        }
         placeholder='example@gmail.com'
       />
-      {errorMessage.includes('emailError') && (
+      {errorMessage.includes('emailAlreadyError') && (
         <StyledErrorMessage className='mb-18'>*이미 가입된 이메일 주소입니다.</StyledErrorMessage>
+      )}
+      {errorMessage.includes('emailValidationError') && (
+        <StyledErrorMessage className='mb-18'>*잘못된 이메일 형식입니다.</StyledErrorMessage>
       )}
       <StyledInputText>비밀번호</StyledInputText>
       <StyledInput
@@ -59,6 +78,7 @@ export default function AccountSettingsForm({
       <StyledInput
         value={accountInfo.confirmPassword}
         type='password'
+        onKeyUp={handleInputEnter}
         onChange={handleConfirmPassword}
         placeholder='비밀번호를 한번 더 입력해주세요'
       />
