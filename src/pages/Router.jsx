@@ -9,22 +9,26 @@ import PreventPage from './PreventPage/PreventPage';
 import Earthquake from './PreventPage/components/Earthquake';
 import LoginPage from './LoginAndSignUpPage';
 import SignUpPage from './LoginAndSignUpPage/SignUpPage';
+import DonationPage from './DonationPage/DonationPage';
 import ErrorPage from './LoginAndSignUpPage/Error404Page';
 import ChatIntroPage from './ChatPage/ChatIntroPage';
 import ChatRoomPage from './ChatPage/ChatRoomPage';
+
 
 export default function AppRouter() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<MainPage />} />
+        <Route path='/help/*' element={<Outlet />}>
+          <Route index element={<HelpPage />} />
+          <Route path='donation/:donationId' element={<DonationPage />} />
+        </Route>
         <Route path='/post/*' element={<Outlet />}>
           <Route index element={<PostPage />} />
           <Route path='add-post/' element={<AddPost />} />
-          {/* <Route path=':id' element={<PostDetail />} /> */}
           <Route path='detail/' element={<PostDetail />} />
         </Route>
-        <Route path='/help' element={<HelpPage />} />
         <Route path='/prevent/*' element={<Outlet />}>
           <Route index element={<PreventPage />} />
           <Route path='info/:type' element={<Earthquake />} />
