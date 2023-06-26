@@ -24,7 +24,7 @@ export default function MainPage() {
         <h1 className='a11y-hidden'> 메인 페이지 </h1>
 
         <MainHeader>
-          <TopBar iconColor={'#191919'} />
+          <TopBar iconColor={'#fff'} />
           <div className='main-user-info'>
             <div className='main-text-info'>
               <p className='main-text'>

@@ -41,7 +41,7 @@ export const SlideUI = styled.ul`
   flex-direction: column;
   gap: 15px;
   width: 100%;
-  /* padding: 0 20px; */
+  padding: 0 20px;
   flex-wrap: nowrap;
   justify-content: initial;
   overflow-x: scroll;
