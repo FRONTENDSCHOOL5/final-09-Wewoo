@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import TopBar from '../../../components/common/TopBar/TopBar';
-import BackBtn from '../../../components/common/BackBtn/BackBtn';
 import PostDetailModal from '../../../components/common/PostDetailModal/PostDetailModal';
 import {
   PostDetailTop,
@@ -30,7 +29,6 @@ const PostDetail = ({ id, post, onDeletePost, modalOpen, setModalOpen }) => {
       <section className='container'>
         <div className='wrapper'>
           <PostDetailTop>
-            <BackBtn />
             <TopBar iconColor={'#191919'} />
           </PostDetailTop>
 
