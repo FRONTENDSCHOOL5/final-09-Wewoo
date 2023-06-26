@@ -57,6 +57,7 @@ export default function PreventHeader() {
     } else if (params.type === 'wildfire') {
       setName('산불');
       setColor('#FF5000');
+      setFontColor('#FAFAFA');
       setBgimg(wildfire);
     } else if (params.type === 'heavyrain') {
       setName('호우');

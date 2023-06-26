@@ -23,23 +23,23 @@ const Header = styled.header`
   flex-direction: column;
   padding-top: 20px;
 
-  .header-box {
-    padding: 25px;
+  div {
     position: relative;
+    margin-top: 10px;
 
     &::before {
       position: absolute;
       content: '';
       background: url(${shield}) no-repeat 0, 0 / contain;
-      top: 5px;
-      right: 25px;
+      top: -20px;
+      right: 15px;
       width: 90px;
       height: 120px;
       opacity: 0.3;
     }
   }
 
-  .header-box h1 {
+  h1 {
     margin-bottom: 20px;
     color: #fff;
     font-weight: 600;
@@ -76,9 +76,8 @@ const Search = styled.form`
     box-sizing: border-box;
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.05);
     border-radius: 8px;
-    margin-left: 20px;
     position: relative;
-    top: 20px;
+    top: 45px;
     font-weight: 500;
     font-size: ${(props) => props.theme.fontSize.base};
 
@@ -90,7 +89,7 @@ const Search = styled.form`
   button {
     width: 20px;
     position: absolute;
-    top: 37px;
+    top: 60px;
     right: 30px;
     margin: 0;
   }
@@ -211,9 +210,9 @@ export default function PreventPage() {
   return (
     <section className='container'>
       <div className='wrapper'>
-        <Header>
-          <TopBar />
-          <div className='header-box'>
+        <Header style={{ padding: 20 }}>
+          <TopBar iconColor={'#fafafa'} />
+          <div>
             <h1>
               안전을 지키는 방법
               <br />
