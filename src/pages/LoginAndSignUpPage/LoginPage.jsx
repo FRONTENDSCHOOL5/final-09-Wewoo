@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import BackIcon from '../../../../assets/icons/common/back.png';
+import BackIcon from '../../assets/icons/common/back.png';
 import {
   StyledContentsBox,
-  StyledBoxWapper,
+  StyledBoxWrapper,
   StyledContainer,
   StyledHeader,
   StyledBackButtonBox,
@@ -11,43 +11,34 @@ import {
   StyledInput,
   StyledErrorMessage,
   StyledNextButton,
-} from '../../loginPageCommonStyle';
+} from './loginPageCommonStyle';
+import { useNavigate } from 'react-router-dom';
+import { loginApi } from '../../apis/user';
 
 export default function Login({ onBack }) {
   const [hasErrorMessage, setHasErrorMessage] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  // const url = 'https://api.mandarin.weniv.co.kr';
-
-  // const handleSignup = () => {
-  //   axios
-  //     .post(`${url}/user`, {
-  //       username: '안양진',
-  //       email: 'ayz0155@gmail.com',
-  //       password: 'password',
-  //       accountname: '안양진',
-  //     })
-  //     .then(function (response) {
-  //       console.log(response);
-  //     })
-  //     .catch(function (error) {
-  //       console.log(error);
-  //     });
-  // };
+  const navigate = useNavigate();
 
   const handleLogin = () => {
-    // api 쏘고.
-    // 성공일때 main page로 이동.
+    loginApi(
+      { email, password },
+      {
+        onSuccess: ({ user, message }) => {
+          if (message === '이메일 또는 비밀번호가 일치하지 않습니다.') {
+            setHasErrorMessage(true);
+            return;
+          }
 
-    const examId = 'ayz0155@gmail.com';
-    const examPwd = 'password';
-    // 실패일때
-    if (examId !== email || examPwd !== password) {
-      setHasErrorMessage(true);
-      return;
-    }
-    alert('로그인 성공');
+          localStorage.setItem('accessToken', user.token);
+          localStorage.setItem('user', JSON.stringify(user));
+          navigate('/', { replace: true });
+        },
+        onError: () => setHasErrorMessage(true),
+      },
+    );
   };
 
   const handleEmailInput = (e) => {
@@ -72,7 +63,7 @@ export default function Login({ onBack }) {
 
   return (
     <StyledContainer>
-      <StyledBoxWapper>
+      <StyledBoxWrapper>
         <StyledContentsBox>
           <StyledBackButtonBox>
             <button onClick={onBack}>
@@ -114,7 +105,7 @@ export default function Login({ onBack }) {
         >
           로그인
         </StyledNextButton>
-      </StyledBoxWapper>
+      </StyledBoxWrapper>
     </StyledContainer>
   );
 }

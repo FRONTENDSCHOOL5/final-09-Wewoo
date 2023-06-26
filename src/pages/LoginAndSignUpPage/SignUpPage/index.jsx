@@ -8,11 +8,16 @@ import {
   StyledHeader,
   StyledContentsBox,
   StyledContainer,
-  StyledBoxWapper,
+  StyledBoxWrapper,
   StyledLoginTab,
   StyledNextButton,
 } from '../loginPageCommonStyle';
 
+import {
+  handleAccountNameFormNextBtn,
+  handleAccountSettingFormNextBtn,
+  handleProfileSettingFormNextBtn,
+} from './handleNextButton';
 import AccountSettingsForm from './AccountSettingsForm';
 import AccountNameForm from './AccountNameForm';
 import ProfileSettingsForm from './ProfileSettingsForm';
@@ -43,43 +48,40 @@ export default function SignUpPage() {
 
   const handleNextButton = () => {
     if (signUpLevel === 1) {
-      // 이메일 정규표현식 *잘못된 이메일 형식입니다. 코드
-      const emailRegex = new RegExp('[a-z0-9]+@[a-z]+.[a-z]{2,3}');
-      if (!emailRegex.test(accountInfo.email.toLowerCase())) {
-        setErrorMessage(['emailValidationError']);
-        return;
-      }
-      // 비밀번호 유효성 검사 (*비밀번호는 6자 이상이어야 합니다.)
-      if (accountInfo.password.length < 6) {
-        setErrorMessage(['passwordError']);
-        return;
-      }
-
-      if (accountInfo.password !== accountInfo.confirmPassword) {
-        setErrorMessage(['confirmPasswordError']);
-        return;
-      }
-
-      // 2.4 이메일 검증 api 사용, 아이디가 중복이어서 error 나면
-      // setErrorMessage(['emailError']);
+      handleAccountSettingFormNextBtn(accountInfo, setErrorMessage, setSignUpLevel);
+      return;
     }
 
-    setSignUpLevel((prev) => prev + 1);
+    if (signUpLevel === 2) {
+      handleAccountNameFormNextBtn(accountInfo, setErrorMessage, setSignUpLevel);
+      return;
+    }
+
+    if (signUpLevel === 3) {
+      handleProfileSettingFormNextBtn(accountInfo, profileInfo, setSignUpLevel);
+      return;
+    }
+
+    if (signUpLevel === 4) {
+      navigate('/');
+    }
   };
 
   const handleChangeLevel = (level) => {
-    if (level < signUpLevel) setSignUpLevel(level);
+    if (level < signUpLevel && signUpLevel !== 4) setSignUpLevel(level);
   };
 
   const disable = {
     1: !accountInfo.email || !accountInfo.password || !accountInfo.confirmPassword,
     2: !accountInfo.accountName,
-    3: !profileInfo.description || !profileInfo.username,
+    3: !profileInfo.description && !profileInfo.username,
   };
-  console.log(!!disable[signUpLevel]);
+
+  const nickName = signUpLevel === 4 ? JSON.parse(localStorage.getItem('user')) : null;
+
   return (
     <StyledContainer>
-      <StyledBoxWapper>
+      <StyledBoxWrapper>
         <StyledContentsBox>
           <StyledBackButtonBox>
             <button onClick={handleBack}>
@@ -117,6 +119,7 @@ export default function SignUpPage() {
               accountInfo={accountInfo}
               setErrorMessage={setErrorMessage}
               errorMessage={errorMessage}
+              handleNextButton={handleNextButton}
             />
           )}
           {/* 프로필 레벨 2 */}
@@ -126,17 +129,25 @@ export default function SignUpPage() {
               setAccountInfo={setAccountInfo}
               setErrorMessage={setErrorMessage}
               errorMessage={errorMessage}
+              handleNextButton={handleNextButton}
             />
           )}
           {/* 프로필 레벨 3 */}
           {signUpLevel === 3 && (
-            <ProfileSettingsForm profileInfo={profileInfo} setProfileInfo={setProfileInfo} />
+            <ProfileSettingsForm
+              profileInfo={profileInfo}
+              setProfileInfo={setProfileInfo}
+              handleNextButton={handleNextButton}
+            />
           )}
           {/* 프로필 레벨 4 */}
           {signUpLevel === 4 && (
             <>
               <StyledWelcomeText>반갑습니다!</StyledWelcomeText>
-              <StyledRememberText>닉네임님, 위급할 땐 위용위용을 기억해주세요!</StyledRememberText>
+              <StyledRememberText>
+                {nickName ? nickName.username || nickName.accountname : ''}님, 위급할 땐 위용위용을
+                기억해주세요!
+              </StyledRememberText>
             </>
           )}
         </StyledContentsBox>
@@ -152,12 +163,16 @@ export default function SignUpPage() {
           <StyledNextButton
             disabled={signUpLevel !== 3 && !!disable[signUpLevel]}
             onClick={handleNextButton}
-            className={disable[signUpLevel] ? 'disable' : ''}
+            className={signUpLevel !== 3 && disable[signUpLevel] ? 'disable' : ''}
           >
-            {signUpLevel === 3 ? '다음에 할래요' : '다음'}
+            {signUpLevel === 3 && disable[signUpLevel]
+              ? '다음에 할래요'
+              : signUpLevel !== 4
+              ? '다음'
+              : '시작하기'}
           </StyledNextButton>
         </div>
-      </StyledBoxWapper>
+      </StyledBoxWrapper>
     </StyledContainer>
   );
 }
