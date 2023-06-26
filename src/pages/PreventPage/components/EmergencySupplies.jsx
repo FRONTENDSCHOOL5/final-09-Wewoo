@@ -19,9 +19,12 @@ const MainList = styled.article`
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 20px 15px;
+  padding-bottom: 120px;
+  background-color: #fff;
 `;
 
 const AllBtnWrapper = styled.div`
+  background-color: #fff;
   overflow-x: scroll;
   scrollbar-width: none; /* 파이어폭스 */
   &::-webkit-scrollbar {
@@ -51,7 +54,7 @@ const EmergencyBtn = styled.button`
   line-height: 100%;
 
   &.active {
-    color: ${(props) => props.theme.colors.customWhite};
+    color: #fff;
     background: ${(props) => props.theme.colors.customBlack};
   }
 
@@ -78,6 +81,16 @@ const Button = styled.button`
     font-size: ${(props) => props.theme.fontSize.sm};
     line-height: 100%;
   }
+`;
+
+const Empty = styled.p`
+  width: 375px;
+  height: 75px;
+  display: flex;
+  justify-content: center;
+  font-size: ${(props) => props.theme.fontSize.md};
+  font-weight: 600;
+  align-items: center;
 `;
 
 export default function EmergencySupplies() {
@@ -111,7 +124,7 @@ export default function EmergencySupplies() {
   const handleBtnClick = (buttonIndex) => {
     setListBtn(buttonIndex);
   };
-
+  console.log(listBtn);
   return (
     <>
       <AllBtnWrapper>
@@ -128,7 +141,7 @@ export default function EmergencySupplies() {
         </AllBtn>
       </AllBtnWrapper>
       <MainList>
-        {itemListData.map((data) => {
+        {/* {itemListData.map((data) => {
           if (listBtn === 1 || listBtn === data.type) {
             return (
               <Button type={data.type} key={data.id}>
@@ -140,7 +153,24 @@ export default function EmergencySupplies() {
             );
           }
           return null;
-        })}
+        })} */}
+        {listBtn !== 5 ? (
+          itemListData.map((data) => {
+            if (listBtn === 1 || listBtn === data.type) {
+              return (
+                <Button type={data.type} key={data.id}>
+                  <div>
+                    <img src={data.src} alt={data.name} />
+                  </div>
+                  <span>{data.name}</span>
+                </Button>
+              );
+            }
+            return null;
+          })
+        ) : (
+          <Empty>해당하는 용품이 없습니다.</Empty>
+        )}
       </MainList>
     </>
   );
