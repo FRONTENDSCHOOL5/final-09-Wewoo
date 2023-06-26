@@ -8,7 +8,6 @@ export const AddPostTop = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 7px 20px 17px 20px;
-  border: 1px solid red;
   button {
     color: #000;
     font-size: 16px;
@@ -18,14 +17,13 @@ export const AddPostTop = styled.div`
 `;
 
 export const WriteForm = styled.form`
-  border: 1px solid red;
   background-color: #fff;
   width: 100%;
   padding: 0 20px;
-
+  position: relative;
   textarea {
     width: 100%;
-    height: 70vh;
+    height: 50vh;
     resize: none;
     padding: 20px 0;
   }
@@ -36,16 +34,16 @@ export const WriteForm = styled.form`
   }
 `;
 export const ImgUpload = styled.button`
-  position: relative;
-  left: -60px;
-  bottom: 70px;
+  width: 60px;
+  height: 60px;
+  position: absolute;
+  left: 290px;
+  bottom: 20px;
   input {
     display: none;
     position: absolute;
   }
-
   img {
-    position: absolute;
     width: 60px;
     aspect-ratio: 1/1;
     /* drop-shadow 적용 하기 */
