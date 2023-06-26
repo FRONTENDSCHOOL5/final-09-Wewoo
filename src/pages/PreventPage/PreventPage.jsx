@@ -12,9 +12,10 @@ import heavySnow from '../../assets/icons/PreventPage/heavy-snow.png';
 import shield from '../../assets/icons/PreventPage/shield.png';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import NavBar from '../../components/common/NavBar/NavBar';
 
 const Header = styled.header`
-  background-color: black;
+  background-color: ${(props) => props.theme.colors.customBlack};
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -38,14 +39,14 @@ const Header = styled.header`
 
   .header-box h1 {
     margin-bottom: 20px;
-    color: #fff;
+    color: ${(props) => props.theme.colors.customWhite};
     font-weight: 600;
-    font-size: 24px;
+    font-size: ${(props) => props.theme.fontSize.lg};
   }
 
   p {
     color: rgba(255, 255, 255, 0.5);
-    font-size: 12px;
+    font-size: ${(props) => props.theme.fontSize.xs};
     font-weight: 500;
     position: relative;
 
@@ -68,7 +69,7 @@ const Search = styled.form`
 
   input {
     width: 335px;
-    background-color: #fff;
+    background-color: ${(props) => props.theme.colors.customWhite};
     height: 55px;
     padding: 15px;
     box-sizing: border-box;
@@ -78,7 +79,11 @@ const Search = styled.form`
     position: relative;
     top: 20px;
     font-weight: 500;
-    font-size: 16px;
+    font-size: ${(props) => props.theme.fontSize.base};
+
+    &::placeholder {
+      color: #cccccc;
+    }
   }
 
   button {
@@ -90,20 +95,8 @@ const Search = styled.form`
   }
 `;
 
-const EmergencyList = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin-left: 20px;
-  margin-top: 36px;
-  gap: 25px;
-  font-size: 18px;
-  font-weight: 600;
-  color: #ccc;
-`;
-
 const MainIcon = styled.main`
-  background-color: #fff;
+  background-color: ${(props) => props.theme.colors.customWhite};
   width: 100%;
 `;
 
@@ -148,6 +141,7 @@ const WeatherIcon = styled.button`
 export default function PreventPage() {
   const navigate = useNavigate();
   const [inputValue, setInputValue] = useState('');
+  const [type, setType] = useState(0);
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
@@ -156,13 +150,60 @@ export default function PreventPage() {
   const handleClick = (e) => {
     e.preventDefault();
     if (inputValue.includes('지진')) {
-      navigate('/info');
+      navigate('/prevent/info/earthquake');
+    } else if (inputValue.includes('폭염')) {
+      navigate('/prevent/info/heatwave');
+    } else if (inputValue.includes('호우')) {
+      navigate('/prevent/info/heavyrain');
+    } else if (inputValue.includes('산불')) {
+      navigate('/prevent/info/wildfire');
+    } else if (inputValue.includes('산사태')) {
+      navigate('/prevent/info/landslide');
+    } else if (inputValue.includes('강풍')) {
+      navigate('/prevent/info/typhoon');
+    } else if (inputValue.includes('홍수')) {
+      navigate('/prevent/info/flood');
+    } else if (inputValue.includes('폭설')) {
+      navigate('/prevent/info/heavysnow');
     }
   };
 
-  const handleWeatherClick = () => {
-    navigate('/info');
+  const searchNavi = (name) => {
+    if (name === '지진') {
+      navigate('/prevent/info/earthquake');
+    } else if (name === '폭염') {
+      navigate('/prevent/info/heatwave');
+    } else if (name === '호우') {
+      navigate('/prevent/info/heavyrain');
+    } else if (name === '산불') {
+      navigate('/prevent/info/wildfire');
+    } else if (name === '산사태') {
+      navigate('/prevent/info/landslide');
+    } else if (name === '강풍') {
+      navigate('/prevent/info/typhoon');
+    } else if (name === '홍수') {
+      navigate('/prevent/info/flood');
+    } else if (name === '폭설') {
+      navigate('/prevent/info/heavysnow');
+    }
   };
+
+  const btnData = [
+    { id: 0, name: '폭염', src: heatWave, color: 'red', type: 1 },
+    { id: 1, name: '산불', src: wildfire, color: 'red', type: 1 },
+    {
+      id: 2,
+      name: '지진',
+      src: earthquake,
+      color: 'yellow',
+      type: 2,
+    },
+    { id: 3, name: '산사태', src: landslide, color: 'yellow', type: 2 },
+    { id: 4, name: '강풍', src: typhoon, color: 'blue', type: 3 },
+    { id: 5, name: '홍수', src: flood, color: 'blue', type: 3 },
+    { id: 6, name: '호우', src: heavyRain, color: 'blue', type: 3 },
+    { id: 7, name: '폭설', src: heavySnow, color: 'blue', type: 3 },
+  ];
 
   return (
     <section className='container'>
@@ -192,47 +233,33 @@ export default function PreventPage() {
           </Search>
         </Header>
         <MainIcon>
-          <EmergencyList>
-            <button>관심재난</button>
-            <button>화재</button>
-            <button>대지</button>
-            <button>수해</button>
-            <button>사고</button>
-            <button>대처요령</button>
-          </EmergencyList>
+          <NavBar navType={'prevent'} setType={setType} />
           <WeatherList>
-            <WeatherIcon color='red'>
-              <img src={heatWave} alt='폭염아이콘' />
-              <span>폭염</span>
-            </WeatherIcon>
-            <WeatherIcon color='red'>
-              <img src={wildfire} alt='산불아이콘' />
-              <span>산불</span>
-            </WeatherIcon>
-            <WeatherIcon color='yellow' onClick={handleWeatherClick}>
-              <img src={earthquake} alt='지진아이콘' />
-              <span>지진</span>
-            </WeatherIcon>
-            <WeatherIcon color='yellow'>
-              <img src={landslide} alt='산사태아이콘' />
-              <span>산사태</span>
-            </WeatherIcon>
-            <WeatherIcon>
-              <img src={typhoon} alt='강풍아이콘' />
-              <span>강풍</span>
-            </WeatherIcon>
-            <WeatherIcon>
-              <img src={flood} alt='홍수아이콘' />
-              <span>홍수</span>
-            </WeatherIcon>
-            <WeatherIcon>
-              <img src={heavyRain} alt='호우아이콘' />
-              <span>호우</span>
-            </WeatherIcon>
-            <WeatherIcon>
-              <img src={heavySnow} alt='폭설아이콘' />
-              <span>폭설</span>
-            </WeatherIcon>
+            {btnData.map((data, index) => {
+              return type === 0 ? (
+                <WeatherIcon
+                  color={data.color}
+                  key={index}
+                  type={data.type}
+                  onClick={() => searchNavi(data.name)}
+                >
+                  <img src={data.src} alt={data.name + '아이콘'} />
+                  <span>{data.name}</span>
+                </WeatherIcon>
+              ) : (
+                type === data.type && (
+                  <WeatherIcon
+                    color={data.color}
+                    key={index}
+                    type={data.type}
+                    onClick={() => searchNavi(data.name)}
+                  >
+                    <img src={data.src} alt={data.name + '아이콘'} />
+                    <span>{data.name}</span>
+                  </WeatherIcon>
+                )
+              );
+            })}
           </WeatherList>
         </MainIcon>
       </div>

@@ -1,32 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import earthquake from '../../../assets/icons/PreventPage/header-earthquake.png';
 import earthquakeAction from '../../../assets/images/PreventPage/earthquake-action.png';
-
-const Header = styled.header`
-  background-color: #ffcc00;
-  width: 100%;
-  padding: 40px 0 30px 20px;
-
-  div {
-    position: relative;
-    &::before {
-      position: absolute;
-      content: '';
-      background: url(${earthquake}) no-repeat 0, 0 / contain;
-      top: -20px;
-      right: 30px;
-      width: 85px;
-      height: 85px;
-      opacity: 0.5;
-    }
-  }
-
-  h1 {
-    font-weight: 600;
-    font-size: 24px;
-  }
-`;
+import actionData from '../../../apis/PreventPage/actionApi';
 
 const BtnList = styled.div`
   display: flex;
@@ -39,10 +14,16 @@ const Button = styled.button`
   width: 105px;
   text-align: center;
   border-radius: 8px;
-  background-color: gold;
+  background-color: #f6f6f6;
+  color: #999;
   padding: 8px 12px;
-  font-size: 14px;
+  font-size: ${(props) => props.theme.fontSize.sm};
   box-sizing: border-box;
+
+  &.active {
+    background-color: ${(props) => props.theme.colors.customYellow};
+    color: ${(props) => props.theme.colors.customBlack};
+  }
 `;
 
 const MainList = styled.div`
@@ -52,7 +33,7 @@ const MainList = styled.div`
 
   h2 {
     font-weight: 600;
-    font-size: 18px;
+    font-size: ${(props) => props.theme.fontSize.md};
     text-align: center;
     margin-bottom: 20px;
 
@@ -73,6 +54,10 @@ const CircleList = styled.div`
     width: 8px;
     height: 8px;
     border-radius: 50%;
+    background-color: #eee;
+  }
+  span.active {
+    background-color: ${(props) => props.theme.colors.customBlack};
   }
 `;
 
@@ -81,7 +66,7 @@ const TipsList = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 15px;
-  font-size: 14px;
+  font-size: ${(props) => props.theme.fontSize.sm};
   font-weight: 400;
 
   li {
@@ -102,46 +87,66 @@ const TipsList = styled.ul`
   }
 `;
 
-export default function ActionTips() {
+export default function ActionTips({ type }) {
+  const [indicator, setIndicator] = useState(1);
+  const [circleStates, setCircleStates] = useState([true, false, false, false]);
+  const [actionTips, setActionTips] = useState(1);
+
+  const indexClick = (index) => {
+    const newCircleStates = circleStates.map((state, i) => (i === index ? true : false));
+    setCircleStates(newCircleStates);
+    setIndicator(index + 1);
+  };
+
+  const actionButton = [
+    { id: 1, name: '지진 대비' },
+    { id: 2, name: '지진 발생' },
+    { id: 3, name: '대피 후' },
+  ];
+
+  const actionClick = (buttonIndex) => {
+    setActionTips(buttonIndex);
+  };
+
   return (
-    <section className='container'>
-      <div className='wrapper'>
-        <Header>
-          <span></span>
-          <div>
-            <h1>
-              지진 안전, <br /> 지금 알려 드릴게요
-            </h1>
-          </div>
-        </Header>
-        <main>
-          <BtnList>
-            <Button>지진 대비</Button>
-            <Button>지진 발생</Button>
-            <Button>대피 후</Button>
-          </BtnList>
-          <MainList>
-            <h2>
-              집 안에서 대피할 수 있는 <br /> <span>안전한 공간</span>을 파악해 두세요
-            </h2>
-            <img src={earthquakeAction} alt='지진 안내 사진' />
-            <CircleList>
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-            </CircleList>
-            <TipsList>
-              <li>
-                유리창이나 넘어지기 쉬운 가구 주변 등 위험한 위치를 확인해 두고 지진 발생 시 가까이
-                가지 않도록 합니다.
-              </li>
-              <li>깨진 유리에 다치지 않도록 두꺼운 실내화를 준비해 둡니다.</li>
-              <li>화재를 일으킬 수 있는 난로나 위험물을 주의해 관리합니다.</li>
-            </TipsList>
-          </MainList>
-        </main>
-      </div>
-    </section>
+    <>
+      <BtnList>
+        {actionButton.map((data, index) => (
+          <Button
+            key={data.id}
+            className={actionTips === data.id ? 'active' : ''}
+            onClick={() => actionClick(data.id)}
+          >
+            {data.name}
+          </Button>
+        ))}
+      </BtnList>
+      <MainList>
+        <h2>
+          집 안에서 대피할 수 있는 <br /> <span>안전한 공간</span>을 파악해 두세요
+        </h2>
+        <img src={earthquakeAction} alt='지진 안내 사진' />
+        <CircleList>
+          {circleStates.map((state, index) => {
+            return (
+              <span
+                key={index}
+                onClick={() => indexClick(index)}
+                className={indicator === index + 1 ? 'active' : ''}
+              ></span>
+            );
+          })}
+        </CircleList>
+        <TipsList>
+          {actionData
+            .filter((el) => el.type === type)
+            .map((data) =>
+              data.textList.map((text, index) => {
+                return <li key={index}>{text}</li>;
+              }),
+            )}
+        </TipsList>
+      </MainList>
+    </>
   );
 }

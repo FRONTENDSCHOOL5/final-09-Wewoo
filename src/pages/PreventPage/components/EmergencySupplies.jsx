@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import bottledWater from '../../../assets/icons/PreventPage/bottled-water.png';
 import emergencyRations from '../../../assets/icons/PreventPage/emergency-rations.png';
 import ointment from '../../../assets/icons/PreventPage/ointment.png';
@@ -13,46 +13,25 @@ import plasticBag from '../../../assets/icons/PreventPage/plastic-bag.png';
 import lighter from '../../../assets/icons/PreventPage/lighter.png';
 import battery from '../../../assets/icons/PreventPage/battery.png';
 import flashlight from '../../../assets/icons/PreventPage/flashlight.png';
-import earthquake from '../../../assets/icons/PreventPage/header-earthquake.png';
 import styled from 'styled-components';
 
-const Header = styled.header`
-  background-color: #ffcc00;
-  width: 100%;
-  padding: 40px 0 30px 20px;
-
-  div {
-    position: relative;
-    &::before {
-      position: absolute;
-      content: '';
-      background: url(${earthquake}) no-repeat 0, 0 / contain;
-      top: -20px;
-      right: 30px;
-      width: 85px;
-      height: 85px;
-      opacity: 0.5;
-    }
-  }
-
-  h1 {
-    font-weight: 600;
-    font-size: 24px;
-  }
-`;
-
-const Main = styled.main`
-  width: 100%;
-`;
-
 const MainList = styled.article`
-  width: 100%;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 20px 15px;
 `;
 
+const AllBtnWrapper = styled.div`
+  overflow-x: scroll;
+  scrollbar-width: none; /* 파이어폭스 */
+  &::-webkit-scrollbar {
+    /* 크롬, 사파리, 오페라, 엣지 */
+    display: none;
+  }
+`;
+
 const AllBtn = styled.div`
+  width: 100%;
   display: flex;
   width: fit-content;
   gap: 9px;
@@ -65,16 +44,19 @@ const AllBtn = styled.div`
 const EmergencyBtn = styled.button`
   width: 50px;
   padding: 8px 12px;
-  border: 1px solid #191919;
+  border: 1px solid ${(props) => props.theme.colors.customBlack};
   border-radius: 100px;
   font-weight: 500;
-  font-size: 14px;
+  font-size: ${(props) => props.theme.fontSize.sm};
   line-height: 100%;
+
+  &.active {
+    color: ${(props) => props.theme.colors.customWhite};
+    background: ${(props) => props.theme.colors.customBlack};
+  }
 
   &:first-child {
     width: 28px;
-    color: #fff;
-    background: #191919;
   }
 `;
 
@@ -93,119 +75,73 @@ const Button = styled.button`
 
   span {
     font-weight: 500;
-    font-size: 14px;
+    font-size: ${(props) => props.theme.fontSize.sm};
     line-height: 100%;
   }
 `;
 
 export default function EmergencySupplies() {
+  const [listBtn, setListBtn] = useState(1);
+
+  const emergencyData = [
+    { id: 1, name: '전체', type: 1 },
+    { id: 2, name: '비상식품', type: 2 },
+    { id: 3, name: '구급약품', type: 3 },
+    { id: 4, name: '생활용품', type: 4 },
+    { id: 5, name: '가공식품', type: 5 },
+  ];
+
+  const itemListData = [
+    { id: 1, name: '생수', src: bottledWater, type: 2 },
+    { id: 2, name: '비상식량', src: emergencyRations, type: 2 },
+    { id: 3, name: '연고', src: ointment, type: 3 },
+    { id: 4, name: '지병약', src: chronicDisease, type: 3 },
+    { id: 5, name: '비상약', src: householdMedicine, type: 3 },
+    { id: 6, name: '의류', src: clothes, type: 4 },
+    { id: 7, name: '속옷', src: underwear, type: 4 },
+    { id: 8, name: '신발', src: shoes, type: 4 },
+    { id: 9, name: '화장지', src: paperTowel, type: 4 },
+    { id: 10, name: '물티슈', src: wetTissue, type: 4 },
+    { id: 11, name: '비닐봉투', src: plasticBag, type: 4 },
+    { id: 12, name: '라이터', src: lighter, type: 4 },
+    { id: 13, name: '배터리', src: battery, type: 4 },
+    { id: 14, name: '손전등', src: flashlight, type: 4 },
+  ];
+
+  const handleBtnClick = (buttonIndex) => {
+    setListBtn(buttonIndex);
+  };
+
   return (
-    <section className='container'>
-      <div className='wrapper'>
-        <Header>
-          <span></span>
-          <div>
-            <h1>
-              지진 안전, <br /> 지금 알려 드릴게요
-            </h1>
-          </div>
-        </Header>
-        <Main>
-          <AllBtn>
-            <EmergencyBtn>전체</EmergencyBtn>
-            <EmergencyBtn>비상식품</EmergencyBtn>
-            <EmergencyBtn>구급약품</EmergencyBtn>
-            <EmergencyBtn>생활용품</EmergencyBtn>
-            <EmergencyBtn>가공식품</EmergencyBtn>
-          </AllBtn>
-          <MainList>
-            <Button>
-              <div>
-                <img src={bottledWater} alt='생수' />
-              </div>
-              <span>생수</span>
-            </Button>
-            <Button>
-              <div>
-                <img src={emergencyRations} alt='비상식량' />
-              </div>
-              <span>비상식량</span>
-            </Button>
-            <Button>
-              <div>
-                <img src={ointment} alt='연고' />
-              </div>
-              <span>연고</span>
-            </Button>
-            <Button>
-              <div>
-                <img src={chronicDisease} alt='지병약' />
-              </div>
-              <span>지병약</span>
-            </Button>
-            <Button>
-              <div>
-                <img src={householdMedicine} alt='비상약' />
-              </div>
-              <span>비상약</span>
-            </Button>
-            <Button>
-              <div>
-                <img src={clothes} alt='의류' />
-              </div>
-              <span>의류</span>
-            </Button>
-            <Button>
-              <div>
-                <img src={underwear} alt='속옷' />
-              </div>
-              <span>속옷</span>
-            </Button>
-            <Button>
-              <div>
-                <img src={shoes} alt='신발' />
-              </div>
-              <span>신발</span>
-            </Button>
-            <Button>
-              <div>
-                <img src={paperTowel} alt='화장지' />
-              </div>
-              <span>화장지</span>
-            </Button>
-            <Button>
-              <div>
-                <img src={wetTissue} alt='물티슈' />
-              </div>
-              <span>물티슈</span>
-            </Button>
-            <Button>
-              <div>
-                <img src={plasticBag} alt='비닐봉투' />
-              </div>
-              <span>비닐봉투</span>
-            </Button>
-            <Button>
-              <div>
-                <img src={lighter} alt='라이터' />
-              </div>
-              <span>라이터</span>
-            </Button>
-            <Button>
-              <div>
-                <img src={battery} alt='배터리' />
-              </div>
-              <span>배터리</span>
-            </Button>
-            <Button>
-              <div>
-                <img src={flashlight} alt='손전등' />
-              </div>
-              <span>손전등</span>
-            </Button>
-          </MainList>
-        </Main>
-      </div>
-    </section>
+    <>
+      <AllBtnWrapper>
+        <AllBtn>
+          {emergencyData.map((data, index) => (
+            <EmergencyBtn
+              key={data.id}
+              className={listBtn === data.id ? 'active' : ''}
+              onClick={() => handleBtnClick(data.id)}
+            >
+              {data.name}
+            </EmergencyBtn>
+          ))}
+        </AllBtn>
+      </AllBtnWrapper>
+      <MainList>
+        {itemListData.map((data) => {
+          if (listBtn === 1 || listBtn === data.type) {
+            return (
+              <Button type={data.type} key={data.id}>
+                <div>
+                  <img src={data.src} alt={data.name} />
+                </div>
+                <span>{data.name}</span>
+              </Button>
+            );
+          }
+          return null;
+        })}
+      </MainList>
+    </>
   );
 }
