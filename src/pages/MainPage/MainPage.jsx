@@ -97,13 +97,7 @@ export default function MainPage() {
             num='132'
             firstBtnText='명의'
             secondBtnText='이웃 보기'
-<<<<<<< HEAD
-          >
-            {' '}
-          </SectionHeader>
-=======
           ></SectionHeader>
->>>>>>> develop
           <MainFollowList>
             <div>
               <img src={profileImg} alt='프로필 사진' />
