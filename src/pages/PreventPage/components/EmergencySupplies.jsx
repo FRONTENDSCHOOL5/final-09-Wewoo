@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import bottledWater from '../../../assets/icons/PreventPage/bottled-water.png';
 import emergencyRations from '../../../assets/icons/PreventPage/emergency-rations.png';
 import ointment from '../../../assets/icons/PreventPage/ointment.png';

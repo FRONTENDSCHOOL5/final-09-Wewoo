@@ -82,7 +82,7 @@ const TipsList = styled.ul`
       height: 4px;
       border-radius: 50%;
       left: -15px;
-      background-color: #191919;
+      background-color: ${(props) => props.theme.colors.customBlack};
     }
   }
 `;

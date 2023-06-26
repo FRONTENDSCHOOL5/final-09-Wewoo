@@ -16,8 +16,8 @@ export default function Earthquake() {
   return (
     <section className='container'>
       <div className='wrapper'>
+        <PreventHeader />
         <Main>
-          <PreventHeader />
           <NavBar setType={setCategory} />
           {category === 0 && <EmergencySupplies />}
           {category === 1 && <ActionTips type={params.type} />}
