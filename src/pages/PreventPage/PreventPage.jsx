@@ -13,6 +13,8 @@ import shield from '../../assets/icons/PreventPage/shield.png';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import NavBar from '../../components/common/NavBar/NavBar';
+import BottomNavBar from '../../components/common/BottomNavBar/BottomNavBar';
+import NewsFrame from '../../components/common/NewsFrame/NewsFrame';
 
 const Header = styled.header`
   background-color: ${(props) => props.theme.colors.customBlack};
@@ -39,11 +41,10 @@ const Header = styled.header`
 
   .header-box h1 {
     margin-bottom: 20px;
-    color: ${(props) => props.theme.colors.customWhite};
+    color: #fff;
     font-weight: 600;
     font-size: ${(props) => props.theme.fontSize.lg};
   }
-
   p {
     color: rgba(255, 255, 255, 0.5);
     font-size: ${(props) => props.theme.fontSize.xs};
@@ -69,7 +70,7 @@ const Search = styled.form`
 
   input {
     width: 335px;
-    background-color: ${(props) => props.theme.colors.customWhite};
+    background-color: #fff;
     height: 55px;
     padding: 15px;
     box-sizing: border-box;
@@ -96,8 +97,9 @@ const Search = styled.form`
 `;
 
 const MainIcon = styled.main`
-  background-color: ${(props) => props.theme.colors.customWhite};
+  background-color: #fff;
   width: 100%;
+  padding-bottom: 120px;
 `;
 
 const WeatherList = styled.div`
@@ -106,6 +108,7 @@ const WeatherList = styled.div`
   grid-template-columns: repeat(5, 1fr);
   gap: 30px;
   margin: 28px auto;
+  background-color: #fff;
 `;
 
 const WeatherIcon = styled.button`
@@ -208,8 +211,8 @@ export default function PreventPage() {
   return (
     <section className='container'>
       <div className='wrapper'>
-        <TopBar />
         <Header>
+          <TopBar />
           <div className='header-box'>
             <h1>
               안전을 지키는 방법
@@ -261,7 +264,10 @@ export default function PreventPage() {
               );
             })}
           </WeatherList>
+          <NewsFrame />
         </MainIcon>
+
+        <BottomNavBar />
       </div>
     </section>
   );

@@ -25,6 +25,7 @@ const Header = styled.header`
     font-size: ${(props) => props.theme.fontSize.lg};
     position: relative;
     bottom: 30px;
+    color: ${(props) => props.fontColor};
   }
 `;
 
@@ -36,10 +37,11 @@ export default function PreventHeader() {
   const [name, setName] = useState('');
   const [color, setColor] = useState('');
   const [bgimg, setBgimg] = useState('');
+  const [fontColor, setFontColor] = useState('');
   const navigate = useNavigate();
   const params = useParams();
   const BackBtn = () => {
-    navigate('/prevent');
+    navigate(-1);
   };
 
   useEffect(() => {
@@ -51,6 +53,7 @@ export default function PreventHeader() {
       setName('폭염');
       setColor('#FF5000');
       setBgimg(heatWave);
+      setFontColor('#FAFAFA');
     } else if (params.type === 'wildfire') {
       setName('산불');
       setColor('#FF5000');
@@ -58,6 +61,7 @@ export default function PreventHeader() {
     } else if (params.type === 'heavyrain') {
       setName('호우');
       setColor('#0050C8');
+      setFontColor('#FAFAFA');
       setBgimg(heavyRain);
     } else if (params.type === 'landslide') {
       setName('산사태');
@@ -66,21 +70,24 @@ export default function PreventHeader() {
     } else if (params.type === 'typhoon') {
       setName('강풍');
       setColor('#0050C8');
+      setFontColor('#FAFAFA');
       setBgimg(typhoon);
     } else if (params.type === 'flood') {
       setName('홍수');
       setColor('#0050C8');
+      setFontColor('#FAFAFA');
       setBgimg(flood);
     } else if (params.type === 'heavysnow') {
       setName('폭설');
       setColor('#0050C8');
+      setFontColor('#FAFAFA');
       setBgimg(heavySnow);
     }
   }, [params.type]);
 
   return (
     <>
-      <Header type={params.type} color={color} bgimg={bgimg}>
+      <Header type={params.type} color={color} bgimg={bgimg} fontColor={fontColor}>
         <BackButton onClick={BackBtn}>
           <img src={back} alt='뒤로가기 버튼' />
         </BackButton>

@@ -5,9 +5,11 @@ import PreventHeader from './PreventHeader';
 import ActionTips from './ActionTips';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
+import BottomNavBar from '../../../components/common/BottomNavBar/BottomNavBar';
 
 const Main = styled.main`
   width: 100%;
+  background-color: #fff;
 `;
 
 export default function Earthquake() {
@@ -22,6 +24,7 @@ export default function Earthquake() {
           {category === 0 && <EmergencySupplies />}
           {category === 1 && <ActionTips type={params.type} />}
         </Main>
+        <BottomNavBar />
       </div>
     </section>
   );

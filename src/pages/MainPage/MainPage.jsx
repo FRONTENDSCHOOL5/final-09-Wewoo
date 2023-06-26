@@ -256,7 +256,7 @@ export default function MainPage() {
           >
             {' '}
           </SectionHeader>
-            <MainFollowList>
+          <MainFollowList>
             <div>
               <img src={profileImg} alt='프로필 사진' />
               <p> 추가하기 </p>

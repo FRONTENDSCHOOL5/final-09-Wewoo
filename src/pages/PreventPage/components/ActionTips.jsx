@@ -8,13 +8,14 @@ const BtnList = styled.div`
   justify-content: center;
   margin-top: 15px;
   gap: 10px;
+  background-color: #fff;
 `;
 
 const Button = styled.button`
   width: 105px;
   text-align: center;
   border-radius: 8px;
-  background-color: #f6f6f6;
+  background-color: ${(props) => props.theme.colors.gray100};
   color: #999;
   padding: 8px 12px;
   font-size: ${(props) => props.theme.fontSize.sm};
@@ -29,7 +30,8 @@ const Button = styled.button`
 const MainList = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: 30px;
+  padding-top: 30px;
+  background-color: #fff;
 
   h2 {
     font-weight: 600;
@@ -49,12 +51,13 @@ const CircleList = styled.div`
   justify-content: center;
   gap: 15px;
   margin-top: 15px;
+  background-color: #fff;
 
   span {
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background-color: #eee;
+    background-color: ${(props) => props.theme.colors.gray100};
   }
   span.active {
     background-color: ${(props) => props.theme.colors.customBlack};
@@ -68,6 +71,7 @@ const TipsList = styled.ul`
   gap: 15px;
   font-size: ${(props) => props.theme.fontSize.sm};
   font-weight: 400;
+  margin-bottom: 120px;
 
   li {
     position: relative;
