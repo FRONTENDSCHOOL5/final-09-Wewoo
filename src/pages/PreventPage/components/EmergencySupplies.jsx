@@ -141,19 +141,6 @@ export default function EmergencySupplies() {
         </AllBtn>
       </AllBtnWrapper>
       <MainList>
-        {/* {itemListData.map((data) => {
-          if (listBtn === 1 || listBtn === data.type) {
-            return (
-              <Button type={data.type} key={data.id}>
-                <div>
-                  <img src={data.src} alt={data.name} />
-                </div>
-                <span>{data.name}</span>
-              </Button>
-            );
-          }
-          return null;
-        })} */}
         {listBtn !== 5 ? (
           itemListData.map((data) => {
             if (listBtn === 1 || listBtn === data.type) {
