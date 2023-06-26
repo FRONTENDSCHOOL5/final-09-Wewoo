@@ -28,7 +28,7 @@ const NavBar = styled.ul`
   background-size: contain;
   filter: drop-shadow(0px 0px 15px rgba(0, 0, 0, 0.1));
   position: relative;
-  bottom: 15px;
+  bottom: 0px;
 
   li:nth-child(3) {
     bottom: 10px;

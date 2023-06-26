@@ -145,8 +145,8 @@ export default function SignUpPage() {
             <>
               <StyledWelcomeText>반갑습니다!</StyledWelcomeText>
               <StyledRememberText>
-                {nickName ? nickName.username || nickName.accountname : ''}님, 위급할 땐 위용위용을
-                기억해주세요!
+                {nickName ? nickName.username || nickName.accountname : ''}님, 위급할 땐 <br></br>
+                위용위용을 기억해주세요!
               </StyledRememberText>
             </>
           )}
