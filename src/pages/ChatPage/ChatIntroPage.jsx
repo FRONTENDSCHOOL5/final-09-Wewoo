@@ -74,7 +74,7 @@ export default function ChatIntroPage() {
                   </div>
                   <StyledusercontentBox>
                     <StyledUserName>해주</StyledUserName>
-                    <StyledUserChat>다행이야 항상 위용위용을 기억해!</StyledUserChat>
+                    <StyledUserChat>알겠어! 위용위용!! 지금 바로 다운 받아볼께~</StyledUserChat>
                   </StyledusercontentBox>
                 </StyledmyContentsButton>
               </div>
