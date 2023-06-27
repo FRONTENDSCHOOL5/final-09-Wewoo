@@ -56,7 +56,7 @@ export default function ChatRoomPage() {
               )}
             </StyledChatBox>
             <Styled>
-              <StyledChatRoomInput placeholder='대화할 내용을 입력해주세요.' />
+              <StyledChatRoomInput placeholder='채팅을 입력해주세요.' />
               <StyledSendChatBtn>
                 <img className='sendchatbtn' src={SendChatIcon} alt='SendChatIcon' />
               </StyledSendChatBtn>
