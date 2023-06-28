@@ -21,7 +21,6 @@ import ErrorPage from './LoginAndSignUpPage/Error404Page';
 import ChatIntroPage from './ChatPage/ChatIntroPage';
 import ChatRoomPage from './ChatPage/ChatRoomPage';
 
-
 export default function AppRouter() {
   return (
     <BrowserRouter>

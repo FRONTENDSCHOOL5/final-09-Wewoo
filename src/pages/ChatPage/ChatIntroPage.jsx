@@ -17,9 +17,9 @@ import {
   StyledBackButtonBox,
 } from '../LoginAndSignUpPage/loginPageCommonStyle';
 
-export default function ChatIntroPage({ onback }) {
+export default function ChatIntroPage() {
   const navigate = useNavigate();
-  const handleStartLogin = () => {
+  const handleBack = () => {
     navigate(-1);
   };
 
@@ -28,104 +28,106 @@ export default function ChatIntroPage({ onback }) {
       <StyledContainer>
         <StyledBoxWrapper>
           <StyledBoxCustom>
-            <StyledBackButtonBox onClick={handleStartLogin}>
-              <button onClick={onback}>
+            <StyledBackButtonBox>
+              <button onClick={handleBack}>
                 <img src={BackIcon} />
               </button>
             </StyledBackButtonBox>
+            <div className='contents'>
+              {/* Top Texts 시작 */}
+              <StyledTopTexts>
+                <StyleGoodDayText>
+                  <span>위용위용님, </span>
+                  <br></br>
+                  <span>오늘도 좋은 하루 보내요!</span>
+                </StyleGoodDayText>
+                <StyledUnreadChat>
+                  <span>읽지 않은 채팅이 1개 있어요</span>
+                </StyledUnreadChat>
+              </StyledTopTexts>
+              {/* Top Texts 끝 */}
 
-            {/* Top Texts 시작 */}
-            <StyledTopTexts>
-              <StyleGoodDayText>
-                <span>위용위용님, </span>
-                <br></br>
-                <span>오늘도 좋은 하루 보내요!</span>
-              </StyleGoodDayText>
-              <StyledUnreadChat>
-                <span>읽지 않은 채팅이 1개 있어요</span>
-              </StyledUnreadChat>
-            </StyledTopTexts>
-            {/* Top Texts 끝 */}
-
-            {/* My neighbor 시작 */}
-            <StyledmyneighborWrapper>
-              <StyledmyTitleText>내 이웃</StyledmyTitleText>
-              <StyledmyContentsBox>
-                <div>
-                  <img src={yellowIcon} alt='yellowIcon' />
-                </div>
-                <StyledusercontentBox>
-                  <StyledUserName>
-                    민수
-                    <img className='greenlight' src={GreenWarnigIcon} alt='yellowIcon' />
-                  </StyledUserName>
-                  <StyledUserChat>
-                    <br></br>별 일 없는거지? 그쪽에 지진 났다길래 연락 한번...
-                  </StyledUserChat>
-                </StyledusercontentBox>
-              </StyledmyContentsBox>
-              <StyledmyContentsBox>
-                <div>
-                  <img src={RainbowIcon} alt='RainbowIcon' />
-                </div>
-                <StyledusercontentBox>
-                  <StyledUserName>해주</StyledUserName>
-                  <StyledUserChat>
-                    <br></br>
-                    다행이야 항상 위용위용을 기억해!
-                  </StyledUserChat>
-                </StyledusercontentBox>
-              </StyledmyContentsBox>
-            </StyledmyneighborWrapper>
-            {/* My neighbor 끝 */}
-
-            {/* My Institution 시작 */}
-            <StyledmyInstitutionWrapper>
-              <div>
-                <StyledmyTitleText>내 기관</StyledmyTitleText>
+              {/* My neighbor 시작 */}
+              <div className='mb-23'>
+                <StyledmyTitleText>내 이웃</StyledmyTitleText>
+                <StyledmyContentsButton
+                  onClick={() => navigate('/chat-room', { state: { name: '민수' } })}
+                >
+                  <div>
+                    <img src={yellowIcon} alt='yellowIcon' />
+                  </div>
+                  <StyledusercontentBox>
+                    <StyledUserName>
+                      민수
+                      <img className='greenlight' src={GreenWarnigIcon} alt='yellowIcon' />
+                    </StyledUserName>
+                    <StyledUserChat>
+                      별 일 없는거지? 그쪽에 지진 났다길래 연락 한번...
+                    </StyledUserChat>
+                  </StyledusercontentBox>
+                </StyledmyContentsButton>
+                <StyledmyContentsButton
+                  onClick={() => navigate('/chat-room', { state: { name: '해주' } })}
+                >
+                  <div>
+                    <img src={RainbowIcon} alt='RainbowIcon' />
+                  </div>
+                  <StyledusercontentBox>
+                    <StyledUserName>해주</StyledUserName>
+                    <StyledUserChat>알겠어! 위용위용!! 지금 바로 다운 받아볼께~</StyledUserChat>
+                  </StyledusercontentBox>
+                </StyledmyContentsButton>
               </div>
-              <StyledmyContentsBox>
+              {/* My neighbor 끝 */}
+
+              {/* My Institution 시작 */}
+              <div className='mt-29'>
                 <div>
-                  <img src={KoreaIcon} alt='yellowIcon' />
+                  <StyledmyTitleText>내 기관</StyledmyTitleText>
                 </div>
-                <StyledusercontentBox>
-                  <StyledUserName>
-                    한국재난정보학회 <img></img>
-                  </StyledUserName>
-                  <StyledUserChat>
-                    <br></br>[5월 새싹소식🌱] 한국재난협회에서 드리는 5월의...
-                  </StyledUserChat>
-                </StyledusercontentBox>
-              </StyledmyContentsBox>
-              <StyledmyContentsBox>
-                <div className='rainbowLogo'>
-                  <img src={SuwonIcon} alt='RainbowIcon' />
-                </div>
-                <StyledusercontentBox>
-                  <StyledUserName>
-                    수원제일복지재단 <img></img>
-                  </StyledUserName>
-                  <StyledUserChat>
-                    <br></br>
-                    수원시 복지재단에서 정기 휴관일을 안내드립니다. ...
-                  </StyledUserChat>
-                </StyledusercontentBox>
-              </StyledmyContentsBox>
-              <StyledmyContentsBox>
-                <div>
-                  <img src={PyeongchonIcon} alt='yellowIcon' />
-                </div>
-                <StyledusercontentBox>
-                  <StyledUserName>
-                    평촌청소년도움의집 <img></img>
-                  </StyledUserName>
-                  <StyledUserChat>
-                    <br></br>아이들과 함께하는 클린 캠페인 봉사활동 모집 시작...
-                  </StyledUserChat>
-                </StyledusercontentBox>
-              </StyledmyContentsBox>
-            </StyledmyInstitutionWrapper>
-            {/* My Institution 끝 */}
+                <StyledmyContentsButton
+                  onClick={() => navigate('/chat-room', { state: { name: '한국재난정보학회' } })}
+                >
+                  <div>
+                    <img src={KoreaIcon} alt='yellowIcon' />
+                  </div>
+                  <StyledusercontentBox>
+                    <StyledUserName>한국재난정보학회</StyledUserName>
+                    <StyledUserChat>
+                      [5월 새싹소식🌱] 한국재난협회에서 드리는 5월의...
+                    </StyledUserChat>
+                  </StyledusercontentBox>
+                </StyledmyContentsButton>
+
+                <StyledmyContentsButton
+                  onClick={() => navigate('/chat-room', { state: { name: '수원제일복지재단' } })}
+                >
+                  <div className='rainbowLogo'>
+                    <img src={SuwonIcon} alt='RainbowIcon' />
+                  </div>
+                  <StyledusercontentBox>
+                    <StyledUserName>수원제일복지재단</StyledUserName>
+                    <StyledUserChat>
+                      수원시 복지재단에서 정기 휴관일을 안내드립니다. ...
+                    </StyledUserChat>
+                  </StyledusercontentBox>
+                </StyledmyContentsButton>
+                <StyledmyContentsButton
+                  onClick={() => navigate('/chat-room', { state: { name: '평촌청소년도움의집' } })}
+                >
+                  <div>
+                    <img src={PyeongchonIcon} alt='yellowIcon' />
+                  </div>
+                  <StyledusercontentBox>
+                    <StyledUserName>평촌청소년도움의집</StyledUserName>
+                    <StyledUserChat>
+                      아이들과 함께하는 클린 캠페인 봉사활동 모집 시작...
+                    </StyledUserChat>
+                  </StyledusercontentBox>
+                </StyledmyContentsButton>
+              </div>
+              {/* My Institution 끝 */}
+            </div>
           </StyledBoxCustom>
           <BottomNavBar />
         </StyledBoxWrapper>
@@ -133,12 +135,12 @@ export default function ChatIntroPage({ onback }) {
     </>
   );
 }
+
 const StyledusercontentBox = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   margin-left: 19px;
-  /* align-items: center; */
 `;
 
 const StyledTopTexts = styled.div`
@@ -146,7 +148,6 @@ const StyledTopTexts = styled.div`
   flex-direction: column;
   align-self: flex-start;
   margin-bottom: 30px;
-  /* margin-left: 20px; */
 `;
 
 const StyleGoodDayText = styled.div`
@@ -164,7 +165,6 @@ const StyledmyTitleText = styled.div`
   font-weight: 600;
   line-height: 145%;
   letter-spacing: -0.66px;
-  margin-left: 10px;
 `;
 
 const StyledUnreadChat = styled.div`
@@ -175,23 +175,8 @@ const StyledUnreadChat = styled.div`
   letter-spacing: -0.28px;
 `;
 
-const StyledmyneighborWrapper = styled.div`
-  width: 375px;
-  height: 160px;
-  margin-left: 20px;
-  /* margin-top: 15px; */
-`;
-
-const StyledmyInstitutionWrapper = styled(StyledmyneighborWrapper)`
-  width: 375px;
-  height: 160px;
-  margin-left: 20px;
-  margin-top: 77px;
-`;
-
 const StyledUserName = styled.span`
   color: #191919;
-  /* text-align: center; */
   font-size: 16px;
   font-weight: 600;
   .greenlight {
@@ -205,13 +190,12 @@ const StyledUserChat = styled.span`
   font-size: 12px;
   font-family: Pretendard;
   font-weight: 500;
-  margin-top: 0px;
+  margin-top: 8px;
 `;
 
-const StyledmyContentsBox = styled.div`
+const StyledmyContentsButton = styled.button`
   display: flex;
   margin-top: 30px;
-  margin-left: 10px;
 
   .img {
     width: 50px;
@@ -219,8 +203,27 @@ const StyledmyContentsBox = styled.div`
   }
 `;
 const StyledBoxCustom = styled(StyledContentsBox)`
-  width: 375px;
-  height: 812px;
   background: #ffffff;
-  display: flex;
+  height: 682px;
+  .contents {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow-y: scroll;
+
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .mt-29 {
+    margin-top: 29px;
+  }
+
+  .mb-23 {
+    margin-bottom: 23px;
+  }
 `;
