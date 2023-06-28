@@ -13,7 +13,7 @@ import {
 import { UserContext } from '../../context/UserContext';
 
 // 예시로 넣은 이미지 임포트 (마지막에 빼야한다)
-import BarChart from '../TestPage/ChartTest';
+import BarChart from '../../components/BarChart/BarChart';
 import Slider from '../../components/common/Slider/Slider';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
