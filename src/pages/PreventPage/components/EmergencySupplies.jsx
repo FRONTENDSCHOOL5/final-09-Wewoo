@@ -18,9 +18,12 @@ import styled from 'styled-components';
 const MainList = styled.article`
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 20px 15px;
-  padding-bottom: 120px;
-  background-color: #fff;
+  grid-template-rows: repeat(3, 100px);
+  /* gap: 20px 15px; */
+  /* height: 386px; */
+  align-items: baseline;
+  padding-bottom: 60px;
+  background-color: rgb(255, 255, 255);
 `;
 
 const AllBtnWrapper = styled.div`
@@ -36,22 +39,21 @@ const AllBtnWrapper = styled.div`
 const AllBtn = styled.div`
   width: 100%;
   display: flex;
-  width: fit-content;
-  gap: 9px;
-  justify-content: space-between;
-  margin-top: 35px;
+  gap: 10px;
+  padding: 0 10px;
   margin-bottom: 30px;
   text-align: center;
 `;
 
 const EmergencyBtn = styled.button`
-  width: 50px;
+  /* width: 50px; */
   padding: 8px 12px;
   border: 1px solid ${(props) => props.theme.colors.customBlack};
   border-radius: 100px;
   font-weight: 500;
   font-size: ${(props) => props.theme.fontSize.sm};
   line-height: 100%;
+  flex-shrink: 0;
 
   &.active {
     color: #fff;
@@ -59,7 +61,7 @@ const EmergencyBtn = styled.button`
   }
 
   &:first-child {
-    width: 28px;
+    /* width: 28px; */
   }
 `;
 
@@ -91,6 +93,16 @@ const Empty = styled.p`
   font-size: ${(props) => props.theme.fontSize.md};
   font-weight: 600;
   align-items: center;
+`;
+
+const MainListWrapper = styled.div`
+  height: 300px;
+  overflow: scroll;
+  scrollbar-width: none; /* 파이어폭스 */
+  &::-webkit-scrollbar {
+    /* 크롬, 사파리, 오페라, 엣지 */
+    display: none;
+  }
 `;
 
 export default function EmergencySupplies() {
@@ -140,25 +152,27 @@ export default function EmergencySupplies() {
           ))}
         </AllBtn>
       </AllBtnWrapper>
-      <MainList>
-        {listBtn !== 5 ? (
-          itemListData.map((data) => {
-            if (listBtn === 1 || listBtn === data.type) {
-              return (
-                <Button type={data.type} key={data.id}>
-                  <div>
-                    <img src={data.src} alt={data.name} />
-                  </div>
-                  <span>{data.name}</span>
-                </Button>
-              );
-            }
-            return null;
-          })
-        ) : (
-          <Empty>해당하는 용품이 없습니다.</Empty>
-        )}
-      </MainList>
+      <MainListWrapper>
+        <MainList>
+          {listBtn !== 5 ? (
+            itemListData.map((data) => {
+              if (listBtn === 1 || listBtn === data.type) {
+                return (
+                  <Button type={data.type} key={data.id}>
+                    <div>
+                      <img src={data.src} alt={data.name} />
+                    </div>
+                    <span>{data.name}</span>
+                  </Button>
+                );
+              }
+              return null;
+            })
+          ) : (
+            <Empty>해당하는 용품이 없습니다.</Empty>
+          )}
+        </MainList>
+      </MainListWrapper>
     </>
   );
 }

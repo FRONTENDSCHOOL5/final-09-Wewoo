@@ -7,7 +7,8 @@ export const AddPostTop = styled.div`
   background-color: #fff;
   justify-content: space-between;
   align-items: center;
-  padding: 7px 20px 17px 20px;
+  padding: 20px;
+  border-bottom: 1px solid #eee;
   button {
     color: #000;
     font-size: 16px;

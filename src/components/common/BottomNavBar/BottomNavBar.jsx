@@ -20,15 +20,17 @@ import { useLocation, useNavigate } from 'react-router-dom';
 const NavBar = styled.ul`
   display: flex;
   width: 100%;
-  padding: 20px 27px 15px 27px;
+  padding: 20px 27px 6px;
   justify-content: space-between;
   background-image: url(${navbarbgImg});
   background-repeat: no-repeat;
-  background-position-y: 0px;
-  background-size: contain;
+  background-position-y: center;
+  background-position-x: center;
+  background-size: cover;
   filter: drop-shadow(0px 0px 15px rgba(0, 0, 0, 0.1));
-  position: relative;
-  bottom: 0px;
+  position: sticky;
+  bottom: -2px;
+  z-index: 50;
 
   li:nth-child(3) {
     bottom: 10px;
@@ -64,7 +66,7 @@ const BottomNavBar = (props) => {
     { name: '예방해요', img: preventNot, selectImg: preventSelect, path: ['/prevent'] },
     { name: '소통해요', img: postNot, selectImg: postSelect, path: ['/post'] },
     { name: '마이위용', img: myWewooNot, selectImg: myWewooSelect, path: ['/'] },
-    { name: '대피해요', img: mapNot, selectImg: mapSelect, path: ['/map'] },
+    { name: '이웃해요', img: mapNot, selectImg: mapSelect, path: ['/search'] },
     { name: '도와줘요', img: helpNot, selectImg: helpSelect, path: ['/help'] },
   ];
 

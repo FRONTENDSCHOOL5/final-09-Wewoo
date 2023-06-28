@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 const HeadText = styled.div`
   width: 100%;
@@ -6,6 +7,7 @@ const HeadText = styled.div`
   justify-content: space-between;
   align-items: flex-end;
   background-color: #fff;
+  padding: ${(props) => (props.padding ? '0 20px' : '')};
   div {
     flex-direction: column;
     align-items: flex-start;
@@ -28,14 +30,27 @@ const HeadText = styled.div`
     }
   }
 `;
-const SectionHeader = ({ firstHeadText, secondHeadText, num, firstBtnText, secondBtnText }) => {
+const SectionHeader = ({
+  firstHeadText,
+  secondHeadText,
+  num,
+  firstBtnText,
+  secondBtnText,
+  padding,
+}) => {
+  const navigate = useNavigate();
+  const goToDonationDetail = () => {
+    if (firstBtnText === '자세히 보기') {
+      navigate('/donation-detail');
+    }
+  };
   return (
-    <HeadText>
+    <HeadText padding={padding}>
       <div>
         <h2> {firstHeadText}</h2>
         <h2> {secondHeadText}</h2>
       </div>
-      <button type='button'>
+      <button type='button' onClick={goToDonationDetail}>
         {' '}
         <span> {num} </span> {firstBtnText} <br /> {secondBtnText}
       </button>

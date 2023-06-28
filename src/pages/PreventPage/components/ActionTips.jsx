@@ -72,12 +72,14 @@ const TipsList = styled.ul`
   font-size: ${(props) => props.theme.fontSize.sm};
   font-weight: 400;
   margin-bottom: 120px;
+  padding: 0 10px;
 
   li {
     position: relative;
     display: flex;
     align-items: center;
     margin-left: 20px;
+    margin-bottom: 15px;
 
     &::before {
       content: '';
@@ -114,7 +116,7 @@ export default function ActionTips({ type }) {
 
   return (
     <>
-      <BtnList>
+      {/* <BtnList>
         {actionButton.map((data, index) => (
           <Button
             key={data.id}
@@ -140,17 +142,17 @@ export default function ActionTips({ type }) {
               ></span>
             );
           })}
-        </CircleList>
-        <TipsList>
-          {actionData
-            .filter((el) => el.type === type)
-            .map((data) =>
-              data.textList.map((text, index) => {
-                return <li key={index}>{text}</li>;
-              }),
-            )}
-        </TipsList>
-      </MainList>
+        </CircleList> */}
+      <TipsList>
+        {actionData
+          .filter((el) => el.type === type)
+          .map((data) =>
+            data.textList.map((text, index) => {
+              return <li key={index}>{text}</li>;
+            }),
+          )}
+      </TipsList>
+      {/* </MainList> */}
     </>
   );
 }

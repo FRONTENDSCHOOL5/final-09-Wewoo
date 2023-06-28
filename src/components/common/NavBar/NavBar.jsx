@@ -20,7 +20,7 @@ export default function NavBar({ navType, setType }) {
   const [isDonationExist, setIsDonationExist] = useState(true);
 
   const navArr = [
-    ['관심재난', '화재', '대지', '수해', '사고', '대처요령', '테스트1', '테스트2'],
+    ['전체', '화재', '대지', '수해'],
     ['추천', '산불', '지진', '화재', '홍수', '이웃', '의료', '전쟁'],
     ['비상용품', '행동요령'],
   ];
@@ -136,69 +136,73 @@ export default function NavBar({ navType, setType }) {
   }, [activeNavIndex, isDonationExist, displayedData.length, navType]);
 
   return (
-    <section className='container'>
-      <div className='wrapper'>
-        <Navbar>
-          <ul>
-            {navType === 'prevent' ? (
-              <>
-                {navArr[0].map((el, i) => {
-                  return (
-                    <li
-                      key={i}
-                      className={i === activeNavIndex ? 'active' : ''}
-                      onClick={(e) => {
-                        filteringDataHandler(i, e);
-                      }}
-                    >
-                      {el}
-                    </li>
-                  );
-                })}
-              </>
-            ) : navType === 'help' ? (
-              <>
-                {navArr[1].map((el, i) => {
-                  return (
-                    <li
-                      key={i}
-                      className={i === activeNavIndex ? 'active' : ''}
-                      onClick={(e) => {
-                        filteringDataHandler(i, e);
-                      }}
-                    >
-                      {el}
-                    </li>
-                  );
-                })}
-              </>
-            ) : (
-              <>
-                {navArr[2].map((el, i) => {
-                  return (
-                    <li
-                      key={i}
-                      className={i === activeNavIndex ? 'active' : ''}
-                      onClick={(e) => {
-                        filteringDataHandler(i, e);
-                      }}
-                    >
-                      {el}
-                    </li>
-                  );
-                })}
-              </>
-            )}
-          </ul>
-        </Navbar>
-        {isDonationExist && <Slider type={'help'} displayedData={displayedData} />}
-        {!isDonationExist && (
-          <DonationEmptyIndicator>
-            <span>{navArr[1][activeNavIndex]}관련 기금 후원이 없습니다.</span>
-          </DonationEmptyIndicator>
-        )}
-      </div>
-    </section>
+    // <section className='container'>
+    //   <div className='wrapper'>
+    <>
+      <Navbar>
+        <ul>
+          {navType === 'prevent' ? (
+            <>
+              {navArr[0].map((el, i) => {
+                return (
+                  <li
+                    key={i}
+                    className={i === activeNavIndex ? 'active' : ''}
+                    onClick={(e) => {
+                      filteringDataHandler(i, e);
+                    }}
+                  >
+                    {el}
+                  </li>
+                );
+              })}
+            </>
+          ) : navType === 'help' ? (
+            <>
+              {navArr[1].map((el, i) => {
+                return (
+                  <li
+                    key={i}
+                    className={i === activeNavIndex ? 'active' : ''}
+                    onClick={(e) => {
+                      filteringDataHandler(i, e);
+                    }}
+                  >
+                    {el}
+                  </li>
+                );
+              })}
+            </>
+          ) : (
+            <>
+              {navArr[2].map((el, i) => {
+                return (
+                  <li
+                    key={i}
+                    className={i === activeNavIndex ? 'active' : ''}
+                    onClick={(e) => {
+                      filteringDataHandler(i, e);
+                    }}
+                  >
+                    {el}
+                  </li>
+                );
+              })}
+            </>
+          )}
+        </ul>
+      </Navbar>
+      {navType === 'help' && isDonationExist && (
+        <Slider type={'help'} displayedData={displayedData} />
+      )}
+      {navType === 'help' && !isDonationExist && (
+        <DonationEmptyIndicator>
+          <span>{navArr[1][activeNavIndex]}관련 기금 후원이 없습니다.</span>
+        </DonationEmptyIndicator>
+      )}
+    </>
+    //   </div>
+    // </section>
   );
 }
 

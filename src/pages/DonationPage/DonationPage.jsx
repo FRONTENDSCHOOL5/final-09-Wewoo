@@ -6,7 +6,7 @@ export default function DonationPage() {
   const [donations, setDonations] = useState(0);
   const sendToInform = (value) => {
     setDonations(value);
-    console.log(value);
+    // console.log(value);
   };
   return (
     <>

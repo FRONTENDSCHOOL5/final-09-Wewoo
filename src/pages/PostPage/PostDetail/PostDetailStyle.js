@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import commentBtn from '../../../assets/icons/PostPage/comment-modal.png';
+import commentBtn from '../../../assets/icons/PostPage/modal-icon.png';
 import { ImgUpload } from '../AddPost/AddPostStyle';
 
 export const PostDetailTop = styled.div`
