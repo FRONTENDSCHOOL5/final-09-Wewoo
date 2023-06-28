@@ -1,15 +1,14 @@
 import React from 'react';
-import backIcon from '../../assets/icons/common/back.png';
-import plusIcon from './plus-icon.png';
-import BarChart from './ChartTest';
+import backIcon from '../../../assets/icons/common/back.png';
+import plusIcon from '../../../assets/icons/common/plus-icon.png';
 import styled from 'styled-components';
-import logoimg from '../../assets/images/loginPage/logo.png';
+import logoimg from '../../../assets/images/loginPage/logo.png';
 import { useNavigate } from 'react-router-dom';
-
-export default function CurrentDonations() {
+import BarChart from '../../BarChart/BarChart';
+export default function DonationDetail() {
   const navigate = useNavigate();
   const backToPage = () => {
-    navigate('/test-main');
+    navigate(-1);
   };
   return (
     <section className='container'>

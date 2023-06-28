@@ -123,13 +123,14 @@ const DonationProgressBar = styled.div`
 
 const Slides = styled.article`
   width: 100%;
-  margin-bottom: 50px;
+  margin-bottom: 40px;
+  padding: 0 20px;
 
   ul {
     display: flex;
     align-items: center;
     height: ${(props) => (props.type === 'help' ? '300px' : '200px')};
-    padding: 0 20px;
+    /* padding: 0 20px; */
     gap: 25px;
     overflow-x: scroll;
     overflow: auto;

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import commentModalBtn from '../../../assets/icons/PostPage/comment-modal.png';
+import commentModalBtn from '../../../assets/icons/PostPage/modal-icon.png';
 import neighborIcon from '../../../assets/icons/PostPage/neighbor-icon.svg';
 import chatIcon from '../../../assets/icons/PostPage/chat-icon.svg';
 import reportIcon from '../../../assets/icons/PostPage/report-icon.svg';

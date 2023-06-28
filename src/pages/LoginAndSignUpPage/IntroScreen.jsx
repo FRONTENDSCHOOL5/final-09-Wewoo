@@ -35,14 +35,15 @@ const animationBG = keyframes`
 const StyledBoxCustom = styled(StyledContentsBox)`
   display: flex;
   align-items: flex-start;
-  width: 375px;
-  height: 812px;
+  width: 100%;
+  height: 100vh;
   padding: 0;
   background-size: 80%;
   background: no-repeat center;
   background-image: url(${backgroundImg});
   background-repeat: no-repeat;
   background-position: 80% 50%;
+  background-size: cover;
   animation-name: ${animationBG};
   animation-duration: 3s;
   transition: all 0.5s ease-in-out;

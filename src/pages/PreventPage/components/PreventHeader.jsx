@@ -18,6 +18,7 @@ const Header = styled.header`
   background-size: 30%;
   background-position: right 30px bottom 30px;
   width: 100%;
+  height: 200px;
   padding: 40px 0 30px 20px;
 
   h1 {

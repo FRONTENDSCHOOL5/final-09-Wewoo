@@ -1,11 +1,13 @@
 import styled from 'styled-components';
 
 export const StyledContainer = styled.div`
-  margin: 0 auto;
+  margin: 0px auto;
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
+  -webkit-box-pack: center;
   justify-content: center;
+  -webkit-box-align: center;
   align-items: center;
 `;
 
@@ -19,10 +21,12 @@ export const StyledContentsBox = styled.div`
 
 export const StyledBoxWrapper = styled.div`
   display: flex;
+  width: 100%;
   height: 100%;
-  max-height: 767px;
+  gap: 80px;
+  min-height: 100vh;
   flex-direction: column;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   box-shadow: 0px 5px 20px 0px rgba(0, 0, 0, 0.1);
 `;
 
@@ -40,8 +44,7 @@ export const StyledCommonButton = styled.button`
 export const StyledNextButton = styled(StyledCommonButton)`
   background-color: #000000;
   color: white;
-  margin: 0 20px 45px 20px;
-
+  width: 100%; /* margin: 0 20px 45px 20px; */
   &.disable {
     background-color: #eeeeee;
     color: black;

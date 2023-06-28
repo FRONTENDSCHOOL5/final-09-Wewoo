@@ -63,64 +63,67 @@ export default function DonationsInput({ sendToInform }) {
 
   useEffect(() => {
     sendToInform(displayValue.current.value);
-    console.log(displayValue.current.value);
+    // console.log(displayValue.current.value);
   }, [displayValue.current.value, sendToInform]);
 
   return (
-    <section className='container'>
-      <div className='wrapper'>
-        <DonationHeader>
-          <h1>후원금 기부</h1>
-          <img src={backicon} alt='뒤로가기' onClick={goToPreviousPage} />
-        </DonationHeader>
-        <DonationMain>
-          <span>후원 금액</span>
-          <DonationGrid>
-            {donationsArr.map((el, index) => {
-              return (
-                <button
-                  key={index}
-                  className={activeButton === index ? 'active' : ''}
-                  onClick={() => {
-                    setActiveButton(index);
-                    if (index !== 5) addButtonsValue(el);
-                    else {
-                      inputValue.current.style.display = 'none';
-                      displayValue.current.style.display = 'block';
-                      displayValue.current.focus();
-                    }
-                  }}
-                >
-                  {typeof el === 'number' ? `${el}만원` : el}
-                </button>
-              );
-            })}
-          </DonationGrid>
-          <DonationInput>
-            <div>
-              <input
-                type='number'
-                min='1000'
-                max='999999999'
-                ref={displayValue}
-                onKeyUp={inputValueFormatHandler}
-                onBlur={inputValueFormatHandler}
-                placeholder='0'
-              />
-              <span ref={inputValue} onClick={returnToInput}>
-                {donations ? donations : 0}
-              </span>
-              <span>원을</span>
-            </div>
-            <span>후원해요</span>
-          </DonationInput>
-        </DonationMain>
-      </div>
-    </section>
+    // <section className='container'>
+    //   <div className='wrapper'>
+    <>
+      <DonationHeader>
+        <h1>후원금 기부</h1>
+        <img src={backicon} alt='뒤로가기' onClick={goToPreviousPage} />
+      </DonationHeader>
+      <DonationMain>
+        <span>후원 금액</span>
+        <DonationGrid>
+          {donationsArr.map((el, index) => {
+            return (
+              <button
+                key={index}
+                className={index === 5 ? 'active' : ''}
+                onClick={() => {
+                  setActiveButton(index);
+                  if (index !== 5) addButtonsValue(el);
+                  else {
+                    inputValue.current.style.display = 'none';
+                    displayValue.current.style.display = 'block';
+                    displayValue.current.focus();
+                  }
+                }}
+              >
+                {typeof el === 'number' ? `${el}만원` : el}
+              </button>
+            );
+          })}
+        </DonationGrid>
+        <DonationInput>
+          <div>
+            <input
+              type='number'
+              min='1000'
+              max='999999999'
+              ref={displayValue}
+              onKeyUp={inputValueFormatHandler}
+              onBlur={inputValueFormatHandler}
+              placeholder='0'
+            />
+            <span ref={inputValue} onClick={returnToInput}>
+              {donations ? donations : 0}
+            </span>
+            <span>원</span>
+          </div>
+          <span>후원해요</span>
+        </DonationInput>
+      </DonationMain>
+    </>
+    //   </div>
+    // </section>
   );
 }
 
 const DonationMain = styled.section`
+  width: 100%;
   padding: 0 20px;
   span:nth-child(1) {
     display: block;
@@ -138,6 +141,7 @@ const DonationInput = styled.div`
   justify-content: space-between;
   height: 50px;
   div {
+    padding-left: 55px;
     font-size: 30px;
     display: flex;
     align-self: flex-start;
@@ -182,7 +186,7 @@ const DonationGrid = styled.div`
     border-radius: 10px;
     box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.1);
 
-    &.active {
+    &:active {
       color: white;
       background-color: black;
     }
@@ -201,7 +205,7 @@ const DonationHeader = styled.header`
     display: inline-block;
     position: absolute;
     top: 50%;
-    left: 0;
+    left: 20px;
     transform: translateY(-50%);
     cursor: pointer;
     width: 8px;

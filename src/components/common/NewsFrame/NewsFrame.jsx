@@ -15,53 +15,55 @@ export default function NewsFrame({ type, sorted }) {
   const gridCampaignData = [...campaignApi];
   gridCampaignData.sort(gridCompareFn).splice(4);
   return (
-    <section className='container'>
-      <div className='wrapper'>
-        <CampaignGrid>
-          {type === 'help'
-            ? gridCampaignData.map((el, index) => {
-                return (
-                  <GridCard key={index}>
-                    <img src={el.image} alt='캠페인 그리드 이미지' />
-                    <span>{el.detail}</span>
-                    <CardDesc fontColor={`${slideColors[index % 4]}`} type={type}>
-                      <span>
-                        {el.participant} / {el.participantGoal} (명)
-                      </span>
-                      <span>D-{el.endline}</span>
-                    </CardDesc>
-                    <GridCardProgressBar
-                      bgColor={`${slideColors[index % 4]}`}
-                      percentage={parseInt((el.participant / el.participantGoal) * 100)}
-                    >
-                      <div></div>
-                    </GridCardProgressBar>
-                  </GridCard>
-                );
-              })
-            : newsData.map((el, index) => {
-                return (
-                  <GridCard key={index}>
-                    <img src={el.image} alt='뉴스 그리드 이미지' />
-                    <span className='multi-ellipsis'>{el.headline}</span>
-                    <CardDesc fontColor={`${slideColors[index % 4]}`} type={type}>
-                      <span>{el.type}</span>
-                      <span>{el.date}</span>
-                      <span>{el.time}</span>
-                    </CardDesc>
-                  </GridCard>
-                );
-              })}
-        </CampaignGrid>
-      </div>
-    </section>
+    // <section className='container'>
+    //   <div className='wrapper'>
+    <CampaignGrid>
+      {type === 'help'
+        ? gridCampaignData.map((el, index) => {
+            return (
+              <GridCard key={index}>
+                <img src={el.image} alt='캠페인 그리드 이미지' />
+                <span>{el.detail}</span>
+                <CardDesc fontColor={`${slideColors[index % 4]}`} type={type}>
+                  <span>
+                    {el.participant} / {el.participantGoal} (명)
+                  </span>
+                  <span>D-{el.endline}</span>
+                </CardDesc>
+                <GridCardProgressBar
+                  bgColor={`${slideColors[index % 4]}`}
+                  percentage={parseInt((el.participant / el.participantGoal) * 100)}
+                >
+                  <div></div>
+                </GridCardProgressBar>
+              </GridCard>
+            );
+          })
+        : newsData.map((el, index) => {
+            return (
+              <GridCard key={index}>
+                <img src={el.image} alt='뉴스 그리드 이미지' />
+                <span className='multi-ellipsis'>{el.headline}</span>
+                <CardDesc fontColor={`${slideColors[index % 4]}`} type={type}>
+                  <span>{el.type}</span>
+                  <span>{el.date}</span>
+                  <span>{el.time}</span>
+                </CardDesc>
+              </GridCard>
+            );
+          })}
+    </CampaignGrid>
+    //   </div>
+    // </section>
   );
 }
 const CampaignGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 160px);
   gap: 15px;
+  margin-top: 15px;
   margin-bottom: 65px;
+  justify-content: center;
 `;
 
 const GridCardProgressBar = styled.div`

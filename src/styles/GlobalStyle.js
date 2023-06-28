@@ -94,9 +94,10 @@ const GlobalStyle = createGlobalStyle`
   .container {
     display: flex;
     justify-content: center;
-    max-width: 375px;
+    max-width: 415px;
+    min-width: 375px;
     margin: 0 auto;
-    margin-top: 80px;
+    /* margin-top: 80px; */
   } 
 
   .wrapper {
@@ -104,8 +105,8 @@ const GlobalStyle = createGlobalStyle`
     flex-direction: column;
     align-items: center;
     width: 100%;
-    overflow: hidden;
-    background-color: #f6f6f6;
+    /* overflow: hidden; */
+    /* background-color: #f6f6f6; */
   }
 `;
 

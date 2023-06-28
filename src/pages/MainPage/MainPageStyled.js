@@ -2,8 +2,10 @@ import styled from 'styled-components';
 
 export const MainHeader = styled.section`
   width: 100%;
-  padding: 20px 20px 70px 20px;
+  height: 200px;
+  padding: 20px 20px 35px;
   background-color: #191919;
+  position: relative;
   div.main-user-info {
     display: flex;
     flex-direction: row;
@@ -29,9 +31,12 @@ export const MainHeader = styled.section`
       }
     }
     img {
+      flex-shrink: 0;
       width: 60px;
       height: 60px;
+      border-radius: 100%;
       aspect-ratio: 1/1;
+      object-fit: cover;
     }
   }
 `;
@@ -42,12 +47,17 @@ export const SlideUI = styled.ul`
   gap: 15px;
   width: 100%;
   padding: 0 20px;
-  flex-wrap: nowrap;
-  justify-content: initial;
+  /* flex-wrap: nowrap; */
+  /* justify-content: initial; */
   overflow-x: scroll;
 
   position: relative;
   bottom: 40px;
+  scrollbar-width: none; /* 파이어폭스 */
+  &::-webkit-scrollbar {
+    /* 크롬, 사파리, 오페라, 엣지 */
+    display: none;
+  }
   div {
     display: flex;
     flex-direction: row;
@@ -86,8 +96,9 @@ export const SlideItem = styled.li`
 export const MainSponsor = styled.section`
   background-color: #fff;
   width: 100%;
-  padding: 75px 20px 65px 20px;
-  margin-bottom: 5px;
+  padding: 0 20px;
+  margin-top: 25px;
+  margin-bottom: 50px;
   article {
     width: 100%;
     display: flex;
@@ -110,57 +121,59 @@ export const MainSponsor = styled.section`
       letter-spacing: -0.02em;
     }
   }
-  div.graph {
-    width: 335px;
-    height: 100px;
-    background-color: aqua;
-  }
 `;
 export const MainVolunteer = styled.section`
   width: 100%;
-  padding: 65px 20px 70px 20px;
+  /* padding: 0 20px; */
   background-color: #fff;
-  margin-bottom: 5px;
-  div.slide {
-    width: 335px;
-    height: 100px;
-    background-color: aqua;
-    margin-top: 25px;
-  }
+  margin-top: 45px;
 `;
 export const MainFollow = styled.section`
   width: 100%;
-  padding: 65px 20px 65px 20px;
+  padding: 0 20px;
+  margin-bottom: 50px;
   background: #fff;
 `;
-export const MainFollowList = styled.div`
+export const MainFollowList = styled.ul`
   display: flex;
   color: #000;
-  gap: 15px;
+  gap: 30px;
   width: 100%;
-  flex-wrap: nowrap;
-  justify-content: initial;
   overflow-x: scroll;
-  overflow-y: hidden;
   margin-top: 15px;
-  /* 스크롤 안 보이게 */
-  div {
-    flex-direction: column;
-    text-align: center;
-    img {
-      border: 1px solid #eee;
-      width: 60px;
-      aspect-ratio: 1;
-      border-radius: 50%;
-      margin-bottom: 10px;
-    }
-    p {
-      font-size: 14px;
-      font-weight: 500;
-      letter-spacing: -0.02em;
-    }
+  scrollbar-width: none; /* 파이어폭스 */
+  &::-webkit-scrollbar {
+    /* 크롬, 사파리, 오페라, 엣지 */
+    display: none;
   }
-  div:nth-child(1) {
-    color: #ccc;
+  li {
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    -webkit-box-align: center;
+    align-items: center;
+    width: 64px;
+    cursor: pointer;
+    div {
+      width: 100%;
+      img {
+        border: 1px solid #eee;
+        /* width: 60px; */
+        aspect-ratio: 1;
+        object-fit: cover;
+        border-radius: 50%;
+        margin-bottom: 10px;
+      }
+    }
+
+    span {
+      font-size: 10px;
+      display: block;
+      width: 80px;
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 `;

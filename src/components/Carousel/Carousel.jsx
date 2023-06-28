@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import campaignApi from '../../apis/HelpPage/campaignApi';
 import donationApi from '../../apis/HelpPage/donationApi';
 import styled from 'styled-components';
@@ -6,14 +6,16 @@ import styled from 'styled-components';
 const CarouselContainer = styled.section`
   display: flex;
   position: relative;
+  overflow: hidden;
 `;
 
 const SlideImgs = styled.div`
   width: 100%;
   flex-shrink: 0;
   background-color: black;
-  transform: translateX(-${(props) => props.index * 375}px);
+  transform: translateX(-${(props) => props.index * props.unit}px);
   transition: 0.3s all;
+  position: relative;
   img {
     aspect-ratio: 375/390;
     object-fit: cover;
@@ -107,6 +109,7 @@ export default function Carousel() {
   const compareFn = (a, b) => {
     return a.endline - b.endline;
   };
+  const elementRef = useRef(null);
   const intergratedData = [...campaignApi, ...donationApi];
   intergratedData.sort(compareFn).splice(5);
 
@@ -129,52 +132,59 @@ export default function Carousel() {
   };
 
   return (
-    <section className='container'>
-      <div className='wrapper'>
-        <CarouselContainer>
-          <h1 className='a11y-hidden'>도와줘요 페이지</h1>
-          {intergratedData.map((el, index) => (
-            <SlideImgs key={index * 10} index={activeIndex}>
-              <img src={el.image} alt={`${index}번 슬라이드`} />
-              <SlideDescription>
-                <span>
-                  <span>D-{el.endline}</span>
-                </span>
-                <span>{el.location}</span>
-                <span>{el.detail}</span>
-                <span>
-                  {el.description
-                    ? el.description
-                    : `총 ${el.donated.toLocaleString()}원
+    // <section className='container'>
+    //   <div className='wrapper'>
+    <>
+      <CarouselContainer>
+        <h1 className='a11y-hidden'>도와줘요 페이지</h1>
+        {intergratedData.map((el, index) => (
+          <SlideImgs
+            key={index * 10}
+            index={activeIndex}
+            ref={elementRef}
+            unit={elementRef.current?.offsetWidth}
+          >
+            <img src={el.image} alt={`${index}번 슬라이드`} />
+            <SlideDescription>
+              <span>
+                <span>D-{el.endline}</span>
+              </span>
+              <span>{el.location}</span>
+              <span>{el.detail}</span>
+              <span>
+                {el.description
+                  ? el.description
+                  : `총 ${el.donated.toLocaleString()}원
                   (${parseInt((el.donated / el.donationGoal) * 100)}%)`}
-                </span>
-              </SlideDescription>
-            </SlideImgs>
-          ))}
-          <Buttons index={activeIndex}>
-            <button
-              type='button'
-              onClick={() => {
-                carouselHandler('left');
-              }}
-            >
-              &lt;
-            </button>
-            <button
-              type='button'
-              onClick={() => {
-                carouselHandler('right');
-              }}
-            >
-              &gt;
-            </button>
-          </Buttons>
-          <SlideNum>
-            <strong>{activeIndex + 1}</strong> / 5
-          </SlideNum>
-        </CarouselContainer>
-        <Indicator index={activeIndex}></Indicator>
-      </div>
-    </section>
+              </span>
+            </SlideDescription>
+          </SlideImgs>
+        ))}
+        <Buttons index={activeIndex}>
+          <button
+            type='button'
+            onClick={() => {
+              carouselHandler('left');
+            }}
+          >
+            &lt;
+          </button>
+          <button
+            type='button'
+            onClick={() => {
+              carouselHandler('right');
+            }}
+          >
+            &gt;
+          </button>
+        </Buttons>
+        <SlideNum>
+          <strong>{activeIndex + 1}</strong> / 5
+        </SlideNum>
+      </CarouselContainer>
+      <Indicator index={activeIndex}></Indicator>
+    </>
+    //   </div>
+    // </section>
   );
 }

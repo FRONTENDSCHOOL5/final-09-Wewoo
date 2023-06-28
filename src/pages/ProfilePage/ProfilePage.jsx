@@ -1,57 +1,102 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import backIcon from '../../assets/icons/common/back.png';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import profileimg from '../../assets/images/loginPage/logo.png';
+import { UserContext } from '../../context/UserContext';
 
-export default function ProfileUpdate() {
+export default function ProfilePage() {
+  const url = 'https://api.mandarin.weniv.co.kr';
+  const { user, updateUser, refresh } = useContext(UserContext);
+  const [userInfo, setUserInfo] = useState();
   const navigate = useNavigate();
+  const params = useParams();
   const backToPage = () => {
     navigate(-1);
   };
+
+  const goToUpdate = () => {
+    navigate('/test-update');
+  };
+
+  const getUserProfile = async () => {
+    try {
+      const response = await fetch(url + `/profile/${params.accountname}`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data.profile);
+        setUserInfo(data.profile);
+
+        // updateRefresh();
+      } else {
+        console.error('Error:', response.status);
+      }
+    } catch (error) {
+      console.error('실패:', error);
+    }
+  };
+
+  const getUserInfo = async () => {
+    await updateUser(JSON.parse(localStorage.getItem('user')));
+    console.log(user);
+  };
+
+  useEffect(() => {
+    getUserInfo();
+    getUserProfile();
+  }, []);
+
   return (
     <section className='container'>
       <div className='wrapper'>
         <ProfilePageHeader>
           <img src={backIcon} alt='뒤로가기버튼' onClick={backToPage} />
-          <span>마이페이지</span>
+          <span>{user?.accountname === userInfo?.accountname ? '마이페이지' : '이웃정보'}</span>
         </ProfilePageHeader>
         <ProfileDetailContainer>
           <ProfileImgContainer>
-            <img src={profileimg} alt='프로필사진' />
+            <img src={userInfo?.image ? userInfo?.image : profileimg} alt='프로필사진' />
           </ProfileImgContainer>
           <FollowInfoContainer>
             <div>
               <span>팔로잉</span>
-              <span>17</span>
+              <span>{userInfo?.followingCount}</span>
             </div>
             <div>
               <span>팔로워</span>
-              <span>17</span>
+              <span>{userInfo?.followerCount}</span>
             </div>
           </FollowInfoContainer>
           <DetailInfoContainer>
             <span>상세정보</span>
             <div>
-              <DetailList>
+              {/* <DetailList>
                 <span>아이디(이메일)</span>
-                <span>test@test.com</span>
-              </DetailList>
+                <span>{test@test.com}</span>
+              </DetailList> */}
               <DetailList>
                 <span>닉네임</span>
-                <span>테스트</span>
+                <span>{userInfo?.username}</span>
               </DetailList>
               <DetailList>
                 <span>계정아이디</span>
-                <span>@test</span>
+                <span>@{userInfo?.accountname}</span>
               </DetailList>
               <DetailList>
                 <span>자기소개</span>
-                <span>안녕하세요</span>
+                <span>{userInfo?.intro}</span>
               </DetailList>
             </div>
           </DetailInfoContainer>
-          <UpdateBtn>수정 완료</UpdateBtn>
+          {user?.accountname === userInfo?.accountname && (
+            <UpdateBtn onClick={goToUpdate}>상세정보 수정</UpdateBtn>
+          )}
         </ProfileDetailContainer>
       </div>
     </section>
@@ -146,7 +191,7 @@ const ProfilePageHeader = styled.div`
   align-items: center;
   position: relative;
   font-size: 16px;
-  margin: 40px 0;
+  margin: 20px 0 40px;
 
   img {
     position: absolute;

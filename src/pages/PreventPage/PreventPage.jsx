@@ -15,10 +15,12 @@ import { useNavigate } from 'react-router-dom';
 import NavBar from '../../components/common/NavBar/NavBar';
 import BottomNavBar from '../../components/common/BottomNavBar/BottomNavBar';
 import NewsFrame from '../../components/common/NewsFrame/NewsFrame';
+import SectionHeader from '../../components/common/SectionHeader/SectionHeader';
 
 const Header = styled.header`
   background-color: ${(props) => props.theme.colors.customBlack};
   width: 100%;
+  height: 200px;
   display: flex;
   flex-direction: column;
   padding-top: 20px;
@@ -26,6 +28,7 @@ const Header = styled.header`
   div {
     position: relative;
     margin-top: 10px;
+    margin-bottom: 20px;
 
     &::before {
       position: absolute;
@@ -43,6 +46,7 @@ const Header = styled.header`
     margin-bottom: 20px;
     color: #fff;
     font-weight: 600;
+    line-height: 150%;
     font-size: ${(props) => props.theme.fontSize.lg};
   }
   p {
@@ -98,16 +102,17 @@ const Search = styled.form`
 const MainIcon = styled.main`
   background-color: #fff;
   width: 100%;
-  padding-bottom: 120px;
+  /* padding-bottom: 120px; */
 `;
 
 const WeatherList = styled.div`
   width: 90%;
+  height: 163px;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 30px;
-  margin: 28px auto;
-  background-color: #fff;
+  margin: 0px auto 50px;
+  background-color: rgb(255, 255, 255);
 `;
 
 const WeatherIcon = styled.button`
@@ -208,37 +213,48 @@ export default function PreventPage() {
   ];
 
   return (
-    <section className='container'>
-      <div className='wrapper'>
-        <Header style={{ padding: 20 }}>
-          <TopBar iconColor={'#fafafa'} />
-          <div>
-            <h1>
-              안전을 지키는 방법
-              <br />
-              함께 알아볼까요?
-            </h1>
-            <p>관심재난을 설정해 보세요</p>
-          </div>
-          <Search>
-            <input
-              value={inputValue}
-              type='text'
-              id='search-input'
-              placeholder='지진 발생 시 대피 방법'
-              onChange={handleInputChange}
-            />
-            <label htmlFor='search-input'></label>
-            <button onClick={handleClick}>
-              <img src={searchBtn} alt='검색버튼' />
-            </button>
-          </Search>
-        </Header>
-        <MainIcon>
-          <NavBar navType={'prevent'} setType={setType} />
-          <WeatherList>
-            {btnData.map((data, index) => {
-              return type === 0 ? (
+    // <section className='container'>
+    //   <div className='wrapper'>
+    <>
+      <Header style={{ padding: 20 }}>
+        <TopBar iconColor={'#fafafa'} />
+        <div>
+          <h1>
+            안전을 지키는 방법
+            <br />
+            함께 알아볼까요?
+          </h1>
+        </div>
+        {/* <Search>
+          <input
+            value={inputValue}
+            type='text'
+            id='search-input'
+            placeholder='지진 발생 시 대피 방법'
+            onChange={handleInputChange}
+          />
+          <label htmlFor='search-input'></label>
+          <button onClick={handleClick}>
+            <img src={searchBtn} alt='검색버튼' />
+          </button>
+        </Search> */}
+      </Header>
+      <MainIcon>
+        <NavBar navType={'prevent'} setType={setType} />
+        <WeatherList>
+          {btnData.map((data, index) => {
+            return type === 0 ? (
+              <WeatherIcon
+                color={data.color}
+                key={index}
+                type={data.type}
+                onClick={() => searchNavi(data.name)}
+              >
+                <img src={data.src} alt={data.name + '아이콘'} />
+                <span>{data.name}</span>
+              </WeatherIcon>
+            ) : (
+              type === data.type && (
                 <WeatherIcon
                   color={data.color}
                   key={index}
@@ -248,26 +264,25 @@ export default function PreventPage() {
                   <img src={data.src} alt={data.name + '아이콘'} />
                   <span>{data.name}</span>
                 </WeatherIcon>
-              ) : (
-                type === data.type && (
-                  <WeatherIcon
-                    color={data.color}
-                    key={index}
-                    type={data.type}
-                    onClick={() => searchNavi(data.name)}
-                  >
-                    <img src={data.src} alt={data.name + '아이콘'} />
-                    <span>{data.name}</span>
-                  </WeatherIcon>
-                )
-              );
-            })}
-          </WeatherList>
-          <NewsFrame />
-        </MainIcon>
+              )
+            );
+          })}
+        </WeatherList>
+        <SectionHeader
+          firstHeadText='재난 관련'
+          secondHeadText='최근 뉴스에요'
+          // num='2'
+          // firstBtnText='건의'
+          // secondBtnText='일정 보기'
+          padding={true}
+        ></SectionHeader>
 
-        <BottomNavBar />
-      </div>
-    </section>
+        <NewsFrame />
+      </MainIcon>
+
+      <BottomNavBar />
+    </>
+    //   {/* </div>
+    // </section> */}
   );
 }

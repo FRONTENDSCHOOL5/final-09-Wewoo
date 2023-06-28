@@ -152,7 +152,7 @@ export default function SignUpPage() {
           )}
         </StyledContentsBox>
 
-        <div>
+        <div style={{ padding: '0 20px' }}>
           {signUpLevel !== 1 && (
             <StyledlevelDotWrapper>
               <StyledLevelDot isActive={signUpLevel === 2} onClick={() => handleChangeLevel(2)} />
@@ -178,7 +178,8 @@ export default function SignUpPage() {
 }
 
 const StyledWelcomeText = styled.h1`
-  width: 109px;
+  width: 100%;
+  text-align: center;
   height: 29px;
   font-weight: 600;
   font-size: 24px;
@@ -189,7 +190,7 @@ const StyledWelcomeText = styled.h1`
   color: #000000;
 `;
 const StyledRememberText = styled.span`
-  width: 236px;
+  width: 100%;
   height: 64px;
   font-weight: 600;
   font-size: 24px;

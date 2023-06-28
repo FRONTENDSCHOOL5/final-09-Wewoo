@@ -86,6 +86,7 @@ const StyledText = styled.div`
 const StyledButtonBox = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
   width: 100%;
 `;
 
@@ -97,6 +98,7 @@ const StyledLoginButton = styled(StyledCommonButton)`
 
 const StyledJoinButton = styled(StyledCommonButton)`
   background-color: #191919;
+  width: 331px;
   color: white;
 `;
 

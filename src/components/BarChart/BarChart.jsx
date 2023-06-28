@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
 import {
   Chart,
@@ -13,7 +13,7 @@ import styled from 'styled-components';
 
 Chart.register(CategoryScale, LinearScale, BarController, BarElement, Tooltip, Title);
 
-const BarChart = () => {
+const BarChart = ({ color, setDonations }) => {
   const data = {
     labels: ['2월', '3월', '4월', '5월', '6월'],
     datasets: [
@@ -21,12 +21,18 @@ const BarChart = () => {
         label: '누적후원금',
         //배열처리
         data: [80000, 80000, 100000, 42000, 90000],
-        backgroundColor: '#05AA5A',
-        borderColor: '#05AA5A',
+        backgroundColor: `${color}`,
+        borderColor: `${color}`,
         borderWidth: 0,
       },
     ],
   };
+
+  useEffect(() => {
+    if (setDonations) {
+      setDonations(data.datasets[0].data.reduce((prev, curr) => prev + curr, 0));
+    }
+  }, []);
 
   const options = {
     plugins: {
@@ -68,5 +74,8 @@ const BarChart = () => {
 export default BarChart;
 
 const BarContainer = styled.div`
-  width: 333px;
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  margin-top: 40px;
 `;

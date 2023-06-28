@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import BackIcon from '../../assets/icons/common/back.png';
 import {
   StyledContentsBox,
@@ -14,11 +14,13 @@ import {
 } from './loginPageCommonStyle';
 import { useNavigate } from 'react-router-dom';
 import { loginApi } from '../../apis/user';
+import { UserContext } from '../../context/UserContext';
 
 export default function Login({ onBack }) {
   const [hasErrorMessage, setHasErrorMessage] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const { user, updateUser } = useContext(UserContext);
 
   const navigate = useNavigate();
 
@@ -26,15 +28,18 @@ export default function Login({ onBack }) {
     loginApi(
       { email, password },
       {
-        onSuccess: ({ user, message }) => {
+        onSuccess: ({ user: _user, message }) => {
           if (message === '이메일 또는 비밀번호가 일치하지 않습니다.') {
             setHasErrorMessage(true);
             return;
           }
 
-          localStorage.setItem('accessToken', user.token);
-          localStorage.setItem('user', JSON.stringify(user));
-          navigate('/', { replace: true });
+          localStorage.setItem('accessToken', _user.token);
+          localStorage.setItem('user', JSON.stringify(_user));
+          console.log(_user);
+          updateUser(_user);
+          console.log(user);
+          navigate('/main', { replace: true });
         },
         onError: () => setHasErrorMessage(true),
       },
@@ -98,13 +103,15 @@ export default function Login({ onBack }) {
           )}
         </StyledContentsBox>
 
-        <StyledNextButton
-          disabled={!(password && email)}
-          className={!(password && email) ? 'disable' : ''}
-          onClick={handleLogin}
-        >
-          로그인
-        </StyledNextButton>
+        <div style={{ padding: '0 20px' }}>
+          <StyledNextButton
+            disabled={!(password && email)}
+            className={!(password && email) ? 'disable' : ''}
+            onClick={handleLogin}
+          >
+            로그인
+          </StyledNextButton>
+        </div>
       </StyledBoxWrapper>
     </StyledContainer>
   );

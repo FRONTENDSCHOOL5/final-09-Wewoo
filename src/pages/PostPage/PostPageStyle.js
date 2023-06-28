@@ -6,17 +6,20 @@ import PostHeadImg from '../../assets/images/Postpage/PostHeadBG.png';
 export const PostHeader = styled.div`
   display: block;
   width: 100%;
-  padding: 10px 20px 20px 20px;
+  height: 200px;
+  padding: 20px;
   background-color: #fff;
   position: relative;
   div {
     background-image: url(${PostHeadImg});
     background-repeat: no-repeat;
-    background-position: 95%;
+    background-position: 90%;
     background-color: #fff;
     background-size: contain;
+    margin-top: 10px;
+    margin-bottom: 20px;
     h2 {
-      width: 200px;
+      /* width: 231px; */
       font-size: 24px;
       font-weight: 600;
       line-height: 120%;
@@ -32,11 +35,16 @@ export const PostHeader = styled.div`
 export const AddPostBtn = styled.button`
   position: absolute;
   right: 20px;
-  bottom: -450px;
+  bottom: 0px;
+  img {
+    width: 33px;
+    aspect-ratio: 1;
+    object-fit: cover;
+  }
 `;
 export const ContentWrap = styled.div`
   width: 100%;
-  height: 465px;
+  height: calc(100vh - 290px);
   overflow-y: scroll;
 `;
 
