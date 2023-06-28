@@ -94,7 +94,7 @@ const AddPost = () => {
         const data = await response.json();
         console.log(data);
         console.log(data.post);
-
+        navigate(-1);
         // updateRefresh();
       } else {
         console.error('Error:', response.status);
