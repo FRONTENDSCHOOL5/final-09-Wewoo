@@ -63,6 +63,7 @@ const AddPost = () => {
         const fullImgName = `https://api.mandarin.weniv.co.kr/${data[0].filename}`;
         console.log(fullImgName);
         addPostHandler(fullImgName);
+        navigate(-1);
         // updateRefresh();
       } else {
         console.error('Error:', response.status);
