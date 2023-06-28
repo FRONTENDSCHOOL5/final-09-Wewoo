@@ -16,6 +16,18 @@ import SearchPage from './SearchPage/SearchPage';
 import DonationDetail from '../components/DonationPage/DonationDetail/DonationDetail';
 import { UserContext } from '../context/UserContext';
 
+const NoMatch = () => {
+  const { user } = useContext(UserContext);
+
+  if (user === null) {
+    // 로그인하지 않은 경우 LoginPage로 리디렉션
+    return <Navigate to='/' />;
+  } else {
+    // 로그인한 경우 MainPage로 리디렉션
+    return <Navigate to='/main' />;
+  }
+};
+
 export default function AppRouter() {
   const { user, updateUser } = useContext(UserContext);
 
@@ -55,11 +67,12 @@ export default function AppRouter() {
             </Route>
             <Route path='/search' element={<SearchPage />} />
             <Route path='/404' element={<ErrorPage />} />
-            <Route path='/chat' element={<ChatIntroPage />} />
-            <Route path='/chat-room' element={<ChatRoomPage />} />
+            <Route path='*' element={<NoMatch />} />
           </>
         ) : (
-          <Route element={<LoginPage />} />
+          <>
+            <Route path='*' element={<NoMatch />} />
+          </>
         )}
       </Routes>
     </BrowserRouter>
