@@ -13,27 +13,18 @@ import ProfilePage from './ProfilePage/ProfilePage';
 import DonationPage from './DonationPage/DonationPage';
 import ErrorPage from './LoginAndSignUpPage/Error404Page';
 import SearchPage from './SearchPage/SearchPage';
+import UpdatePost from './PostPage/UpdatePost/UpdatePost';
 import DonationDetail from '../components/DonationPage/DonationDetail/DonationDetail';
 import { UserContext } from '../context/UserContext';
-
-const NoMatch = () => {
-  const { user } = useContext(UserContext);
-
-  if (user === null) {
-    // 로그인하지 않은 경우 LoginPage로 리디렉션
-    return <Navigate to='/' />;
-  } else {
-    // 로그인한 경우 MainPage로 리디렉션
-    return <Navigate to='/main' />;
-  }
-};
+import FollowerListPage from './ProfilePage/FollowerListPage/FollowerListPage';
+import FollowingListPage from './ProfilePage/FollowingListPage/FollowingListPage';
+import ProfileUpdatePage from './ProfilePage/ProfileUpdatePage/ProfileUpdatePage';
 
 export default function AppRouter() {
   const { user, updateUser } = useContext(UserContext);
 
   const getUserInfo = async () => {
     await updateUser(JSON.parse(localStorage.getItem('user')));
-    console.log(user);
   };
 
   useEffect(() => {
@@ -43,15 +34,16 @@ export default function AppRouter() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* <Route path='/' element={<MainPage />} /> */}
-
-        <Route path='/' element={<LoginPage />} />
-        <Route path='/sign-up' element={<SignUpPage />} />
         {user ? (
-          <>
+          <Route>
             <Route path='/main' element={<MainPage />} />
             <Route path='/donation-detail' element={<DonationDetail />} />
-            <Route path='/profile/:accountname' element={<ProfilePage />} />
+            <Route path='/profile/:accountname/*' element={<Outlet />}>
+              <Route index element={<ProfilePage />} />
+              <Route path='follower/' element={<FollowerListPage />} />
+              <Route path='following/' element={<FollowingListPage />} />
+              <Route path='update/' element={<ProfileUpdatePage />} />
+            </Route>
             <Route path='/help/*' element={<Outlet />}>
               <Route index element={<HelpPage />} />
               <Route path='donation/:donationId' element={<DonationPage />} />
@@ -60,6 +52,7 @@ export default function AppRouter() {
               <Route index element={<PostPage />} />
               <Route path='add-post/' element={<AddPost />} />
               <Route path='detail/:postId' element={<PostDetail />} />
+              <Route path='detail/:postId/update-post' element={<UpdatePost />} />
             </Route>
             <Route path='/prevent/*' element={<Outlet />}>
               <Route index element={<PreventPage />} />
@@ -67,11 +60,12 @@ export default function AppRouter() {
             </Route>
             <Route path='/search' element={<SearchPage />} />
             <Route path='/404' element={<ErrorPage />} />
-            <Route path='*' element={<NoMatch />} />
-          </>
+            <Route path='*' element={<MainPage />} />
+          </Route>
         ) : (
           <>
-            <Route path='*' element={<NoMatch />} />
+            <Route path='*' element={<LoginPage />} />
+            <Route path='/sign-up' element={<SignUpPage />} />
           </>
         )}
       </Routes>
