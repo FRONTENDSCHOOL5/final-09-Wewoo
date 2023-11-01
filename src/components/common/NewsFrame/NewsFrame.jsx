@@ -15,8 +15,6 @@ export default function NewsFrame({ type, sorted }) {
   const gridCampaignData = [...campaignApi];
   gridCampaignData.sort(gridCompareFn).splice(4);
   return (
-    // <section className='container'>
-    //   <div className='wrapper'>
     <CampaignGrid>
       {type === 'help'
         ? gridCampaignData.map((el, index) => {
@@ -53,8 +51,6 @@ export default function NewsFrame({ type, sorted }) {
             );
           })}
     </CampaignGrid>
-    //   </div>
-    // </section>
   );
 }
 const CampaignGrid = styled.div`

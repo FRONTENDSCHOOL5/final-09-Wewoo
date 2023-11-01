@@ -13,7 +13,6 @@ export const emailValidationApi = async (email, { onSuccess, onError }) => {
     });
 
     const result = await response.json();
-    console.log(result);
     onSuccess(result);
   } catch (err) {
     onError(err);
@@ -35,7 +34,6 @@ export const accountNameValidationApi = async (accountname, { onSuccess, onError
     });
 
     const result = await response.json();
-    console.log(result);
     onSuccess(result);
   } catch (err) {
     onError(err);
@@ -69,7 +67,6 @@ export const signUpApi = async (
     });
 
     const result = await response.json();
-    console.log(result);
     onSuccess(result);
   } catch (err) {
     onError(err);
@@ -92,7 +89,6 @@ export const loginApi = async ({ email, password }, { onSuccess, onError }) => {
     });
 
     const result = await response.json();
-    console.log(result);
     onSuccess(result);
   } catch (err) {
     onError(err);

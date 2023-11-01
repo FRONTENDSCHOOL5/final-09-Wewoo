@@ -36,9 +36,7 @@ export default function Login({ onBack }) {
 
           localStorage.setItem('accessToken', _user.token);
           localStorage.setItem('user', JSON.stringify(_user));
-          console.log(_user);
           updateUser(_user);
-          console.log(user);
           navigate('/main', { replace: true });
         },
         onError: () => setHasErrorMessage(true),
