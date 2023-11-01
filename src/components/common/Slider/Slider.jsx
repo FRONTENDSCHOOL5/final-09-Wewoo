@@ -6,8 +6,7 @@ import { useNavigate } from 'react-router-dom';
 export default function Slider({ type, displayedData }) {
   const navigate = useNavigate();
   const slideColors = ['0, 80, 200', '5, 170, 90', '255, 204, 0', '255,79,1', '100, 0, 200'];
-  const usersActivityData = userInformStore.filter((el) => el.name === '박승기')[0].campaign;
-  // el.name === '박승기'를 계정ID로 변경해서 수정할 예정
+  const usersActivityData = userInformStore.filter((el) => el.name === 'user')[0].campaign;
   const getCampaignDay = (endline) => {
     const weekdays = ['일', '월', '화', '수', '목', '금', '토'];
     const currentDate = new Date();
@@ -130,7 +129,6 @@ const Slides = styled.article`
     display: flex;
     align-items: center;
     height: ${(props) => (props.type === 'help' ? '300px' : '200px')};
-    /* padding: 0 20px; */
     gap: 25px;
     overflow-x: scroll;
     overflow: auto;
@@ -173,16 +171,6 @@ const Slide = styled.li`
         rgba(${(props) => props.bgColor}, 0.5) 100%
       );
   }
-  /* linear-gradient(
-        180deg,
-        rgba(${(props) => props.bgColor}, 0) 33.69%,
-        rgba(${(props) => props.bgColor}, 0.5) 100%
-      ),
-      radial-gradient(
-        55.87% 88.89% at 33.33% 23.76%,
-        rgba(${(props) => props.bgColor}, 0) 0%,
-        rgba(${(props) => props.bgColor}, 0.8) 100%
-      ) */
 
   img {
     width: ${(props) => (props.type === 'help' ? '230px' : '315px')};
