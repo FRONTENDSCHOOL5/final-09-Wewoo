@@ -11,7 +11,6 @@ export default function SearchPage() {
   const { user, updateRefresh, updateUser, refresh } = useContext(UserContext);
   const [searchedUser, setSearchedUser] = useState('');
   const [searchedUserInfo, setSearchedUserInfo] = useState(null);
-  const [isVisibleFollow, setIsVisibleFollow] = useState(false);
   const [searchedFollowingInfo, setSearchedFollowingInfo] = useState();
 
   const backToPage = () => {
@@ -29,10 +28,8 @@ export default function SearchPage() {
         },
       });
 
-      console.log(searchedUser);
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
         setSearchedUserInfo(data);
       } else {
         console.error('Error signing up:', response.status);
@@ -44,29 +41,17 @@ export default function SearchPage() {
 
   const getUserInfo = async () => {
     await updateUser(JSON.parse(localStorage.getItem('user')));
-    console.log(user);
   };
 
   useEffect(() => {
     getUserInfo();
   }, []);
 
-  // useEffect(() => {
-  //   if (user) {
-  //     console.log(user);
-  //     if (user?.following.filter((el) => el === searchedUserInfo._id).length === 0) {
-  //       setIsVisibleFollow(true);
-  //     } else {
-  //       setIsVisibleFollow(false);
-  //     }
-  //   }
-  // }, [searchedUserInfo]);
   useEffect(() => {
     getMyFollowingInfo();
   }, [searchedUserInfo, refresh]);
 
   const followingUser = async (userInfo) => {
-    console.log(userInfo);
     try {
       const response = await fetch(url + `/profile/${userInfo.accountname}/follow`, {
         method: 'POST',
@@ -76,8 +61,7 @@ export default function SearchPage() {
         },
       });
       if (response.ok) {
-        const data = await response.json();
-        console.log(data);
+        // const data = await response.json();
         updateRefresh();
       } else {
         console.error('Error signing up:', response.status);
@@ -88,7 +72,6 @@ export default function SearchPage() {
   };
 
   const unfollowingUser = async (userInfo) => {
-    console.log(userInfo);
     try {
       const response = await fetch(url + `/profile/${userInfo.accountname}/unfollow`, {
         method: 'DELETE',
@@ -98,8 +81,7 @@ export default function SearchPage() {
         },
       });
       if (response.ok) {
-        const data = await response.json();
-        console.log(data);
+        // const data = await response.json();
         updateRefresh();
       } else {
         console.error('Error signing up:', response.status);
@@ -110,7 +92,6 @@ export default function SearchPage() {
   };
 
   const getMyFollowingInfo = async () => {
-    console.log(user);
     try {
       const response = await fetch(url + `/profile/${user.accountname}/following`, {
         method: 'GET',
@@ -121,9 +102,7 @@ export default function SearchPage() {
       });
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
         setSearchedFollowingInfo(data);
-        // updateRefresh();
       } else {
         console.error('Error:', response.status);
       }
@@ -144,7 +123,6 @@ export default function SearchPage() {
       </SearchPageHeader>
       <SearchMain>
         <div>
-          {/* <span>이웃을 검색해요</span> */}
           <form onSubmit={searchUserBtnHandler}>
             <Input
               type='text'
@@ -161,18 +139,13 @@ export default function SearchPage() {
           <SearchedUserUl>
             {searchedUserInfo?.map((el, index) => {
               let isVisibleFollow = false;
-              // if (user) {
-              console.log(user);
               if (
                 user?.following?.filter((el2) => {
-                  console.log(el2);
                   return el2 === el._id;
                 }).length === 0
               ) {
                 isVisibleFollow = true;
               }
-              // }
-              console.log(isVisibleFollow);
               return (
                 <li key={index}>
                   <SearchedUserContainer>
@@ -269,19 +242,16 @@ const SearchMain = styled.div`
     flex-direction: column;
     align-items: center;
     gap: 10px;
-    /* span {
-      font-size: 12px;
-      align-self: flex-start;
-    } */
+
     form {
       display: flex;
       align-items: center;
-      /* justify-content: center; */
       gap: 15px;
+      opacity: 0.5;
+      transition: opacity 0.3s ease;
       position: relative;
       input {
         display: block;
-        /* height: 40px; */
         border-radius: 40px;
         padding: 12px 40px;
       }
@@ -291,6 +261,9 @@ const SearchMain = styled.div`
         width: 25px;
         aspect-ratio: 1/1;
         object-fit: cover;
+      }
+      &:focus-within {
+        opacity: 1;
       }
     }
   }
@@ -350,7 +323,6 @@ const SearchedUserInfoDesc = styled.div`
   flex-direction: column;
   gap: 6px;
   span:nth-child(1) {
-    /* font-weight: bold; */
     width: 130px;
     display: block;
     white-space: nowrap;
@@ -358,9 +330,14 @@ const SearchedUserInfoDesc = styled.div`
     text-overflow: ellipsis;
   }
   span:nth-child(2) {
+    width: 130px;
     color: #999;
     font-weight: normal;
     font-size: 13px;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 `;
 
