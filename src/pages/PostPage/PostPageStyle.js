@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 
-// img import
 import PostHeadImg from '../../assets/images/Postpage/PostHeadBG.png';
 
 export const PostHeader = styled.div`
@@ -19,7 +18,6 @@ export const PostHeader = styled.div`
     margin-top: 10px;
     margin-bottom: 20px;
     h2 {
-      /* width: 231px; */
       font-size: 24px;
       font-weight: 600;
       line-height: 120%;

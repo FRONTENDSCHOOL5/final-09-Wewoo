@@ -6,18 +6,8 @@ import commentIcon from '../../assets/icons/PostPage/comment-icon.png';
 import likeIcon from '../../assets/icons/PostPage/like-icon.png';
 import addPostImg from '../../assets/images/Postpage/addPost.png';
 import likeActiveIcon from '../../assets/icons/PostPage/like-active-icon.png';
-import modalIcon from '../../assets/icons/PostPage/modal-icon.png';
 
-import {
-  PostHeader,
-  ContentWrap,
-  PostFrame,
-  PostContent,
-  PostContentBox,
-  PostInfo,
-  PostReact,
-  AddPostBtn,
-} from './PostPageStyle';
+import { PostHeader, AddPostBtn } from './PostPageStyle';
 import TopBar from '../../components/common/TopBar/TopBar';
 import BottomNavBar from '../../components/common/BottomNavBar/BottomNavBar';
 import { UserContext } from '../../context/UserContext';
@@ -27,11 +17,10 @@ const PostPage = () => {
   const [postsData, setPostsData] = useState([]);
   const [likeClicked, setLikeClicked] = useState(false);
   const [activePostFilter, setActivePostFilter] = useState(0);
-  const [postType, setPostType] = useState('/post/feed/?limit=3&skip=0');
+  const [postType, setPostType] = useState('/post/feed/?limit=999&skip=0');
   const postFilterArr = ['이웃들의 글', '나의 글'];
   const navigate = useNavigate();
   const { user, updateUser } = useContext(UserContext);
-  // const [isModalOpen, setIsModalOpen] = useState(false);
 
   const getUserInfo = async () => {
     await updateUser(JSON.parse(localStorage.getItem('user')));
@@ -44,24 +33,15 @@ const PostPage = () => {
     navigate('/post/add-post');
   };
 
-  const postDetailNavi = () => {
-    navigate('/post/detail');
-  };
-
-  ///post/feed/?limit=5&skip=5
-  ///post?limit=5&skip=0
   const url = 'https://api.mandarin.weniv.co.kr';
   const postTypeHandler = (index) => {
     if (index === 0) {
       setPostType('/post/feed');
-      // setPostType('/post?limit=5&skip=0');
     } else if (index === 1) {
       setPostType(`/post/${user.accountname}/userpost`);
     }
-    // else {    }
   };
   const getPosts = async () => {
-    console.log(user);
     try {
       const response = await fetch(url + postType, {
         method: 'GET',
@@ -72,10 +52,7 @@ const PostPage = () => {
       });
       if (response.ok) {
         const data = await response.json();
-        console.log(data.posts);
         setPostsData(data.posts ? data.posts : data.post);
-        console.log('여기야!');
-        // updateRefresh();
       } else {
         console.error('Error signing up:', response.status);
       }
@@ -94,12 +71,8 @@ const PostPage = () => {
         },
       });
       if (response.ok) {
-        const data = await response.json();
-        console.log(data);
-        console.log('좋아요!');
-
+        // const data = await response.json();
         setLikeClicked((prev) => !prev);
-        // updateRefresh();
       } else {
         console.error('Error signing up:', response.status);
       }
@@ -118,12 +91,8 @@ const PostPage = () => {
         },
       });
       if (response.ok) {
-        const data = await response.json();
-        console.log(data);
-        console.log('좋아요!');
-
+        // const data = await response.json();
         setLikeClicked((prev) => !prev);
-        // updateRefresh();
       } else {
         console.error('Error signing up:', response.status);
       }
@@ -140,6 +109,10 @@ const PostPage = () => {
 
   const goToPostDetail = (postId) => {
     navigate(`/post/detail/${postId}`);
+  };
+
+  const goToUserDetail = (userId) => {
+    navigate(`/profile/${userId}`);
   };
 
   return (
@@ -178,7 +151,7 @@ const PostPage = () => {
       </PostNav>
       <PostsWrapper>
         <ul>
-          {postsData ? (
+          {postsData && postsData.length !== 0 ? (
             postsData?.map((el, index) => {
               const date = new Date(el.createdAt);
               const year = date.getFullYear();
@@ -189,34 +162,53 @@ const PostPage = () => {
                 <li key={index}>
                   <PostContainer>
                     <PostFirstRow
-                      onClick={() => {
-                        goToPostDetail(el.id);
+                      onClick={(e) => {
+                        if (e.target.id !== 'posting-user-info') {
+                          goToPostDetail(el.id);
+                        }
                       }}
                     >
                       <div>
-                        <PostUserInfoWrapper>
+                        <PostUserInfoWrapper
+                          id='posting-user-info'
+                          onClick={() => {
+                            goToUserDetail(el.author.accountname);
+                          }}
+                        >
                           <img src={el.author.image} alt='작성자 프로필 사진' />
                           <span>{el.author.username}</span>
                         </PostUserInfoWrapper>
                         <span>{created}</span>
                       </div>
-                      {/* <ModalIconWrapper onClick={() => setIsModalOpen((prev) => !prev)}>
-                        <img src={modalIcon} alt='더보기버튼' />
-                      </ModalIconWrapper>
-                      {isModalOpen && (
-                        <ModalMenu onClick={() => setIsModalOpen((prev) => !prev)}>
-                          테스트
-                        </ModalMenu>
-                      )} */}
                       <p>{el.content}</p>
-                      {el.image && (
+                      {el.image && el.image.split(',').length < 2 && (
                         <FeedImage>
                           <img src={el.image} alt='게시글 이미지' />
                         </FeedImage>
                       )}
+                      {el.image && el.image.split(',').length > 1 && (
+                        <MultiImageContainer>
+                          {el.image.split(',').map((imgEl, index) => {
+                            return (
+                              <li key={index}>
+                                <div>
+                                  <img src={imgEl} alt='게시글 이미지' />
+                                </div>
+                              </li>
+                            );
+                          })}
+                        </MultiImageContainer>
+                      )}
                     </PostFirstRow>
-                    <PostSecondRow>
+                    <PostSecondRow
+                      onClick={(e) => {
+                        if (e.target.id !== 'correct-btn') {
+                          goToPostDetail(el.id);
+                        }
+                      }}
+                    >
                       <div
+                        id='correct-btn'
                         onClick={() => {
                           if (el.hearted) {
                             unlike(el.id);
@@ -232,28 +224,21 @@ const PostPage = () => {
                         <span>{el.heartCount}</span>
                       </div>
                       <div>
-                        <PostsSocialBtn
-                          onClick={() => {
-                            goToPostDetail(el.id);
-                          }}
-                        >
+                        <PostsSocialBtn>
                           <img src={commentIcon} alt='댓글버튼' />
                         </PostsSocialBtn>
                         <span>댓글</span>
                         <span>{el.commentCount ? el.commentCount : 0}</span>
                       </div>
-                      {/* {index === postsData.length - 1 && (
-                        <ScrollToTopButton>
-                          <i className='fa fa-chevron-up'></i>
-                        </ScrollToTopButton>
-                      )} */}
                     </PostSecondRow>
                   </PostContainer>
                 </li>
               );
             })
           ) : (
-            <EmptyPostContainer>작성된 게시글이 없습니다.</EmptyPostContainer>
+            <EmptyPostContainer>
+              <p>작성된 게시글이 없습니다.</p>
+            </EmptyPostContainer>
           )}
         </ul>
       </PostsWrapper>
@@ -263,6 +248,38 @@ const PostPage = () => {
 };
 
 export default PostPage;
+
+const MultiImageContainer = styled.ul`
+  display: flex;
+  align-self: center;
+  color: #000;
+  gap: 15px;
+  width: 85%;
+  overflow-x: scroll;
+  margin-bottom: 25px;
+  scrollbar-width: none; /* 파이어폭스 */
+  &::-webkit-scrollbar {
+    /* 크롬, 사파리, 오페라, 엣지 */
+    display: none;
+  }
+  li {
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    -webkit-box-align: center;
+    align-items: center;
+    width: 200px;
+    cursor: pointer;
+    div {
+      width: 100%;
+      img {
+        border: 1px solid #eee;
+        aspect-ratio: 1;
+        object-fit: cover;
+      }
+    }
+  }
+`;
 
 const ModalMenu = styled.div`
   width: 100px;
@@ -296,24 +313,11 @@ const PostUserInfoWrapper = styled.div`
     aspect-ratio: 1;
     object-fit: cover;
     border-radius: 100%;
+    pointer-events: none;
   }
-`;
-
-const ScrollToTopButton = styled.button`
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  width: 40px;
-  height: 40px;
-  background-color: #999;
-  color: #fff;
-  border: none;
-  border-radius: 50%;
-  font-size: 18px;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  span {
+    pointer-events: none;
+  }
 `;
 
 const EmptyPostContainer = styled.div`
@@ -356,8 +360,6 @@ const PostNav = styled.nav`
       justify-content: center;
       align-items: center;
       font-size: 12px;
-      /* width: 30px; */
-      /* height: 15px; */
       cursor: pointer;
       &.active {
         color: white;
@@ -389,7 +391,6 @@ const PostFirstRow = styled.div`
   flex-direction: column;
   gap: 10px;
   margin-bottom: 10px;
-  /* padding: 30px 0 10px 0; */
 
   & > div:nth-child(1) {
     display: flex;
@@ -418,11 +419,7 @@ const PostFirstRow = styled.div`
     display: block;
     width: 100%;
     font-size: 16px;
-    font-weight: bold;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
+    line-height: 1.5;
     padding: 0 20px 10px;
   }
 `;
@@ -440,12 +437,14 @@ const PostSecondRow = styled.div`
     align-items: center;
     cursor: pointer;
   }
+
+  & > #correct-btn span {
+    pointer-events: none;
+  }
 `;
 
 const PostContainer = styled.div`
   width: 100%;
-  /* margin-top: 20px;
-  margin-bottom: 50px; */
 `;
 
 const PostPageHeader = styled.div`
@@ -463,8 +462,7 @@ const PostPageHeader = styled.div`
 const PostsSocialBtn = styled.div`
   width: 18px;
   overflow: hidden;
-
-  /* border-radius: 100px; */
+  pointer-events: none;
 
   img {
     display: block;

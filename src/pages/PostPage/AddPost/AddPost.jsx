@@ -3,11 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { UserContext } from '../../../context/UserContext';
 
-// Image import
 import back from '../../../assets/icons/common/back.png';
 import addImage from '../../../assets/images/Postpage/addImage.png';
-
-// 예시 이미지
 import { AddPostTop } from './AddPostStyle';
 
 const AddPost = () => {
@@ -17,8 +14,12 @@ const AddPost = () => {
   };
   const { user, updateUser } = useContext(UserContext);
   const url = 'https://api.mandarin.weniv.co.kr';
-  const [imagePreview, setImagePreview] = useState('https://mandarin.api.weniv.co.kr/Ellipse.png');
+  const [imagePreview, setImagePreview] = useState([
+    'https://mandarin.api.weniv.co.kr/Ellipse.png',
+  ]);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [imageLength, setImageLength] = useState(0);
+  const [loadCheck, setLoadCheck] = useState(0);
   const addImageBtn = useRef();
   const [postContent, setPostContent] = useState('');
   const textareaRef = useRef(null);
@@ -32,15 +33,37 @@ const AddPost = () => {
   };
 
   const handleImageChange = (event) => {
-    const file = event.target.files[0];
-
-    if (file) {
+    const file = event.target.files;
+    if (file.length === 1) {
+      setImageLength(1);
       const reader = new FileReader();
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(file[0]);
       reader.onloadend = () => {
-        setImagePreview(reader.result);
-        setSelectedImage(file);
+        setLoadCheck(0);
+        setImagePreview([reader.result]);
+        setSelectedImage(file[0]);
       };
+    } else if (file.length > 1 && file.length <= 3) {
+      const imagePreviews = [];
+      const selectedImages = [];
+
+      for (let i = 0; i < file.length; i++) {
+        const eachImg = file[i];
+
+        const reader = new FileReader();
+        reader.readAsDataURL(eachImg);
+
+        reader.onloadend = () => {
+          imagePreviews.push(reader.result);
+          selectedImages.push(eachImg);
+
+          if (imagePreviews.length === file.length) {
+            setImageLength(file.length);
+            setImagePreview(imagePreviews);
+            setSelectedImage(selectedImages);
+          }
+        };
+      }
     }
   };
 
@@ -49,32 +72,50 @@ const AddPost = () => {
   };
 
   const previousImgUpload = async () => {
-    const imgData = new FormData();
-    imgData.append('image', selectedImage);
-    try {
-      const response = await fetch(url + '/image/uploadfiles', {
-        method: 'POST',
-        body: imgData,
-      });
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data);
-        console.log(data[0].filename);
-        const fullImgName = `https://api.mandarin.weniv.co.kr/${data[0].filename}`;
-        console.log(fullImgName);
-        addPostHandler(fullImgName);
-        navigate(-1);
-        // updateRefresh();
-      } else {
-        console.error('Error:', response.status);
+    let uploadedImgName = [];
+    let fullImgName = '';
+    if (imageLength > 1) {
+      for (let i = 0; i < imageLength; i++) {
+        const imgData = new FormData();
+        imgData.append('image', selectedImage[i]);
+        try {
+          const response = await fetch(url + '/image/uploadfiles', {
+            method: 'POST',
+            body: imgData,
+          });
+          if (response.ok) {
+            const data = await response.json();
+            uploadedImgName.push(`https://api.mandarin.weniv.co.kr/${data[0].filename}`);
+          } else {
+            console.error('Error:', response.status);
+          }
+        } catch (error) {
+          console.error('실패:', error);
+        }
       }
-    } catch (error) {
-      console.error('실패:', error);
+      fullImgName = `${uploadedImgName.join(',')}`;
+    } else if (imageLength === 1) {
+      const imgData = new FormData();
+      imgData.append('image', selectedImage);
+      try {
+        const response = await fetch(url + '/image/uploadfiles', {
+          method: 'POST',
+          body: imgData,
+        });
+        if (response.ok) {
+          const data = await response.json();
+          fullImgName = `https://api.mandarin.weniv.co.kr/${data[0].filename}`;
+        } else {
+          console.error('Error:', response.status);
+        }
+      } catch (error) {
+        console.error('실패:', error);
+      }
     }
+    addPostHandler(fullImgName);
   };
 
   const addPostHandler = async (newImgFilename) => {
-    console.log(user);
     const postData = {
       post: {
         content: postContent,
@@ -91,11 +132,8 @@ const AddPost = () => {
         body: JSON.stringify(postData),
       });
       if (response.ok) {
-        const data = await response.json();
-        console.log(data);
-        console.log(data.post);
+        // const data = await response.json();
         navigate(-1);
-        // updateRefresh();
       } else {
         console.error('Error:', response.status);
       }
@@ -106,7 +144,6 @@ const AddPost = () => {
 
   const getUserInfo = async () => {
     await updateUser(JSON.parse(localStorage.getItem('user')));
-    console.log(user);
   };
 
   useEffect(() => {
@@ -133,21 +170,69 @@ const AddPost = () => {
         />
       </PostContent>
       <AddImage onClick={addImageHandler}>
-        <img src={addImage} alt='이미지추가버튼' />
+        <img id='addImgBtn' src={addImage} alt='이미지추가버튼' />
         <Input
           type='file'
           name='profileImage'
+          multiple
           onChange={handleImageChange}
           bgImg={addImage}
           ref={addImageBtn}
         />
-        {imagePreview && <img src={imagePreview} alt='Preview' style={{ width: '200px' }} />}
+        {imagePreview && (imageLength === 1 || imageLength === 0) && (
+          <img src={imagePreview[0]} alt='Preview' style={{ width: '200px' }} />
+        )}
+        {imagePreview && imageLength >= 2 && (
+          <MultiImageContainer>
+            {imageLength >= 2 &&
+              imagePreview.map((eachImg, index) => {
+                return (
+                  <li key={index}>
+                    <div>
+                      <img src={eachImg} alt='Preview' style={{ width: '200px' }} />
+                    </div>
+                  </li>
+                );
+              })}
+          </MultiImageContainer>
+        )}
       </AddImage>
     </>
   );
 };
 
 export default AddPost;
+
+const MultiImageContainer = styled.ul`
+  display: flex;
+  color: #000;
+  gap: 15px;
+  width: 100%;
+  overflow-x: scroll;
+  margin-bottom: 25px;
+  scrollbar-width: none; /* 파이어폭스 */
+  &::-webkit-scrollbar {
+    /* 크롬, 사파리, 오페라, 엣지 */
+    display: none;
+  }
+  li {
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    -webkit-box-align: center;
+    align-items: center;
+    width: 200px;
+    cursor: pointer;
+    div {
+      width: 100%;
+      img {
+        border: 1px solid #eee;
+        aspect-ratio: 1;
+        object-fit: cover;
+      }
+    }
+  }
+`;
 
 const PostContent = styled.div`
   margin-top: 20px;
@@ -173,14 +258,16 @@ const PostContent = styled.div`
   }
 `;
 const AddImage = styled.div`
-  width: 200px;
+  display: flex;
+  justify-content: center;
+  width: 80%;
   position: relative;
   margin-bottom: 50px;
   img {
     aspect-ratio: 1;
     object-fit: contain;
   }
-  img:nth-child(1) {
+  #addImgBtn {
     position: absolute;
     width: 60px;
     z-index: 49;

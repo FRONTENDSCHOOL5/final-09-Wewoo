@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-// Image import
 
 export const AddPostTop = styled.div`
   width: 100%;
@@ -47,6 +46,5 @@ export const ImgUpload = styled.button`
   img {
     width: 60px;
     aspect-ratio: 1/1;
-    /* drop-shadow 적용 하기 */
   }
 `;
