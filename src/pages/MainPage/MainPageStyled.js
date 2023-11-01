@@ -47,8 +47,6 @@ export const SlideUI = styled.ul`
   gap: 15px;
   width: 100%;
   padding: 0 20px;
-  /* flex-wrap: nowrap; */
-  /* justify-content: initial; */
   overflow-x: scroll;
 
   position: relative;
@@ -124,7 +122,6 @@ export const MainSponsor = styled.section`
 `;
 export const MainVolunteer = styled.section`
   width: 100%;
-  /* padding: 0 20px; */
   background-color: #fff;
   margin-top: 45px;
 `;
@@ -158,7 +155,6 @@ export const MainFollowList = styled.ul`
       width: 100%;
       img {
         border: 1px solid #eee;
-        /* width: 60px; */
         aspect-ratio: 1;
         object-fit: cover;
         border-radius: 50%;
