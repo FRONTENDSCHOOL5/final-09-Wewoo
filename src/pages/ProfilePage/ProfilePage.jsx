@@ -16,7 +16,15 @@ export default function ProfilePage() {
   };
 
   const goToUpdate = () => {
-    navigate('/test-update');
+    navigate(`/profile/${params.accountname}/update`);
+  };
+
+  const goToFollowerPage = () => {
+    navigate(`/profile/${params.accountname}/follower`);
+  };
+
+  const goToFollowingPage = () => {
+    navigate(`/profile/${params.accountname}/following`);
   };
 
   const getUserProfile = async () => {
@@ -30,10 +38,7 @@ export default function ProfilePage() {
       });
       if (response.ok) {
         const data = await response.json();
-        console.log(data.profile);
         setUserInfo(data.profile);
-
-        // updateRefresh();
       } else {
         console.error('Error:', response.status);
       }
@@ -44,7 +49,6 @@ export default function ProfilePage() {
 
   const getUserInfo = async () => {
     await updateUser(JSON.parse(localStorage.getItem('user')));
-    console.log(user);
   };
 
   useEffect(() => {
@@ -64,11 +68,11 @@ export default function ProfilePage() {
             <img src={userInfo?.image ? userInfo?.image : profileimg} alt='프로필사진' />
           </ProfileImgContainer>
           <FollowInfoContainer>
-            <div>
+            <div onClick={goToFollowingPage} style={{ cursor: 'pointer' }}>
               <span>팔로잉</span>
               <span>{userInfo?.followingCount}</span>
             </div>
-            <div>
+            <div onClick={goToFollowerPage} style={{ cursor: 'pointer' }}>
               <span>팔로워</span>
               <span>{userInfo?.followerCount}</span>
             </div>
@@ -76,10 +80,6 @@ export default function ProfilePage() {
           <DetailInfoContainer>
             <span>상세정보</span>
             <div>
-              {/* <DetailList>
-                <span>아이디(이메일)</span>
-                <span>{test@test.com}</span>
-              </DetailList> */}
               <DetailList>
                 <span>닉네임</span>
                 <span>{userInfo?.username}</span>
