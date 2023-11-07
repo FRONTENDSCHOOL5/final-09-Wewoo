@@ -7,7 +7,7 @@ export const UserContext = createContext();
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [refresh, setRefresh] = useState(false);
-  const url = 'https://api.mandarin.weniv.co.kr';
+  // const url = 'https://api.mandarin.weniv.co.kr';
 
   // 사용자 컨텍스트 업데이트 함수
   const updateUser = (userData) => {
@@ -15,7 +15,6 @@ export const UserProvider = ({ children }) => {
   };
 
   const updateRefresh = () => {
-    console.log('refresh');
     setRefresh((prev) => !prev);
   };
 

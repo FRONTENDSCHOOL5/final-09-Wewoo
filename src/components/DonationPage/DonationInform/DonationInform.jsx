@@ -20,8 +20,6 @@ export default function DonationInform({ getFromInput }) {
   }, []);
 
   return (
-    // <section className='container'>
-    //   <div className='wrapper'>
     <>
       <DonationInfoSection>
         <span>후원 정보</span>
@@ -46,8 +44,6 @@ export default function DonationInform({ getFromInput }) {
         <DonationConfirmButton>{donations.toLocaleString()}원을 후원해요</DonationConfirmButton>
       </DonationConfirmButtonContainer>
     </>
-    //   {/* </div>
-    // </section> */}
   );
 }
 

@@ -11,29 +11,6 @@ import heavySnow from '../../../assets/images/PreventPage/header-heavysnow.png';
 import back from '../../../assets/icons/PreventPage/back.png';
 import styled from 'styled-components';
 
-const Header = styled.header`
-  background-color: ${(props) => props.color};
-  background-image: url(${(props) => props.bgimg});
-  background-repeat: no-repeat;
-  background-size: 30%;
-  background-position: right 30px bottom 30px;
-  width: 100%;
-  height: 200px;
-  padding: 40px 0 30px 20px;
-
-  h1 {
-    font-weight: 600;
-    font-size: ${(props) => props.theme.fontSize.lg};
-    position: relative;
-    bottom: 30px;
-    color: ${(props) => props.fontColor};
-  }
-`;
-
-const BackButton = styled.button`
-  padding-bottom: 60px;
-`;
-
 export default function PreventHeader() {
   const [name, setName] = useState('');
   const [color, setColor] = useState('');
@@ -102,3 +79,26 @@ export default function PreventHeader() {
     </>
   );
 }
+
+const Header = styled.header`
+  background-color: ${(props) => props.color};
+  background-image: url(${(props) => props.bgimg});
+  background-repeat: no-repeat;
+  background-size: 30%;
+  background-position: right 30px bottom 30px;
+  width: 100%;
+  height: 200px;
+  padding: 40px 0 30px 20px;
+
+  h1 {
+    font-weight: 600;
+    font-size: ${(props) => props.theme.fontSize.lg};
+    position: relative;
+    bottom: 30px;
+    color: ${(props) => props.fontColor};
+  }
+`;
+
+const BackButton = styled.button`
+  padding-bottom: 60px;
+`;

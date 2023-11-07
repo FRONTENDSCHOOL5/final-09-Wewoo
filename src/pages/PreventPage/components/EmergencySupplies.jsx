@@ -15,12 +15,81 @@ import battery from '../../../assets/icons/PreventPage/battery.png';
 import flashlight from '../../../assets/icons/PreventPage/flashlight.png';
 import styled from 'styled-components';
 
+export default function EmergencySupplies() {
+  const [listBtn, setListBtn] = useState(1);
+
+  const emergencyData = [
+    { id: 1, name: '전체', type: 1 },
+    { id: 2, name: '비상식품', type: 2 },
+    { id: 3, name: '구급약품', type: 3 },
+    { id: 4, name: '생활용품', type: 4 },
+    { id: 5, name: '가공식품', type: 5 },
+  ];
+
+  const itemListData = [
+    { id: 1, name: '생수', src: bottledWater, type: 2 },
+    { id: 2, name: '비상식량', src: emergencyRations, type: 2 },
+    { id: 3, name: '연고', src: ointment, type: 3 },
+    { id: 4, name: '지병약', src: chronicDisease, type: 3 },
+    { id: 5, name: '비상약', src: householdMedicine, type: 3 },
+    { id: 6, name: '의류', src: clothes, type: 4 },
+    { id: 7, name: '속옷', src: underwear, type: 4 },
+    { id: 8, name: '신발', src: shoes, type: 4 },
+    { id: 9, name: '화장지', src: paperTowel, type: 4 },
+    { id: 10, name: '물티슈', src: wetTissue, type: 4 },
+    { id: 11, name: '비닐봉투', src: plasticBag, type: 4 },
+    { id: 12, name: '라이터', src: lighter, type: 4 },
+    { id: 13, name: '배터리', src: battery, type: 4 },
+    { id: 14, name: '손전등', src: flashlight, type: 4 },
+  ];
+
+  const handleBtnClick = (buttonIndex) => {
+    setListBtn(buttonIndex);
+  };
+  return (
+    <>
+      <AllBtnWrapper>
+        <AllBtn>
+          {emergencyData.map((data) => (
+            <EmergencyBtn
+              key={data.id}
+              className={listBtn === data.id ? 'active' : ''}
+              onClick={() => handleBtnClick(data.id)}
+            >
+              {data.name}
+            </EmergencyBtn>
+          ))}
+        </AllBtn>
+      </AllBtnWrapper>
+      <MainListWrapper>
+        <MainList>
+          {listBtn !== 5 ? (
+            itemListData.map((data) => {
+              if (listBtn === 1 || listBtn === data.type) {
+                return (
+                  <Button type={data.type} key={data.id}>
+                    <div>
+                      <img src={data.src} alt={data.name} />
+                    </div>
+                    <span>{data.name}</span>
+                  </Button>
+                );
+              }
+              return null;
+            })
+          ) : (
+            <Empty>해당하는 용품이 없습니다.</Empty>
+          )}
+        </MainList>
+      </MainListWrapper>
+    </>
+  );
+}
+
 const MainList = styled.article`
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   grid-template-rows: repeat(3, 100px);
-  /* gap: 20px 15px; */
-  /* height: 386px; */
   align-items: baseline;
   padding-bottom: 60px;
   background-color: rgb(255, 255, 255);
@@ -46,7 +115,6 @@ const AllBtn = styled.div`
 `;
 
 const EmergencyBtn = styled.button`
-  /* width: 50px; */
   padding: 8px 12px;
   border: 1px solid ${(props) => props.theme.colors.customBlack};
   border-radius: 100px;
@@ -58,10 +126,6 @@ const EmergencyBtn = styled.button`
   &.active {
     color: #fff;
     background: ${(props) => props.theme.colors.customBlack};
-  }
-
-  &:first-child {
-    /* width: 28px; */
   }
 `;
 
@@ -104,75 +168,3 @@ const MainListWrapper = styled.div`
     display: none;
   }
 `;
-
-export default function EmergencySupplies() {
-  const [listBtn, setListBtn] = useState(1);
-
-  const emergencyData = [
-    { id: 1, name: '전체', type: 1 },
-    { id: 2, name: '비상식품', type: 2 },
-    { id: 3, name: '구급약품', type: 3 },
-    { id: 4, name: '생활용품', type: 4 },
-    { id: 5, name: '가공식품', type: 5 },
-  ];
-
-  const itemListData = [
-    { id: 1, name: '생수', src: bottledWater, type: 2 },
-    { id: 2, name: '비상식량', src: emergencyRations, type: 2 },
-    { id: 3, name: '연고', src: ointment, type: 3 },
-    { id: 4, name: '지병약', src: chronicDisease, type: 3 },
-    { id: 5, name: '비상약', src: householdMedicine, type: 3 },
-    { id: 6, name: '의류', src: clothes, type: 4 },
-    { id: 7, name: '속옷', src: underwear, type: 4 },
-    { id: 8, name: '신발', src: shoes, type: 4 },
-    { id: 9, name: '화장지', src: paperTowel, type: 4 },
-    { id: 10, name: '물티슈', src: wetTissue, type: 4 },
-    { id: 11, name: '비닐봉투', src: plasticBag, type: 4 },
-    { id: 12, name: '라이터', src: lighter, type: 4 },
-    { id: 13, name: '배터리', src: battery, type: 4 },
-    { id: 14, name: '손전등', src: flashlight, type: 4 },
-  ];
-
-  const handleBtnClick = (buttonIndex) => {
-    setListBtn(buttonIndex);
-  };
-  console.log(listBtn);
-  return (
-    <>
-      <AllBtnWrapper>
-        <AllBtn>
-          {emergencyData.map((data, index) => (
-            <EmergencyBtn
-              key={data.id}
-              className={listBtn === data.id ? 'active' : ''}
-              onClick={() => handleBtnClick(data.id)}
-            >
-              {data.name}
-            </EmergencyBtn>
-          ))}
-        </AllBtn>
-      </AllBtnWrapper>
-      <MainListWrapper>
-        <MainList>
-          {listBtn !== 5 ? (
-            itemListData.map((data) => {
-              if (listBtn === 1 || listBtn === data.type) {
-                return (
-                  <Button type={data.type} key={data.id}>
-                    <div>
-                      <img src={data.src} alt={data.name} />
-                    </div>
-                    <span>{data.name}</span>
-                  </Button>
-                );
-              }
-              return null;
-            })
-          ) : (
-            <Empty>해당하는 용품이 없습니다.</Empty>
-          )}
-        </MainList>
-      </MainListWrapper>
-    </>
-  );
-}

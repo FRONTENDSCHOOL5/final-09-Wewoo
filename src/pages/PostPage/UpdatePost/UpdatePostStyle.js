@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const AddPostTop = styled.div`
+export const UpdatePostTop = styled.div`
   width: 100%;
   display: flex;
   background-color: #fff;

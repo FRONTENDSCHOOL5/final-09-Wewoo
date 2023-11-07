@@ -122,7 +122,6 @@ export default function SignUpPage() {
               handleNextButton={handleNextButton}
             />
           )}
-          {/* 프로필 레벨 2 */}
           {signUpLevel === 2 && (
             <AccountNameForm
               accountInfo={accountInfo}
@@ -132,7 +131,6 @@ export default function SignUpPage() {
               handleNextButton={handleNextButton}
             />
           )}
-          {/* 프로필 레벨 3 */}
           {signUpLevel === 3 && (
             <ProfileSettingsForm
               profileInfo={profileInfo}
@@ -140,7 +138,6 @@ export default function SignUpPage() {
               handleNextButton={handleNextButton}
             />
           )}
-          {/* 프로필 레벨 4 */}
           {signUpLevel === 4 && (
             <>
               <StyledWelcomeText>반갑습니다!</StyledWelcomeText>

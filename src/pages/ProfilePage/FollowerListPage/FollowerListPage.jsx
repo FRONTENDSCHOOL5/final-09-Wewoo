@@ -1,26 +1,24 @@
 import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import backIcon from '../../assets/icons/common/back.png';
-import { UserContext } from '../../context/UserContext';
-import { useNavigate } from 'react-router-dom';
-import searchIcon from '../../assets/icons/common/search-icon.png';
+import backIcon from '../../../assets/icons/common/back.png';
+import { UserContext } from '../../../context/UserContext';
+import { useNavigate, useParams } from 'react-router-dom';
 
-export default function SearchPage() {
+export default function FollowerListPage() {
   const url = 'https://api.mandarin.weniv.co.kr';
   const navigate = useNavigate();
   const { user, updateRefresh, updateUser, refresh } = useContext(UserContext);
-  const [searchedUser, setSearchedUser] = useState('');
-  const [searchedUserInfo, setSearchedUserInfo] = useState(null);
   const [searchedFollowingInfo, setSearchedFollowingInfo] = useState();
+  const [followerInfo, setFollowerInfo] = useState();
+  const params = useParams();
 
   const backToPage = () => {
     navigate(-1);
   };
 
-  const searchUserBtnHandler = async (e) => {
-    e.preventDefault();
+  const getFollowerInfo = async (e) => {
     try {
-      const response = await fetch(url + `/user/searchuser/?keyword=${searchedUser}`, {
+      const response = await fetch(url + `/profile/${params.accountname}/follower?limit=${999}`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${user.token}`,
@@ -30,7 +28,7 @@ export default function SearchPage() {
 
       if (response.ok) {
         const data = await response.json();
-        setSearchedUserInfo(data);
+        setFollowerInfo(data);
       } else {
         console.error('Error signing up:', response.status);
       }
@@ -48,8 +46,9 @@ export default function SearchPage() {
   }, []);
 
   useEffect(() => {
-    getMyFollowingInfo();
-  }, [searchedUserInfo, refresh]);
+    getFollowerInfo();
+    getUserFollwingInfo();
+  }, [refresh]);
 
   const followingUser = async (userInfo) => {
     try {
@@ -91,7 +90,7 @@ export default function SearchPage() {
     }
   };
 
-  const getMyFollowingInfo = async () => {
+  const getUserFollwingInfo = async () => {
     try {
       const response = await fetch(url + `/profile/${user.accountname}/following`, {
         method: 'GET',
@@ -119,33 +118,12 @@ export default function SearchPage() {
     <>
       <SearchPageHeader>
         <img src={backIcon} alt='뒤로가기버튼' onClick={backToPage} />
-        <span>이웃해요</span>
+        <span>팔로워</span>
       </SearchPageHeader>
       <SearchMain>
-        <div>
-          <form onSubmit={searchUserBtnHandler}>
-            <Input
-              type='text'
-              name='searchInput'
-              value={searchedUser}
-              onChange={(e) => setSearchedUser(e.target.value)}
-            />
-            <button type='submit'>
-              <img src={searchIcon} />
-            </button>
-          </form>
-        </div>
-        {searchedUserInfo && (
+        {followerInfo && (
           <SearchedUserUl>
-            {searchedUserInfo?.map((el, index) => {
-              let isVisibleFollow = false;
-              if (
-                user?.following?.filter((el2) => {
-                  return el2 === el._id;
-                }).length === 0
-              ) {
-                isVisibleFollow = true;
-              }
+            {followerInfo?.map((el, index) => {
               return (
                 <li key={index}>
                   <SearchedUserContainer>
@@ -203,7 +181,7 @@ export default function SearchPage() {
             })}
           </SearchedUserUl>
         )}
-        {searchedUserInfo?.length === 0 && <span>검색 결과가 없습니다.</span>}
+        {followerInfo?.length === 0 && <span>팔로워가 없습니다.</span>}
       </SearchMain>
     </>
   );
@@ -242,7 +220,6 @@ const SearchMain = styled.div`
     flex-direction: column;
     align-items: center;
     gap: 10px;
-
     form {
       display: flex;
       align-items: center;

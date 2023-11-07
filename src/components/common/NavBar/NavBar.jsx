@@ -4,10 +4,8 @@ import campaignApi from '../../../apis/HelpPage/campaignApi';
 import donationApi from '../../../apis/HelpPage/donationApi';
 import styled from 'styled-components';
 import Slider from '../Slider/Slider';
-import EmergencySupplies from '../../../pages/PreventPage/components/EmergencySupplies';
 
 export default function NavBar({ navType, setType }) {
-  const navigate = useNavigate();
   const compareFn = (a, b) => {
     return a.endline - b.endline;
   };
@@ -136,8 +134,6 @@ export default function NavBar({ navType, setType }) {
   }, [activeNavIndex, isDonationExist, displayedData.length, navType]);
 
   return (
-    // <section className='container'>
-    //   <div className='wrapper'>
     <>
       <Navbar>
         <ul>
@@ -201,8 +197,6 @@ export default function NavBar({ navType, setType }) {
         </DonationEmptyIndicator>
       )}
     </>
-    //   </div>
-    // </section>
   );
 }
 

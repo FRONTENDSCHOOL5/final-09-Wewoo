@@ -1,16 +1,19 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { UserContext } from '../../../context/UserContext';
 
 import back from '../../../assets/icons/common/back.png';
 import addImage from '../../../assets/images/Postpage/addImage.png';
-import { AddPostTop } from './AddPostStyle';
 
-const AddPost = () => {
+import { UpdatePostTop } from './UpdatePostStyle';
+
+const UpdatePost = () => {
   const navigate = useNavigate();
+  const params = useParams();
+  const [imageUpdateChecker, setImageUpdateChecker] = useState(false);
   const backPage = () => {
-    navigate('/post');
+    navigate(-1);
   };
   const { user, updateUser } = useContext(UserContext);
   const url = 'https://api.mandarin.weniv.co.kr';
@@ -25,12 +28,43 @@ const AddPost = () => {
   const textareaRef = useRef(null);
   const handleContentChange = (event) => {
     setPostContent(event.target.value);
-
     if (textareaRef.current) {
       textareaRef.current.style.height = 'auto';
       textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
     }
   };
+
+  const getPostInfo = async () => {
+    try {
+      const response = await fetch(url + `/post/${params.postId}`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setPostContent(data.post.content);
+        setImagePreview(
+          data.post.image !== ''
+            ? data.post.image.split(',').length >= 2
+              ? data.post.image.split(',')
+              : [data.post.image]
+            : ['https://mandarin.api.weniv.co.kr/Ellipse.png'],
+        );
+        setImageLength(data.post.image.split(',').length);
+      } else {
+        console.error('Error signing up:', response.status);
+      }
+    } catch (error) {
+      console.error('로그인 실패:', error);
+    }
+  };
+
+  useEffect(() => {
+    getPostInfo();
+  }, []);
 
   const handleImageChange = (event) => {
     const file = event.target.files;
@@ -42,6 +76,7 @@ const AddPost = () => {
         setLoadCheck(0);
         setImagePreview([reader.result]);
         setSelectedImage(file[0]);
+        setImageUpdateChecker(true);
       };
     } else if (file.length > 1 && file.length <= 3) {
       const imagePreviews = [];
@@ -61,6 +96,7 @@ const AddPost = () => {
             setImageLength(file.length);
             setImagePreview(imagePreviews);
             setSelectedImage(selectedImages);
+            setImageUpdateChecker(true);
           }
         };
       }
@@ -116,6 +152,9 @@ const AddPost = () => {
   };
 
   const addPostHandler = async (newImgFilename) => {
+    if (newImgFilename === 'https://mandarin.api.weniv.co.kr/Ellipse.png') {
+      newImgFilename = '';
+    }
     const postData = {
       post: {
         content: postContent,
@@ -123,8 +162,8 @@ const AddPost = () => {
       },
     };
     try {
-      const response = await fetch(url + `/post`, {
-        method: 'POST',
+      const response = await fetch(url + `/post/${params.postId}`, {
+        method: 'PUT',
         headers: {
           Authorization: `Bearer ${user.token}`,
           'Content-Type': 'application/json',
@@ -152,14 +191,19 @@ const AddPost = () => {
 
   return (
     <>
-      <AddPostTop>
+      <UpdatePostTop>
         <button type='button' onClick={backPage}>
           <img src={back} />
         </button>
-        <button type='submit' onClick={previousImgUpload}>
+        <button
+          type='button'
+          onClick={() => {
+            imageUpdateChecker ? previousImgUpload() : addPostHandler(imagePreview.join(','));
+          }}
+        >
           완료
         </button>
-      </AddPostTop>
+      </UpdatePostTop>
       <PostContent>
         <span>이웃들에게 알려주세요</span>
         <textarea
@@ -167,6 +211,7 @@ const AddPost = () => {
           value={postContent}
           onChange={handleContentChange}
           ref={textareaRef}
+          defaultValue={postContent}
         />
       </PostContent>
       <AddImage onClick={addImageHandler}>
@@ -185,7 +230,7 @@ const AddPost = () => {
         {imagePreview && imageLength >= 2 && (
           <MultiImageContainer>
             {imageLength >= 2 &&
-              imagePreview.map((eachImg, index) => {
+              imagePreview?.map((eachImg, index) => {
                 return (
                   <li key={index}>
                     <div>
@@ -201,7 +246,7 @@ const AddPost = () => {
   );
 };
 
-export default AddPost;
+export default UpdatePost;
 
 const MultiImageContainer = styled.ul`
   display: flex;

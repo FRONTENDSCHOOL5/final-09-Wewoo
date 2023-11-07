@@ -1,6 +1,4 @@
 import styled from 'styled-components';
-import commentBtn from '../../../assets/icons/PostPage/modal-icon.png';
-import { ImgUpload } from '../AddPost/AddPostStyle';
 
 export const PostDetailTop = styled.div`
   width: 100%;
@@ -71,7 +69,6 @@ export const PostReact = styled.div`
   gap: 20px;
   padding: 17px 0 20px 20px;
   border-top: 2px solid #f6f6f6;
-  /*  왜 아예 안보이지 F6F6f6?은?? */
   cursor: pointer;
   div {
     color: #666;
@@ -273,7 +270,6 @@ export const WriteCommentBox = styled.section`
     width: 100%;
     padding: 10px 0 10px 12px;
     border-radius: 8px;
-    /* border: 1px solid blue; */
     color: #191919;
     font-size: 14px;
     line-height: 100%;

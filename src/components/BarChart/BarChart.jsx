@@ -14,12 +14,19 @@ import styled from 'styled-components';
 Chart.register(CategoryScale, LinearScale, BarController, BarElement, Tooltip, Title);
 
 const BarChart = ({ color, setDonations }) => {
+  const currentDate = new Date();
+  const currentMonth = currentDate.getMonth() + 1;
   const data = {
-    labels: ['2월', '3월', '4월', '5월', '6월'],
+    labels: [
+      `${currentMonth - 4 <= 0 ? currentMonth - 4 + 12 : currentMonth - 4}월`,
+      `${currentMonth - 3 <= 0 ? currentMonth - 3 + 12 : currentMonth - 3}월`,
+      `${currentMonth - 2 <= 0 ? currentMonth - 2 + 12 : currentMonth - 2}월`,
+      `${currentMonth - 1 <= 0 ? currentMonth - 1 + 12 : currentMonth - 1}월`,
+      `${currentMonth}월`,
+    ],
     datasets: [
       {
         label: '누적후원금',
-        //배열처리
         data: [80000, 80000, 100000, 42000, 90000],
         backgroundColor: `${color}`,
         borderColor: `${color}`,
@@ -37,7 +44,7 @@ const BarChart = ({ color, setDonations }) => {
   const options = {
     plugins: {
       roundedBars: {
-        borderRadius: 10, // 막대의 border-radius 값을 설정
+        borderRadius: 10,
       },
       datalabels: {
         anchor: 'end',
@@ -47,18 +54,18 @@ const BarChart = ({ color, setDonations }) => {
           weight: 'bold',
         },
         formatter: function (value) {
-          return value; // 데이터 값을 그대로 표시
+          return value;
         },
       },
     },
     scales: {
       y: {
-        display: false, // y축 숨기기
+        display: false,
         beginAtZero: true,
       },
       x: {
         grid: {
-          display: false, // x축 그리드 배경 숨기기
+          display: false,
         },
       },
     },

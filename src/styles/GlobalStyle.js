@@ -10,14 +10,15 @@ const GlobalStyle = createGlobalStyle`
   // 전역 스타일
   * {
     box-sizing: border-box;
-    font-family: 'Pretendard';
+    font-family: 'Pretendard-Regular';
   }
 
   @font-face {
-    font-family: 'Pretendard';
-    src: url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.7/dist/web/static/pretendard-dynamic-subset.css");
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
     font-style: normal;
-}
+  }
 
   a {
     text-decoration: none;
@@ -97,7 +98,6 @@ const GlobalStyle = createGlobalStyle`
     max-width: 415px;
     min-width: 375px;
     margin: 0 auto;
-    /* margin-top: 80px; */
   } 
 
   .wrapper {
@@ -105,8 +105,6 @@ const GlobalStyle = createGlobalStyle`
     flex-direction: column;
     align-items: center;
     width: 100%;
-    /* overflow: hidden; */
-    /* background-color: #f6f6f6; */
   }
 `;
 

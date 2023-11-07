@@ -10,6 +10,10 @@ export default function DonationDetail() {
   const backToPage = () => {
     navigate(-1);
   };
+
+  const currentDate = new Date();
+  const currentMonth = currentDate.getMonth() + 1;
+  const currentYear = currentDate.getFullYear();
   return (
     <section className='container'>
       <div className='wrapper'>
@@ -25,7 +29,14 @@ export default function DonationDetail() {
           <img src={plusIcon} alt='플러스버튼' />
         </DonationSectionHeader>
         <ChartContainer>
-          <span>2023.02 ~ 06월</span>
+          <span>{`${currentMonth - 4 <= 0 ? currentYear - 1 : currentYear}.${(currentMonth - 4 <= 0
+            ? currentMonth - 4 + 12
+            : currentMonth - 4
+          )
+            .toString()
+            .padStart(2, '0')} ~ ${currentMonth - 4 <= 0 ? `${currentYear}.` : ''}${currentMonth
+            .toString()
+            .padStart(2, '0')}월`}</span>
           <BarChart />
         </ChartContainer>
         <DonationListContainer>
@@ -40,7 +51,6 @@ export default function DonationDetail() {
             <DonationListLeft>
               <img src={logoimg} alt='후원대상프로필사진' />
               <div>
-                {/* 배열처리 */}
                 <span>한국재난협회</span>
                 <span>23.04월부터</span>
               </div>
@@ -51,7 +61,6 @@ export default function DonationDetail() {
             <DonationListLeft>
               <img src={logoimg} alt='후원대상프로필사진' />
               <div>
-                {/* 배열처리 */}
                 <span>안양 청소년문화센터</span>
                 <span>22.12월부터</span>
               </div>
@@ -62,7 +71,6 @@ export default function DonationDetail() {
             <DonationListLeft>
               <img src={logoimg} alt='후원대상프로필사진' />
               <div>
-                {/* 배열처리 */}
                 <span>수원시 복지재단</span>
                 <span>22.08월부터</span>
               </div>
@@ -138,8 +146,6 @@ const DonationSectionHeader = styled.div`
       display: flex;
       justify-content: center;
       align-items: center;
-      /* width: 42px; */
-      /* height: 20px; */
       padding: 3px 10px;
       font-size: 12px;
       background-color: #e6e6e6;

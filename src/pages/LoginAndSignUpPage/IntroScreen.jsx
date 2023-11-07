@@ -9,7 +9,6 @@ export default function IntroScreen() {
       <StyledContainer>
         <StyledBoxWrapper>
           <StyledBoxCustom>
-            {/* <div className='backimg'><img src={backgroundImg} alt='backgroundImg' /></div> */}
             <StyledTextT>위용위용</StyledTextT>
             <StyledTextB>
               <span>
@@ -47,7 +46,6 @@ const StyledBoxCustom = styled(StyledContentsBox)`
   animation-name: ${animationBG};
   animation-duration: 3s;
   transition: all 0.5s ease-in-out;
-  /* animation-iteration-count: infinite; */
 `;
 
 const StyledTextT = styled.span`

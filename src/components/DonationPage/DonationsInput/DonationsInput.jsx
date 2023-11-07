@@ -63,12 +63,9 @@ export default function DonationsInput({ sendToInform }) {
 
   useEffect(() => {
     sendToInform(displayValue.current.value);
-    // console.log(displayValue.current.value);
   }, [displayValue.current.value, sendToInform]);
 
   return (
-    // <section className='container'>
-    //   <div className='wrapper'>
     <>
       <DonationHeader>
         <h1>후원금 기부</h1>
@@ -117,8 +114,6 @@ export default function DonationsInput({ sendToInform }) {
         </DonationInput>
       </DonationMain>
     </>
-    //   </div>
-    // </section>
   );
 }
 
@@ -198,7 +193,6 @@ const DonationHeader = styled.header`
   text-align: center;
   position: relative;
   padding: 15px 20px;
-  /* margin-bottom: 2px; */
   border-bottom: 2px solid #ccc;
 
   img {

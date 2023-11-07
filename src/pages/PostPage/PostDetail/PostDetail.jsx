@@ -1,7 +1,6 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-// img import
 import commentIcon from '../../../assets/icons/PostPage/comment-icon.png';
 import likeIcon from '../../../assets/icons/PostPage/like-icon.png';
 import likeActiveIcon from '../../../assets/icons/PostPage/like-active-icon.png';
@@ -16,36 +15,34 @@ const PostPage = () => {
   const [commentsData, setCommentsData] = useState([]);
   const [postsData, setPostsData] = useState([]);
   const [commentContent, setCommentContent] = useState();
+  const [commentIndex, setCommentIndex] = useState();
   const modalBtnRef = useRef();
+  const commentModalBtnRef = useRef();
   const [likeClicked, setLikeClicked] = useState(false);
-  const [activePostFilter, setActivePostFilter] = useState(0);
   const [postId, setPostId] = useState();
   const navigate = useNavigate();
   const { user, updateUser, refresh, updateRefresh } = useContext(UserContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [deleteType, setDeleteType] = useState();
+  const [targetedCommentId, setTargetedCommentId] = useState('');
 
   const getUserInfo = async () => {
     await updateUser(JSON.parse(localStorage.getItem('user')));
   };
+
   useEffect(() => {
     setPostId(params.postId);
     getUserInfo();
   }, []);
 
-  const addPostNavi = () => {
-    navigate('/post/add-post');
+  const goToUserDetail = (userId) => {
+    navigate(`/profile/${userId}`);
   };
 
-  const postDetailNavi = () => {
-    navigate('/post/detail');
-  };
-
-  ///post/feed/?limit=5&skip=5
-  ///post?limit=5&skip=0
   const url = 'https://api.mandarin.weniv.co.kr';
   const params = useParams();
   const getPosts = async () => {
-    console.log(user);
     try {
       const response = await fetch(url + `/post/${postId}`, {
         method: 'GET',
@@ -56,10 +53,7 @@ const PostPage = () => {
       });
       if (response.ok) {
         const data = await response.json();
-        console.log(data.post);
         setPostsData(data.post);
-        console.log('여기야!');
-        // updateRefresh();
       } else {
         console.error('Error signing up:', response.status);
       }
@@ -69,7 +63,6 @@ const PostPage = () => {
   };
 
   const getComments = async () => {
-    console.log(user);
     try {
       const response = await fetch(url + `/post/${postId}/comments`, {
         method: 'GET',
@@ -80,7 +73,6 @@ const PostPage = () => {
       });
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
         setCommentsData(data.comments);
       } else {
         console.error('Error signing up:', response.status);
@@ -107,10 +99,7 @@ const PostPage = () => {
         body: JSON.stringify(commentData),
       });
       if (response.ok) {
-        const data = await response.json();
-        console.log(data);
-        console.log(data.comment);
-
+        // const data = await response.json();
         updateRefresh();
       } else {
         console.error('Error:', response.status);
@@ -130,12 +119,8 @@ const PostPage = () => {
         },
       });
       if (response.ok) {
-        const data = await response.json();
-        console.log(data);
-        console.log('좋아요!');
-
+        // const data = await response.json();
         setLikeClicked((prev) => !prev);
-        // updateRefresh();
       } else {
         console.error('Error signing up:', response.status);
       }
@@ -154,12 +139,8 @@ const PostPage = () => {
         },
       });
       if (response.ok) {
-        const data = await response.json();
-        console.log(data);
-        console.log('좋아요!');
-
+        // const data = await response.json();
         setLikeClicked((prev) => !prev);
-        // updateRefresh();
       } else {
         console.error('Error signing up:', response.status);
       }
@@ -173,21 +154,11 @@ const PostPage = () => {
       getPosts();
       getComments();
     }
-  }, [user, likeClicked, activePostFilter, postId, refresh]);
-  /* 
-  const goToPostDetail = (postId) => {
-    console.log(postId);
-  }; */
+  }, [user, likeClicked, postId, refresh]);
 
   const backToPage = () => {
     navigate(-1);
   };
-
-  const date = new Date(postsData.createdAt);
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  const created = `${year}.${month}.${day}.`;
 
   const postReport = async () => {
     try {
@@ -199,10 +170,7 @@ const PostPage = () => {
         },
       });
       if (response.ok) {
-        const data = await response.json();
-        console.log(data);
-        console.log('신고완료!');
-        // updateRefresh();
+        // const data = await response.json();
       } else {
         console.error('Error:', response.status);
       }
@@ -235,7 +203,50 @@ const PostPage = () => {
     }
   }
 
-  console.log(commentsData);
+  const deletePostHandler = async () => {
+    try {
+      const response = await fetch(url + `/post/${postId}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+      if (response.ok) {
+        // const data = await response.json();
+        navigate(-1);
+      } else {
+        console.error('Error:', response.status);
+      }
+    } catch (error) {
+      console.error('실패:', error);
+    }
+  };
+
+  const deleteCommentHandler = async () => {
+    try {
+      const response = await fetch(url + `/post/${postId}/comments/${targetedCommentId}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+      if (response.ok) {
+        // const data = await response.json();
+        setCommentIndex(null);
+        updateRefresh();
+      } else {
+        console.error('Error:', response.status);
+      }
+    } catch (error) {
+      console.error('실패:', error);
+    }
+  };
+
+  const commentModalHandler = (index) => {
+    setCommentIndex(index);
+  };
 
   return (
     <>
@@ -261,7 +272,11 @@ const PostPage = () => {
               <PostContainer>
                 <PostFirstRow>
                   <div>
-                    <PostUserInfoWrapper>
+                    <PostUserInfoWrapper
+                      onClick={() => {
+                        goToUserDetail(postsData?.author.accountname);
+                      }}
+                    >
                       <img src={postsData?.author?.image} alt='작성자 프로필 사진' />
                       <span>{postsData?.author?.username}</span>
                     </PostUserInfoWrapper>
@@ -279,8 +294,15 @@ const PostPage = () => {
                     <ModalMenu onClick={() => setIsModalOpen((prev) => !prev)}>
                       {user.accountname === postsData.author.accountname ? (
                         <>
-                          <li>수정하기</li>
-                          <li>삭제하기</li>
+                          <li onClick={() => navigate(`update-post`)}>수정하기</li>
+                          <li
+                            onClick={() => {
+                              setDeleteType('post');
+                              setDeleteModalOpen((prev) => !prev);
+                            }}
+                          >
+                            삭제하기
+                          </li>
                         </>
                       ) : (
                         <li onClick={postReport}>신고하기</li>
@@ -288,10 +310,23 @@ const PostPage = () => {
                     </ModalMenu>
                   )}
                   <p>{postsData?.content}</p>
-                  {postsData?.image && (
+                  {postsData?.image && postsData?.image.split(',').length < 2 && (
                     <FeedImage>
                       <img src={postsData?.image} alt='게시글 이미지' />
                     </FeedImage>
+                  )}
+                  {postsData?.image && postsData?.image.split(',').length > 1 && (
+                    <MultiImageContainer>
+                      {postsData?.image.split(',').map((imgEl, index) => {
+                        return (
+                          <li key={index}>
+                            <div>
+                              <img src={imgEl} alt='게시글 이미지' />
+                            </div>
+                          </li>
+                        );
+                      })}
+                    </MultiImageContainer>
                   )}
                 </PostFirstRow>
                 <PostSecondRow>
@@ -317,11 +352,6 @@ const PostPage = () => {
                     <span>댓글</span>
                     <span>{postsData?.commentCount ? postsData?.commentCount : 0}</span>
                   </div>
-                  {/* {index === postsData.length - 1 && (
-                        <ScrollToTopButton>
-                          <i className='fa fa-chevron-up'></i>
-                        </ScrollToTopButton>
-                      )} */}
                 </PostSecondRow>
               </PostContainer>
             </li>
@@ -329,7 +359,6 @@ const PostPage = () => {
         </ul>
       </PostsWrapper>
       <AddCommentContainer>
-        {/* <span>이웃을 검색해요</span> */}
         <form onSubmit={addCommentBtnHandler}>
           <input
             type='text'
@@ -344,29 +373,45 @@ const PostPage = () => {
       {commentsData?.length !== 0 &&
         commentsData?.map((el, index) => {
           return (
-            <PostComment key={index}>
+            <PostComment
+              key={index}
+              onClick={(e) => {
+                if (commentModalBtnRef.current && !commentModalBtnRef.current.contains(e.target)) {
+                  setCommentIndex(null);
+                }
+              }}
+            >
               <div>
-                <PostCommentWrapper>
+                <PostCommentWrapper
+                  onClick={() => {
+                    goToUserDetail(el?.author.accountname);
+                  }}
+                >
                   <img src={el.author?.image} alt='작성자 프로필 사진' />
                   <span>{el.author?.username}</span>
-                  {el.author?.accountname === user?.accountname && <span>작성자</span>}
+                  {el.author?.accountname === postsData?.author?.accountname && <span>작성자</span>}
                 </PostCommentWrapper>
-                {/* <span>{created}</span> */}
               </div>
               <ModalIconWrapper
-                onClick={(e) => {
-                  setIsModalOpen(true);
+                onClick={() => {
+                  commentModalHandler(index);
                 }}
-                ref={modalBtnRef}
               >
                 <img src={modalIcon} alt='더보기버튼' />
               </ModalIconWrapper>
-              {isModalOpen && (
-                <ModalMenu onClick={() => setIsModalOpen((prev) => !prev)}>
-                  {user.accountname === postsData.author.accountname ? (
+              {commentIndex === index && (
+                <ModalMenu ref={commentModalBtnRef}>
+                  {user.accountname === el.author?.accountname ? (
                     <>
-                      <li>수정하기</li>
-                      <li>삭제하기</li>
+                      <li
+                        onClick={() => {
+                          setDeleteType('comment');
+                          setTargetedCommentId(el.id);
+                          setDeleteModalOpen((prev) => !prev);
+                        }}
+                      >
+                        삭제하기
+                      </li>
                     </>
                   ) : (
                     <li onClick={postReport}>신고하기</li>
@@ -378,11 +423,110 @@ const PostPage = () => {
             </PostComment>
           );
         })}
+      {deleteModalOpen && (
+        <DeleteModalContainer onClick={() => setDeleteModalOpen((prev) => !prev)}>
+          <DeleteModalContent>
+            <span>정말 삭제하시겠습니까?</span>
+            <DeleteModalConfirm>
+              <span
+                onClick={() => {
+                  deleteType === 'post' ? deletePostHandler() : deleteCommentHandler();
+                }}
+              >
+                삭제
+              </span>
+              <span>취소</span>
+            </DeleteModalConfirm>
+          </DeleteModalContent>
+        </DeleteModalContainer>
+      )}
     </>
   );
 };
 
 export default PostPage;
+
+const DeleteModalContainer = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  background-color: rgba(0, 0, 0, 0.5);
+`;
+
+const DeleteModalContent = styled.div`
+  position: relative;
+  background-color: white;
+  width: 255px;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 18px;
+  font-weight: bold;
+  & > span {
+    padding: 20px 30px;
+  }
+`;
+
+const DeleteModalConfirm = styled.div`
+  width: 100%;
+  display: flex;
+  border-top: 1px solid #ccc;
+  & span {
+    display: block;
+    width: 50%;
+    padding: 18px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: normal;
+  }
+
+  & span:hover {
+    font-weight: bold;
+  }
+
+  & span:nth-child(1) {
+    border-right: 1px solid #ccc;
+  }
+`;
+
+const MultiImageContainer = styled.ul`
+  display: flex;
+  color: #000;
+  gap: 15px;
+  width: 100%;
+  overflow-x: scroll;
+  margin-bottom: 25px;
+  scrollbar-width: none; /* 파이어폭스 */
+  &::-webkit-scrollbar {
+    /* 크롬, 사파리, 오페라, 엣지 */
+    display: none;
+  }
+  li {
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    -webkit-box-align: center;
+    align-items: center;
+    width: 200px;
+    cursor: pointer;
+    div {
+      width: 100%;
+      img {
+        border: 1px solid #eee;
+        aspect-ratio: 1;
+        object-fit: cover;
+      }
+    }
+  }
+`;
 
 const AddCommentContainer = styled.div`
   width: 100%;
@@ -400,11 +544,9 @@ const AddCommentContainer = styled.div`
     input {
       display: block;
       width: 100%;
-      /* height: 40px; */
       border-radius: 5px;
       padding: 12px 40px;
       border: 1px solid #aaa;
-      /* border-bottom: 1px solid #eee; */
     }
     button {
       position: absolute;
@@ -426,17 +568,16 @@ const PostComment = styled.div`
   position: relative;
   flex-direction: column;
   width: 100%;
-  /* gap: 10px; */
   margin-bottom: 10px;
   padding-bottom: 20px;
-  /* padding: 30px 0 10px 0; */
   border-bottom: 3px solid #eee;
+
   & > div:nth-child(1) {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    /* border-top: 1px solid #ddd; */
     padding: 20px;
+
     span:nth-child(1) {
       font-size: 14px;
       color: #aaa;
@@ -445,20 +586,22 @@ const PostComment = styled.div`
       padding: 4px 6px;
       background-color: #f6f6f6;
     }
+
     span: nth-child(2) {
       font-size: 14px;
       color: #999;
     }
   }
+
   & > span {
     font-size: 12px;
     color: #aaa;
   }
+
   p {
     display: block;
     width: 100%;
     font-size: 14px;
-    /* font-weight: bold; */
     padding: 0 20px 10px;
   }
 `;
@@ -468,6 +611,7 @@ const PostCommentWrapper = styled.div`
   gap: 10px;
   align-items: center;
   padding: 0;
+  cursor: pointer;
   img {
     width: 30px;
     aspect-ratio: 1;
@@ -491,6 +635,7 @@ const PostDetailPageHeader = styled.div`
   font-size: 16px;
   padding: 20px;
   border-bottom: 1px solid rgb(238, 238, 238);
+
   img {
     position: absolute;
     width: 15px;
@@ -500,6 +645,7 @@ const PostDetailPageHeader = styled.div`
     aspect-ratio: 15/15;
     object-fit: contain;
   }
+
   span {
     font-size: 16px;
     font-weight: bold;
@@ -513,13 +659,13 @@ const ModalMenu = styled.ul`
   top: 14px;
   z-index: 49;
   cursor: pointer;
-  /* height: 85px; */
   border: 1px solid #aaa;
   border-radius: 10px;
   background: white;
   display: flex;
   flex-direction: column;
   align-items: center;
+
   li {
     display: flex;
     width: 100%;
@@ -527,6 +673,7 @@ const ModalMenu = styled.ul`
     justify-content: center;
     align-items: center;
   }
+
   li:nth-child(2) {
     border-top: 1px solid #aaa;
   }
@@ -538,6 +685,7 @@ const ModalIconWrapper = styled.div`
   top: 14px;
   z-index: 49;
   cursor: pointer;
+
   img {
     width: 100%;
     aspect-ratio: 1;
@@ -551,40 +699,14 @@ const PostUserInfoWrapper = styled.div`
   gap: 10px;
   align-items: center;
   padding: 0;
+  cursor: pointer;
+
   img {
     width: 40px;
     aspect-ratio: 1;
     object-fit: cover;
     border-radius: 100%;
   }
-`;
-
-const ScrollToTopButton = styled.button`
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  width: 40px;
-  height: 40px;
-  background-color: #999;
-  color: #fff;
-  border: none;
-  border-radius: 50%;
-  font-size: 18px;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const EmptyPostContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 300px;
-  font-size: 16px;
-  font-weight: bold;
-  border-top: 1px solid rgb(221, 221, 221);
 `;
 
 const PostsWrapper = styled.div`
@@ -596,35 +718,6 @@ const PostsWrapper = styled.div`
     display: none;
   }
   position: relative;
-  li {
-    /* cursor: pointer; */
-  }
-`;
-
-const PostNav = styled.nav`
-  width: 100%;
-  margin: 10px 0;
-  ul {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    position: relative;
-    li {
-      padding: 10px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 12px;
-      /* width: 30px; */
-      /* height: 15px; */
-      cursor: pointer;
-      &.active {
-        color: white;
-        background-color: black;
-        border-radius: 10px;
-      }
-    }
-  }
 `;
 
 const FeedImage = styled.div`
@@ -648,7 +741,6 @@ const PostFirstRow = styled.div`
   flex-direction: column;
   gap: 10px;
   margin-bottom: 10px;
-  /* padding: 30px 0 10px 0; */
 
   & > div:nth-child(1) {
     display: flex;
@@ -656,6 +748,7 @@ const PostFirstRow = styled.div`
     align-items: center;
     border-top: 1px solid #ddd;
     padding: 35px 20px 10px;
+
     span:nth-child(1) {
       font-size: 14px;
       color: #aaa;
@@ -664,20 +757,23 @@ const PostFirstRow = styled.div`
       padding: 4px 6px;
       background-color: #f6f6f6;
     }
+
     span: nth-child(2) {
       font-size: 14px;
       color: #999;
     }
   }
+
   & > span {
     font-size: 12px;
     color: #aaa;
   }
+
   p {
     display: block;
     width: 100%;
     font-size: 16px;
-    /* font-weight: bold; */
+    line-height: 1.5;
     padding: 0 20px 10px;
   }
 `;
@@ -687,7 +783,7 @@ const PostSecondRow = styled.div`
   gap: 20px;
   padding: 15px 20px 15px;
   border-top: 1px solid #ccc;
-  /* border-bottom: 1px solid #eee; */
+
   & > div {
     display: flex;
     font-size: 14px;
@@ -699,27 +795,11 @@ const PostSecondRow = styled.div`
 
 const PostContainer = styled.div`
   width: 100%;
-  /* margin-top: 20px;
-  margin-bottom: 50px; */
-`;
-
-const PostPageHeader = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: center;
-  gap: 50px;
-  align-items: center;
-
-  img {
-    border-radius: 100%;
-  }
 `;
 
 const PostsSocialBtn = styled.div`
   width: 18px;
   overflow: hidden;
-
-  /* border-radius: 100px; */
 
   img {
     display: block;
@@ -729,135 +809,3 @@ const PostsSocialBtn = styled.div`
     object-fit: cover;
   }
 `;
-
-// import React, { useState } from 'react';
-// import TopBar from '../../../components/common/TopBar/TopBar';
-// import PostDetailModal from '../../../components/common/PostDetailModal/PostDetailModal';
-// import {
-//   PostDetailTop,
-//   PostContentBox,
-//   PostInfo,
-//   PostReact,
-//   PostCommentBox,
-//   CommentPostInfo,
-//   CommentToReact,
-//   ReplyCommentBox,
-//   ReplayCommentInfo,
-//   WriteCommentBox,
-// } from './PostDetailStyle';
-
-// //image import
-// import profileEXImg from '../../../assets/images/Postpage/profileEX.png';
-// import commentIcon from '../../../assets/icons/PostPage/comment-icon.png';
-// import likeIcon from '../../../assets/icons/PostPage/like-icon.png';
-// import mapIcon from '../../../assets/icons/PostPage/map-icon.svg';
-// import imageIcon from '../../../assets/icons/PostPage/image-icon.svg';
-// // 예시 이미지 임포트
-// import postEX from '../../../assets/images/main/weatherEX.png';
-
-// const PostDetail = ({ id, post, onDeletePost, modalOpen, setModalOpen }) => {
-//   return (
-//     <>
-//       <section className='container'>
-//         <div className='wrapper'>
-//           <PostDetailTop>{/* <TopBar iconColor={'#191919'} /> */}</PostDetailTop>
-
-//           <PostContentBox>
-//             <PostInfo>
-//               <img className='user-img' src={profileEXImg} />
-//               <p className='user-name'> 베리 </p>
-//               <span> 내손1동</span>
-//               <p className='post-time'> 5분 전</p>
-//             </PostInfo>
-//             <p>
-//               계원예대 쪽에 지금 불났나요? 연기가 보이네요. 계원예대 쪽에 지금 불났나요? 연기가
-//               보이네요. 계원예대 쪽에 지금 불났나요? 연기가 보이네요. 계원예대 쪽에 지금 불났나요?
-//               연기가 보이네요.
-//               <img src={postEX} />
-//             </p>
-//             <PostReact>
-//               <div>
-//                 <img src={likeIcon} alt='정확해요' />
-//                 <span> 정확해요 3</span>
-//               </div>
-//               <div>
-//                 <img src={commentIcon} alt='댓글' />
-//                 <span> 댓글 4</span>
-//               </div>
-//             </PostReact>
-//           </PostContentBox>
-
-//           <PostCommentBox>
-//             <CommentPostInfo>
-//               <img className='user-img' src={profileEXImg} />
-//               <p className='user-name'> 베리 </p>
-//               <span> 내손1동</span>
-//               <p className='post-time'> 5분 전</p>
-//               <PostDetailModal modalOpen={modalOpen} setModalOpen={setModalOpen} />
-//             </CommentPostInfo>
-//             <div className='react-wrap'>
-//               <p className='comment-content'>저도 주변 카페인데 무슨 일 있나요?</p>
-//               <CommentToReact>
-//                 <p className='reply-comment'> 답글쓰기</p>
-//                 <button className='like-btn'>
-//                   <img src={likeIcon} alt='좋아요' />
-//                 </button>
-//               </CommentToReact>
-//             </div>
-//           </PostCommentBox>
-//           <ReplyCommentBox>
-//             <ReplayCommentInfo>
-//               <img className='user-img' src={profileEXImg} />
-//               <p className='user-name'> 베리 </p>
-//               <span> 내손1동</span>
-//               {/*  작성자를 나타내는건,,,어떤 로직일가요 */}
-//               <p className='post-time'> 5분 전</p>
-//               <PostDetailModal modalOpen={modalOpen} setModalOpen={setModalOpen} />
-//             </ReplayCommentInfo>
-//             <div className='react-wrap'>
-//               <p className='comment-content'>
-//                 <span className='user-tag'> @치즈</span> 계원예대 근처 호프집에서 불이 났대요.
-//               </p>
-//               <CommentToReact>
-//                 <p className='reply-comment'> 답글쓰기</p>
-//                 <button className='like-btn'>
-//                   <img src={likeIcon} alt='좋아요' />5
-//                 </button>
-//               </CommentToReact>
-//             </div>
-//           </ReplyCommentBox>
-
-//           <PostCommentBox>
-//             <CommentPostInfo>
-//               <img className='user-img' src={profileEXImg} />
-//               <p className='user-name'> 베리 </p>
-//               <span> 내손1동</span>
-//               <p className='post-time'> 5분 전</p>
-//               <PostDetailModal modalOpen={modalOpen} setModalOpen={setModalOpen} />
-//             </CommentPostInfo>
-//             <div className='react-wrap'>
-//               <p className='comment-content'>저도 주변 카페인데 무슨 일 있나요?</p>
-//               <CommentToReact>
-//                 <p className='reply-comment'> 답글쓰기</p>
-//                 <button className='like-btn'>
-//                   <img src={likeIcon} alt='좋아요' />
-//                 </button>
-//               </CommentToReact>
-//             </div>
-//           </PostCommentBox>
-//           <WriteCommentBox>
-//             <button type='button'>
-//               <img src={mapIcon} alt='위치 찍기' />
-//             </button>
-//             <button type='button'>
-//               <img src={imageIcon} alt='사진 올리기' />
-//             </button>
-//             <input type='text' placeholder='댓글을 입력해 주세요' />
-//           </WriteCommentBox>
-//         </div>
-//       </section>
-//     </>
-//   );
-// };
-
-// export default PostDetail;

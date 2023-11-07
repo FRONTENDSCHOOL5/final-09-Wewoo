@@ -132,8 +132,6 @@ export default function Carousel() {
   };
 
   return (
-    // <section className='container'>
-    //   <div className='wrapper'>
     <>
       <CarouselContainer>
         <h1 className='a11y-hidden'>도와줘요 페이지</h1>
@@ -184,7 +182,5 @@ export default function Carousel() {
       </CarouselContainer>
       <Indicator index={activeIndex}></Indicator>
     </>
-    //   </div>
-    // </section>
   );
 }

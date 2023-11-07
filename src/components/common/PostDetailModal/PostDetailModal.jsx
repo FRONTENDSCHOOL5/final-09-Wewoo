@@ -56,12 +56,11 @@ const Modal = styled.article`
       }
     }
   }
-  /* 모달 toggle 될때마다 애니메이팅 나중에 */
 `;
+
 const PostDetailModal = () => {
   const [modalOpen, setModalOpen] = useState(false);
-  const ClickModal = (props) => {
-    // console.log('클릭댐');
+  const ClickModal = () => {
     setModalOpen((modalOpen) => !modalOpen);
   };
   return (

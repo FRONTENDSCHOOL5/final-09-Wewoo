@@ -3,7 +3,7 @@ import campaignimgflood from '../../assets/images/HelpPage/campaign-flood.png';
 
 const userInformStore = [
   {
-    name: '박승기',
+    name: 'user',
     campaign: [
       {
         endline: 16,

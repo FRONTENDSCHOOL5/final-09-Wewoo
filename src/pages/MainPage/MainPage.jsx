@@ -12,7 +12,6 @@ import {
 } from './MainPageStyled';
 import { UserContext } from '../../context/UserContext';
 
-// 예시로 넣은 이미지 임포트 (마지막에 빼야한다)
 import BarChart from '../../components/BarChart/BarChart';
 import Slider from '../../components/common/Slider/Slider';
 import { useNavigate } from 'react-router-dom';
@@ -27,7 +26,6 @@ export default function MainPage() {
   const navigate = useNavigate();
 
   const getMyFollowingInfo = async () => {
-    console.log(user);
     try {
       const response = await fetch(url + `/profile/${user.accountname}/following`, {
         method: 'GET',
@@ -38,9 +36,7 @@ export default function MainPage() {
       });
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
         setSearchedFollowingInfo(data);
-        // updateRefresh();
       } else {
         console.error('Error:', response.status);
       }
@@ -50,7 +46,6 @@ export default function MainPage() {
   };
 
   const getMyFollowerInfo = async () => {
-    console.log(user);
     try {
       const response = await fetch(url + `/profile/${user.accountname}/follower`, {
         method: 'GET',
@@ -61,9 +56,7 @@ export default function MainPage() {
       });
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
         setSearchedFollowerInfo(data);
-        // updateRefresh();
       } else {
         console.error('Error:', response.status);
       }
@@ -74,7 +67,6 @@ export default function MainPage() {
 
   const getUserInfo = async () => {
     await updateUser(JSON.parse(localStorage.getItem('user')));
-    console.log(user);
   };
 
   useEffect(() => {
@@ -111,49 +103,25 @@ export default function MainPage() {
               {user?.username} 님 <br />
               안전한 하루 보내세요!
             </p>
-            {/* <p className='user-info'> */}
-            {/* 안양시 동안구 */}
-            {/* <button type='button'> &gt; </button>{' '} */}
-            {/* </p> */}
           </div>
 
-          <img src={user?.image} alt='프로필사진' />
+          <img
+            src={user?.image}
+            alt='프로필사진'
+            onClick={() => {
+              goToUserProfile(user?.accountname);
+            }}
+          />
           <LogOutButton onClick={logoutHandler}>로그아웃</LogOutButton>
         </div>
       </MainHeader>
 
-      {/*       <SlideUI>
-        <div>
-          <SlideItem w='200' bgImg={weatherImg}>
-            <span> 동안구 </span>
-            <p> 미세먼지 없는 화창한 날씨예요</p>
-          </SlideItem>
-          <SlideItem w='200' bgImg={weatherImg}>
-            <span> 동안구 </span>
-            <p> 미세먼지 없는 화창한 날씨예요</p>
-          </SlideItem>
-        </div>
-      </SlideUI> */}
-
       <MainVolunteer>
-        <SectionHeader
-          firstHeadText='봉사 일정이 있어요'
-          // secondHeadText=''
-          // num='2'
-          // firstBtnText='건의'
-          // secondBtnText='일정 보기'
-          padding={true}
-        ></SectionHeader>
+        <SectionHeader firstHeadText='봉사 일정이 있어요' padding={true}></SectionHeader>
         <Slider type={'volun'} />
       </MainVolunteer>
       <MainFollow>
-        <SectionHeader
-          firstHeadText='내가 팔로우한'
-          secondHeadText='이웃이에요'
-          // num='132'
-          // firstBtnText='명의'
-          // secondBtnText='이웃 보기'
-        ></SectionHeader>
+        <SectionHeader firstHeadText='내가 팔로우한' secondHeadText='이웃이에요'></SectionHeader>
         <MainFollowList>
           {searchedFollowingInfo?.map((el, index) => {
             return (
@@ -168,13 +136,7 @@ export default function MainPage() {
         </MainFollowList>
       </MainFollow>
       <MainFollow>
-        <SectionHeader
-          firstHeadText='나를 팔로우한'
-          secondHeadText='이웃이에요'
-          // num='132'
-          // firstBtnText='명의'
-          // secondBtnText='이웃 보기'
-        ></SectionHeader>
+        <SectionHeader firstHeadText='나를 팔로우한' secondHeadText='이웃이에요'></SectionHeader>
         <MainFollowList>
           {searchedFollowerInfo?.map((el, index) => {
             return (

@@ -13,18 +13,12 @@ export default function HelpPage() {
       <SectionHeader
         firstHeadText='지금 가장'
         secondHeadText='뜨거운 캠페인이에요'
-        // num='2'
-        // firstBtnText='건의'
-        // secondBtnText='일정 보기'
         padding={true}
       ></SectionHeader>
       <NewsFrame type={'help'} sorted={'hottest'} />
       <SectionHeader
         firstHeadText='새로 시작된'
         secondHeadText='캠페인이에요'
-        // num='2'
-        // firstBtnText='건의'
-        // secondBtnText='일정 보기'
         padding={true}
       ></SectionHeader>
       <NewsFrame type={'help'} sorted={'newest'} />
