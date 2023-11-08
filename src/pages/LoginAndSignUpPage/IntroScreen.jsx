@@ -51,7 +51,7 @@ const StyledBoxCustom = styled(StyledContentsBox)`
   background-image: url(${backgroundImg});
   background-repeat: no-repeat;
   background-position: 80% 50%;
-  background-size: cover;
+  background-size: auto 102vh;
   animation-name: ${animationBG};
   animation-duration: 3s;
   transition: all 0.5s ease-in-out;
