@@ -17,6 +17,7 @@ export default function DonationInform({ getFromInput }) {
   };
   useEffect(() => {
     getUserInfo();
+    // eslint-disable-next-line
   }, []);
 
   return (

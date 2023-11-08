@@ -9,12 +9,14 @@ export default function IntroScreen() {
       <StyledContainer>
         <StyledBoxWrapper>
           <StyledBoxCustom>
-            <StyledTextT>위용위용</StyledTextT>
-            <StyledTextB>
-              <span>
-                위험할 때, <br /> 용이하게
-              </span>
-            </StyledTextB>
+            <IntroTextBox>
+              <StyledTextT>위용위용</StyledTextT>
+              <StyledTextB>
+                <span>
+                  위험할 때, <br /> 용이하게
+                </span>
+              </StyledTextB>
+            </IntroTextBox>
           </StyledBoxCustom>
         </StyledBoxWrapper>
       </StyledContainer>
@@ -31,7 +33,14 @@ const animationBG = keyframes`
 }
 `;
 
+const IntroTextBox = styled.div`
+  position: absolute;
+  top: 70vh;
+  left: 5vh;
+`;
+
 const StyledBoxCustom = styled(StyledContentsBox)`
+  position: relative;
   display: flex;
   align-items: flex-start;
   width: 100%;
@@ -42,21 +51,21 @@ const StyledBoxCustom = styled(StyledContentsBox)`
   background-image: url(${backgroundImg});
   background-repeat: no-repeat;
   background-position: 80% 50%;
-  background-size: cover;
+  background-size: auto 102vh;
   animation-name: ${animationBG};
   animation-duration: 3s;
   transition: all 0.5s ease-in-out;
 `;
 
 const StyledTextT = styled.span`
+  display: block;
   color: #fff;
   font-size: 14px;
   font-weight: 600;
   line-height: 100%;
   letter-spacing: -0.28px;
-  margin-top: 590px;
+  margin-left: 10px;
   margin-bottom: 11px;
-  margin-left: 30px;
 `;
 const StyledTextB = styled.div`
   color: #fff;
@@ -64,6 +73,4 @@ const StyledTextB = styled.div`
   font-weight: 800;
   line-height: 125%;
   letter-spacing: -0.64px;
-  margin-left: 30px;
-  margin-bottom: 127px;
 `;

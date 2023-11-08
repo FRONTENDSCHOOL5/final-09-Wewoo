@@ -45,10 +45,12 @@ export default function SearchPage() {
 
   useEffect(() => {
     getUserInfo();
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
     getMyFollowingInfo();
+    // eslint-disable-next-line
   }, [searchedUserInfo, refresh]);
 
   const followingUser = async (userInfo) => {

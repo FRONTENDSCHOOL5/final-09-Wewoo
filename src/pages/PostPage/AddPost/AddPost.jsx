@@ -148,6 +148,7 @@ const AddPost = () => {
 
   useEffect(() => {
     getUserInfo();
+    // eslint-disable-next-line
   }, []);
 
   return (

@@ -34,6 +34,7 @@ const PostPage = () => {
   useEffect(() => {
     setPostId(params.postId);
     getUserInfo();
+    // eslint-disable-next-line
   }, []);
 
   const goToUserDetail = (userId) => {
@@ -154,6 +155,7 @@ const PostPage = () => {
       getPosts();
       getComments();
     }
+    // eslint-disable-next-line
   }, [user, likeClicked, postId, refresh]);
 
   const backToPage = () => {
@@ -587,7 +589,7 @@ const PostComment = styled.div`
       background-color: #f6f6f6;
     }
 
-    span: nth-child(2) {
+    span:nth-child(2) {
       font-size: 14px;
       color: #999;
     }
@@ -758,7 +760,7 @@ const PostFirstRow = styled.div`
       background-color: #f6f6f6;
     }
 
-    span: nth-child(2) {
+    span:nth-child(2) {
       font-size: 14px;
       color: #999;
     }

@@ -27,6 +27,7 @@ const PostPage = () => {
   };
   useEffect(() => {
     getUserInfo();
+    // eslint-disable-next-line
   }, []);
 
   const addPostNavi = () => {
@@ -105,6 +106,7 @@ const PostPage = () => {
     if (user) {
       getPosts();
     }
+    // eslint-disable-next-line
   }, [user, likeClicked, activePostFilter, postType]);
 
   const goToPostDetail = (postId) => {
@@ -406,7 +408,7 @@ const PostFirstRow = styled.div`
       padding: 4px 6px;
       background-color: #f6f6f6;
     }
-    span: nth-child(2) {
+    span:nth-child(2) {
       font-size: 14px;
       color: #999;
     }

@@ -29,6 +29,7 @@ export default function AppRouter() {
 
   useEffect(() => {
     getUserInfo();
+    // eslint-disable-next-line
   }, []);
 
   return (
