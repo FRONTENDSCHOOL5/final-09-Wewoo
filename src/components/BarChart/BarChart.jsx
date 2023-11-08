@@ -39,6 +39,7 @@ const BarChart = ({ color, setDonations }) => {
     if (setDonations) {
       setDonations(data.datasets[0].data.reduce((prev, curr) => prev + curr, 0));
     }
+    // eslint-disable-next-line
   }, []);
 
   const options = {

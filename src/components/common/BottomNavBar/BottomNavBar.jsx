@@ -72,6 +72,7 @@ const BottomNavBar = (props) => {
     const path = location.pathname;
     const navIndex = navList.findIndex((item) => item.path.includes(path));
     setIndexID(navIndex !== -1 ? navIndex : '');
+    // eslint-disable-next-line
   }, [location]);
 
   return (

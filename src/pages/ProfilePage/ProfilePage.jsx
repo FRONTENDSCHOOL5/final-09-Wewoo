@@ -54,6 +54,7 @@ export default function ProfilePage() {
   useEffect(() => {
     getUserInfo();
     getUserProfile();
+    // eslint-disable-next-line
   }, []);
 
   return (

@@ -144,6 +144,7 @@ export default function ProfileUpdatePage() {
       }
     };
     if (fullImgName) transmitFunc();
+    // eslint-disable-next-line
   }, [fullImgName, transmitChecker]);
 
   const checkExistence = () => {
@@ -169,6 +170,7 @@ export default function ProfileUpdatePage() {
     if (user.accountname !== params.accountname) {
       backToPage();
     }
+    // eslint-disable-next-line
   }, []);
 
   return (

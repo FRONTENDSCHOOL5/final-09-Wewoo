@@ -29,6 +29,7 @@ const TopBar = (props) => {
 
   useEffect(() => {
     getUserInfo();
+    // eslint-disable-next-line
   }, []);
 
   const goToUserProfile = () => {

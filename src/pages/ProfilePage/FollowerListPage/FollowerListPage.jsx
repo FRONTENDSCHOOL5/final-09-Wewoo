@@ -43,11 +43,13 @@ export default function FollowerListPage() {
 
   useEffect(() => {
     getUserInfo();
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
     getFollowerInfo();
     getUserFollwingInfo();
+    // eslint-disable-next-line
   }, [refresh]);
 
   const followingUser = async (userInfo) => {

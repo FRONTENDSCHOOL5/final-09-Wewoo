@@ -71,6 +71,7 @@ export default function MainPage() {
 
   useEffect(() => {
     getUserInfo();
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -78,6 +79,7 @@ export default function MainPage() {
       getMyFollowingInfo();
       getMyFollowerInfo();
     }
+    // eslint-disable-next-line
   }, [user]);
 
   const goToUserProfile = (accountname) => {

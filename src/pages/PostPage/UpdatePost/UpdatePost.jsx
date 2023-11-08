@@ -64,6 +64,7 @@ const UpdatePost = () => {
 
   useEffect(() => {
     getPostInfo();
+    // eslint-disable-next-line
   }, []);
 
   const handleImageChange = (event) => {
@@ -187,6 +188,7 @@ const UpdatePost = () => {
 
   useEffect(() => {
     getUserInfo();
+    // eslint-disable-next-line
   }, []);
 
   return (
